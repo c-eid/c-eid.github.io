@@ -69,6 +69,7 @@ createCollectable('database', 860, 200, 0, 0);
 
     createCannon("bottom", 1000, 1500);
     createCannon("top", 1118, 1500);
+    createCannon("right", 230, 5000, 300, 300);
 
 
     /////////////////////////////////////////////////

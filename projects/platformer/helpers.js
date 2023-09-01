@@ -18,6 +18,7 @@ function main() {
   drawPlatforms();
   drawProjectiles();
   drawCannons();
+
   drawCollectables();
   playerFrictionAndGravity();
 
@@ -411,7 +412,7 @@ function playerFrictionAndGravity() {
 
 function drawPlatforms() {
   for (var i = 0; i < platforms.length; i++) {
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "white";
     ctx.fillRect(
       platforms[i].x,
       platforms[i].y,
@@ -450,7 +451,7 @@ function drawCannons() {
       cannons[i].projectileCountdown = cannons[i].projectileCountdown + 1;
     }
 
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "blue";
     ctx.save(); //save the current translation of the screen.
     ctx.translate(cannons[i].x, cannons[i].y); //you are moving the top left of the screen to the pictures location, this is because you can't rotate the image, you have to rotate the whole page
     ctx.rotate((cannons[i].rotation * Math.PI) / 180); //then you rotate. rotation is centered on 0,0 on the canvas, which is why we moved the picture to 0,0 with translate(x,y)
@@ -530,7 +531,7 @@ function createCannon(
   position,
   timeBetweenShots,
   width = defaultProjectileWidth,
-  height = defaultProjectileHeight
+  height = defaultProjectileHeight,
 ) {
   if (wallLocation === "top") {
     cannons.push({
@@ -567,6 +568,8 @@ function createCannon(
     });
   } else if (wallLocation === "right") {
     cannons.push({
+      width: 300,
+      height: 300,
       x: canvas.width - cannonHeight,
       y: position,
       rotation: 270,
@@ -578,6 +581,7 @@ function createCannon(
     });
   }
 }
+
 
 function createCollectable(type, x, y, gravity = 0.1, bounce = 1) {
   if (type !== "") {

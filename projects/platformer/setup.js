@@ -53,6 +53,7 @@ const animationTypes = {
   run: "run",
   stop: "stop",
   walk: "walk",
+  shoot: "shoot",
 };
 let currentAnimationType = animationTypes.run;
 let frameIndex = 0;
