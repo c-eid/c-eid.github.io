@@ -8,13 +8,14 @@
     </main>
     <div id="container"></div>
     <script>
+        var file = prompt("what swf file")
         window.RufflePlayer = window.RufflePlayer || {};
         window.addEventListener("load", (event) => {
             const ruffle = window.RufflePlayer.newest();
             const player = ruffle.createPlayer();
             const container = document.getElementById("container");
             container.appendChild(player);
-            player.load("jacksmith.swf");
+            player.load(file);
             player.style.width = "100vw";
             player.style.height = "100vh";
         });
