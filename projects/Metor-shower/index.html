@@ -44,14 +44,15 @@
 
 <body class="board">
 	<!-- HTML for the box -->
-	<div class="box">0</div>
+	<div class="box"></div>
+	<p class="point">0</p>
 	<div class="line"></div>
 	<script>
 		(function () {
 			'use strict'
 			/* global jQuery */
 			window.addEventListener('keyup', function (e) {
-				if (boardHeight * .80 < positionX) {
+				if (boardHeight * .67 < positionX) {
 
 				}
 				else if (boardHeight * .55 < positionX) {
@@ -72,6 +73,7 @@
 			//////////////////////////////////////////////////////////////////
 
 			var box = jQuery('.box');	// reference to the HTML .box element
+			var point = jQuery('.point');
 			var board = jQuery('.board');	// reference to the HTML .board element
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
 			var boardHeight = board.height();
@@ -79,7 +81,6 @@
 			setInterval(update, 20);
 
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
-			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
 			function moveBoxTo(newPositionY) {
@@ -88,7 +89,7 @@
 
 			// changes the text displayed on the Box
 			function changeBoxText(newText) {
-				box.text(newText);
+				point.text(newText);
 			}
 
 			//////////////////////////////////////////////////////////////////
@@ -109,7 +110,7 @@
 				/* Your Code to Increase positionX by 4 HERE */
 				positionX = positionX + speed
 				moveBoxTo(positionX);
-				if (positionX >= boardHeight - 60) {
+				if (positionX >= boardHeight - 150) {
 					speed = -speed
 				}
 				else if (positionX <= 0) {
@@ -122,9 +123,6 @@
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
 			*/
-
-			function handleBoxClick() {
-			};
 		})();
 	</script>
 </body>
