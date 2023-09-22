@@ -81,6 +81,7 @@
 			var points = 0
 			var speed = 4
 			var highPoints = 0
+			checkCookie()
 			var savedPoints = getCookie("savedScore")
 
 
@@ -160,7 +161,7 @@
 					points = 0
 					changeBoxText("--" + points + "--")
 					speed = 4
-					
+
 				}
 			};
 
@@ -184,7 +185,13 @@
 				return "";
 
 			}
-
+			function checkCookie() {
+				let ss = getCookie("savedScore");
+				if (ss === "") {
+					setCookie("savedScore", 0);
+					}
+				}
+			}
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
