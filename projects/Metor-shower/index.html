@@ -40,16 +40,24 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			background-position-y: bottom;
+		}
 
 		.point {
 			text-align: center;
 			color: white;
 			font-family: Arial, Helvetica, sans-serif;
-			font-size: xx-large;
+			font-size: 50px;
 			position: absolute;
 			top: 1px;
 			left: 47vw;
 		}
+
+		.highScore {
+			text-align: center;
+			color: white;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 30px;
+			position: absolute;
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -60,6 +68,7 @@
 	<!-- HTML for the box -->
 	<div class="box"></div>
 	<p class="point">--0--</p>
+	<p class="highScore">High-Score = </p>
 	<div class="line"></div>
 	<script>
 		(function () {
@@ -68,25 +77,31 @@
 			function moveBoxTo(newPositionY) {
 				box.css("top", newPositionY);
 			}
-			
 			var positionY = 0
 			var points = 0
 			var speed = 4
-			
+			var highPoints = 0
+			var savedPoints = getCookie("savedScore")
+
 
 			window.addEventListener('keyup', function (e) {
 				if (boardHeight * .43 < positionY) {
 
 				}
 				else if (boardHeight * .35 < positionY) {
+
 					positionY = -230
 					moveBoxTo(positionY);
 					box.css("left", (Math.random() * (boardWidth - 40)))
 					points = points + 1
+					highScore.text("High-Score = " + parseInt(savedPoints))
+					console.log(document.cookie)
 					changeBoxText("--" + points + "--")
 					speed = speed + 1
 				}
 			}, false);
+
+
 
 			//////////////////////////////////////////////////////////////////
 			/////////////////// SETUP DO NOT DELETE //////////////////////////
@@ -94,17 +109,18 @@
 			var box = jQuery('.box');	// reference to the HTML .box element
 			var point = jQuery('.point');
 			var line = jQuery('.line');
+			var highScore = jQuery('.highScore')
 			var board = jQuery('.board');	// reference to the HTML .board element
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
 			var boardHeight = board.height();
 			// Every 50 - changed to 20 - milliseconds, call the update Function (see below)
-			line.css("top", (boardHeight * .50))
+			line.css("top", (board.height() * .58))
 			setInterval(update, 20);
 			var ranPos = Math.random() * boardWidth
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
-			line.top(boardHeight * .35)
+
 			// moves the Box to a new position on the screen along the X-Axis
-			
+
 
 			// changes the text displayed on the Box
 			function changeBoxText(newText) {
@@ -117,7 +133,7 @@
 
 			// TODO 2 - Variable declarations 
 
-			
+
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
 			it should move the Box to a new location. If the box drifts off the screen
@@ -125,15 +141,49 @@
 			*/
 			function update() {
 				/* Your Code to Increase positionX by 4 HERE */
+
 				positionY = positionY + speed
 				moveBoxTo(positionY);
+
+				if (parseInt(savedPoints) < points) {
+					savedPoints = points
+					setCookie("savedScore", points)
+				}
+
 				if (positionY >= boardHeight - 180) {
+					if (parseInt(savedPoints) < points) {
+						savedPoints = points
+						setCookie("savedScore", points)
+					}
+					highScore.text("High-Score = " + parseInt(savedPoints))
 					positionY = -230
 					points = 0
 					changeBoxText("--" + points + "--")
 					speed = 4
+					
 				}
 			};
+
+			function setCookie(name, value) {
+				document.cookie = `${name}=${value};`
+			};
+
+			function getCookie(cname) {
+				let name = cname + "=";
+				let decodedCookie = decodeURIComponent(document.cookie);
+				let ca = decodedCookie.split(';');
+				for (let i = 0; i < ca.length; i++) {
+					let c = ca[i];
+					while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+					}
+					if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+					}
+				}
+				return "";
+
+			}
 
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
