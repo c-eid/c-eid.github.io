@@ -71,6 +71,7 @@
 	<p class="highScore">High-Score = </p>
 	<div class="line"></div>
 	<script>
+
 		(function () {
 			'use strict'
 			/* global jQuery */
@@ -189,15 +190,14 @@
 				let ss = getCookie("savedScore");
 				if (ss === "") {
 					setCookie("savedScore", 0);
-					}
-				}
 			}
+		}
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
 			*/
-		})();
+		}) ();
 	</script>
 </body>
 
