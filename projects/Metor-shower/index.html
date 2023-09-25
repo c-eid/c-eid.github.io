@@ -59,6 +59,64 @@
 			font-size: 30px;
 			position: absolute;
 		}
+
+		#death {
+			position: absolute;
+			background-color: rgba(85, 0, 255, 0.478);
+			border: 2px solid rgb(85, 0, 255);
+			border-radius: 15px;
+			top: 5vh;
+			left: 2.5vw;
+			width: 95vw;
+			height: 90vh;
+			text-align: center;
+		}
+
+		#deathText {
+			position: absolute;
+			top: 10vh;
+			left: 25vw;
+			color: white;
+			font-family: Lucida Console;
+			font-size: 78px;
+		}
+
+		#retry {
+			background-color: blueviolet;
+			top: 38vh;
+			width: 20vw;
+			height: 12vh;
+			position: absolute;
+			left: 37vw;
+			border: 30px;
+			border-color: blue;
+			border-radius: 10px;
+		}
+
+		#retryText {
+			color: white;
+			font-family: Lucida Console;
+			position: relative;
+			vertical-align: top;
+			text-align: center;
+			font-size: 4vh;
+
+		}
+
+		#pointsText {
+			color: white;
+			font-family: Lucida Console;
+			position: absolute;
+			top: 60vh;
+			width: 95vw;
+			text-align: center;
+			font-size: 50px;
+		}
+
+		.deathAlert {
+			opacity: 0%;
+			z-index: -2;
+		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 
@@ -70,9 +128,18 @@
 	<p class="point">--0--</p>
 	<p class="highScore">High-Score = </p>
 	<div class="line"></div>
+	<div class="deathAlert" id="death">
+		<p class="deathAlert" id="deathText">City Has Been Destroyed.</p>
+		<div class="deathAlert" id="retry">
+			<p class="deathAlert" id="retryText">Try Again?</p>
+		</div>
+		<p class="deathAlert" id="pointsText">Your points this round:</p>
+	</div>
 	<script>
 
 		(function () {
+			window.addEventListener("load", loadJson);
+			setInterval(main, 1000 / 60);
 			'use strict'
 			/* global jQuery */
 			function moveBoxTo(newPositionY) {
@@ -111,30 +178,38 @@
 			var box = jQuery('.box');	// reference to the HTML .box element
 			var point = jQuery('.point');
 			var line = jQuery('.line');
-			var highScore = jQuery('.highScore')
+			var retry = jQuery('#retry')
+			var pointsText = jQuery('#pointsText');
+			var deathAlert = jQuery('.deathAlert');
+			var highScore = jQuery('.highScore');
 			var board = jQuery('.board');	// reference to the HTML .board element
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
 			var boardHeight = board.height();
 			// Every 50 - changed to 20 - milliseconds, call the update Function (see below)
-			line.css("top", (board.height() * .58))
-			setInterval(update, 20);
+			line.css("top", (board.height() * .35 + 175))
+			var updateInt = setInterval(update, 20);
 			var ranPos = Math.random() * boardWidth
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
 
 			// moves the Box to a new position on the screen along the X-Axis
-
+			retry.on('click', handleRetry);
 
 			// changes the text displayed on the Box
 			function changeBoxText(newText) {
 				point.text(newText);
 			}
 
+			function handleRetry() {
+				deathAlert.css("opacity", 0)
+				deathAlert.css("z-index", -2)
+				positionY = -230
+				updateInt = setInterval(update, 20);
+			}
 			//////////////////////////////////////////////////////////////////
 			/////////////////// YOUR CODE BELOW HERE /////////////////////////
 			//////////////////////////////////////////////////////////////////
 
 			// TODO 2 - Variable declarations 
-
 
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -157,11 +232,20 @@
 						savedPoints = points
 						setCookie("savedScore", points)
 					}
+
+
 					highScore.text("High-Score = " + parseInt(savedPoints))
+					pointsText.text("Your points this round: " + points)
 					positionY = -230
+
+					deathAlert.css("opacity", 100)
+					deathAlert.css("z-index", 2)
 					points = 0
+
 					changeBoxText("--" + points + "--")
+					clearInterval(updateInt)
 					speed = 4
+					box.css("background-image", "url('halle.png')")
 
 				}
 			};
@@ -190,14 +274,98 @@
 				let ss = getCookie("savedScore");
 				if (ss === "") {
 					setCookie("savedScore", 0);
+				}
 			}
-		}
+
+			function main() {
+				animate();
+			}
+
+			let animationDetails = {};
+			var playerScale = 20
+			function animate() {
+				spriteX =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.sx;
+				spriteY =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.sy;
+				spriteWidth =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.width;
+				spriteHeight =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.height;
+				maxWidth = animationDetails["front-death"].maxWidth * playerScale;
+				maxHeight = animationDetails["front-death"].maxHeight * playerScale;
+				offsetX =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.xoffset * playerScale;
+				offsetY =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.yoffset * playerScale;
+				box.width =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.width * playerScale;
+				box.height =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.height * playerScale;
+				hitDx =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.hitDx * playerScale;
+				hitDy =
+					animationDetails["front-death"].coordinates[Math.floor(0)]
+						.hitDy * playerScale;
+			}
+			function JsonFunction(status, response) {
+				/*
+					diagram of the json
+					top level is the name of the animation
+					also don't you dare complain, this is operation sparks fault for making the animation so complicated.
+					animation name{
+						coordinates{
+							sx: xpadding,
+							sy: ypadding,
+							width: cords.swidth,
+							height: cords.sheight,
+							hitWidth: 50, //cords.width,
+							hitHeight: 105,//cords.height,
+							hitDx: 0,
+							hitDy: 0,
+							xoffset: xoffset,
+							yoffset: yoffset,
+						}
+						maxHeight: largest size the sprite can be
+						maxWidth: 
+					}
+				  */
+				animationDetails = response;
+			}
+			function getJSON(url, callback) {
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", url, true);
+				xhr.responseType = "json";
+				xhr.onload = function () {
+					var status = xhr.status;
+					if (status === 200) {
+						callback(null, xhr.response);
+					} else {
+						callback(status, xhr.response);
+					}
+				};
+				xhr.send();
+			}
+			function loadJson() {
+				getJSON("halle.json", JsonFunction); //runs this before the setup because of timing things
+			}
+			let halleImage;
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
 			*/
-		}) ();
+		})();
+
 	</script>
 </body>
 
