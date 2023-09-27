@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+    <main>
+    </main>
+    <div id="container"></div>
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.addEventListener("load", (event) => {
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            const container = document.getElementById("container");
+            container.appendChild(player);
+            player.load("Bloons-Tower-Defense-5.swf");
+            player.style.width = "100vw";
+            player.style.height = "100vh";
+        });
+    </script>
+    <script src="ruffle/ruffle.js"></script>
+  </body>
+</html>
