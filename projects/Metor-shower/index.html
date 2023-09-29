@@ -245,7 +245,6 @@
 					changeBoxText("--" + points + "--")
 					clearInterval(updateInt)
 					speed = 4
-					box.css("background-image", "url('halle.png')")
 
 				}
 			};
@@ -283,6 +282,14 @@
 
 			let animationDetails = {};
 			var playerScale = 20
+			let hitDx;
+			let hitDy;
+			let spriteHeight = 0;
+			let spriteWidth = 0;
+			let spriteX = 0;
+			let spriteY = 0;
+			let offsetX = 0;
+			let offsetY = 0;
 			function animate() {
 				spriteX =
 					animationDetails["front-death"].coordinates[Math.floor(0)]
