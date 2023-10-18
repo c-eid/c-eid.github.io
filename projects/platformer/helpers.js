@@ -16,11 +16,17 @@ function main() {
   }
   var collected = 0
 
-  
+  if (
+    collectables[0].collected &&
+    collectables[1].collected &&
+    collectables[2].collected
+  ) {
+    setCookie("lvlNum", 2)
+    window.location.reload()
+  }
   drawPlatforms();
   drawProjectiles();
   drawCannons();
-
   drawCollectables();
   playerFrictionAndGravity();
 
@@ -521,8 +527,9 @@ function collectablesCollide() {
       collectables[i].y + collectableHeight > player.y
     ) {
       collectables[i].collected = true;
-      collected = collected + 1
-      
+
+
+
     }
   }
 }
@@ -722,6 +729,11 @@ function handleKeyUp(e) {
   if (e.key === " ") {
     keyPress.space = false;
   }
+  if (e.key === "r") {
+    setCookie("lvlNum", 1)
+    window.location.reload()
+  }
+
 }
 
 function loadJson() {

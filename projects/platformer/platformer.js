@@ -3,20 +3,25 @@ $(function () {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
   window.addEventListener("load", loadJson);
+  var savedLevel
   var levelnum
   function setup() {
     if (firstTimeSetup) {
+      
       halleImage = document.getElementById("player");
       projectileImage = document.getElementById("projectile");
       cannonImage = document.getElementById("cannon");
       $(document).on("keydown", handleKeyDown);
       $(document).on("keyup", handleKeyUp);
       firstTimeSetup = false;
+      checkCookie()
+      savedLevel = parseInt(getCookie("lvlNum"))
       //start game
-      levelnum = 1
       levelmake();
       setInterval(main, 1000 / frameRate);
     }
+
+  
     //create walls
     createPlatform(-50, -50, canvas.width + 100, 50); //top
     createPlatform(-50, canvas.height - 10, canvas.width + 100, 200); //right
@@ -30,12 +35,12 @@ $(function () {
      * Comment the lines out to remove the grid
      */
 
-    // for (let i = 100; i < canvas.width; i += 100) {
-    //   createPlatform(i, canvas.height, -1, -canvas.height);
-    // }
-    // for (let i = 100; i < canvas.height; i += 100) {
-    //   createPlatform(canvas.width, i, -canvas.width, -1);
-    // }
+    for (let i = 100; i < canvas.width; i += 100) {
+      createPlatform(i, canvas.height, -1, -canvas.height);
+    }
+    for (let i = 100; i < canvas.height; i += 100) {
+      createPlatform(canvas.width, i, -canvas.width, -1);
+    }
 
     /////////////////////////////////////////////////
     //////////ONLY CHANGE BELOW THIS POINT///////////
@@ -45,10 +50,11 @@ $(function () {
     // Create platforms
     // You must decide the x position, y position, width, and height of the platforms
     // example usage: createPlatform(x,y,width,height)
+   
 
 
     function levelmake() {
-      if (levelnum === 2) { //level editor
+      if (savedLevel === 2) { //level editor
         createPlatform(800, 670, 200, 10); //start
         createPlatform(1200, 532, 200, 10); //left
         createPlatform(1200, 395, 200, 10); //left
@@ -64,7 +70,7 @@ $(function () {
         createCannon("top", 1118, 1500);
         createCannon("right", 230, 5000, 300, 300);
       }
-      else if (levelnum === 1) {
+      else if (savedLevel === 1) {
         createPlatform(800, 670, 200, 10); //start
         createPlatform(1200, 532, 200, 10); //left
         createPlatform(1200, 395, 200, 10); //left
@@ -79,7 +85,8 @@ $(function () {
         createCannon("bottom", 1000, 1500);// cannons \/
         createCannon("top", 1118, 1500);
         createCannon("right", 230, 5000, 300, 300);
-      }
+      } 
+
     }
     // TODO 2
     // Create collectables
