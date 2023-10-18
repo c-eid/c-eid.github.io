@@ -14,7 +14,9 @@ function main() {
     deathOfPlayer();
     return;
   }
+  var collected = 0
 
+  
   drawPlatforms();
   drawProjectiles();
   drawCannons();
@@ -381,6 +383,7 @@ function deathOfPlayer() {
     canvas.height / 6 + canvas.height / 3,
     (canvas.width / 16) * 14
   );
+
   if (keyPress.any) {
     keyPress.any = false;
     window.location.reload();
@@ -518,6 +521,8 @@ function collectablesCollide() {
       collectables[i].y + collectableHeight > player.y
     ) {
       collectables[i].collected = true;
+      collected = collected + 1
+      
     }
   }
 }
