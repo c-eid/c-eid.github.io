@@ -6,6 +6,9 @@
 function registerSetup(setup) {
   setupGame = setup;
 }
+var lor
+var savedLevels = parseInt(getCookie("lvlNum"))
+var nextlvlint = savedLevels + 1
 
 function main() {
   ctx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
@@ -14,6 +17,24 @@ function main() {
     deathOfPlayer();
     return;
   }
+  //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+  
+  if(platforms[0].x <= 300){
+    lor = true
+  }
+  else if (platforms[0].x >= 1200){
+    lor  = false
+  }
+
+
+
+  if(lor === true){
+    platforms[0].x += 1
+  }
+  else if (lor === false){
+    platforms[0].x -= 1 
+  }
+ //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
   var collected = 0
 
   if (
@@ -21,7 +42,10 @@ function main() {
     collectables[1].collected &&
     collectables[2].collected
   ) {
-    setCookie("lvlNum", 2)
+    collectables[2].collected = false
+    collectables[1].collected = false
+    setInterval(main, 0);
+    setCookie("lvlNum", nextlvlint)
     window.location.reload()
   }
   drawPlatforms();

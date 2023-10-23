@@ -3,8 +3,7 @@ $(function () {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
   window.addEventListener("load", loadJson);
-  var savedLevel
-  var levelnum
+
   function setup() {
     if (firstTimeSetup) {
       
@@ -15,7 +14,8 @@ $(function () {
       $(document).on("keyup", handleKeyUp);
       firstTimeSetup = false;
       checkCookie()
-      savedLevel = parseInt(getCookie("lvlNum"))
+      var savedLevel = parseInt(getCookie("lvlNum"))
+      
       //start game
       levelmake();
       setInterval(main, 1000 / frameRate);
@@ -71,23 +71,19 @@ $(function () {
         createCannon("right", 230, 5000, 300, 300);
       }
       else if (savedLevel === 1) {
-        createPlatform(800, 670, 200, 10); //start
-        createPlatform(1200, 532, 200, 10); //left
-        createPlatform(1200, 395, 200, 10); //left
-        createPlatform(500, 560, 200, 10); //right
-        createPlatform(300, 450, 200, 10);//right
-        createPlatform(100, 400, 200, 10); //right
-        createPlatform(400, 300, 600, 10);//top
-        createPlatform(750, 0, 10, 300);//top wall
-        createCollectable('database', 1280, 600/*450*/, 0, 0); //collectables
-        createCollectable('database', 1280, 700/*300*/, 0, 0);
-        createCollectable('database', 860, 600/*200*/, 0, 0);
-        createCannon("bottom", 1000, 1500);// cannons \/
-        createCannon("top", 1118, 1500);
-        createCannon("right", 230, 5000, 300, 300);
+        createPlatform(300, 700, 200, 15);
+        createPlatform(500, 600, 200, 15);
+        createPlatform(200, 500, 200, 15);
+        createPlatform(600, 400, 900, 15);
+        
+        
+        createCollectable('database', 1280, 450, 0, 0); //collectables
+        createCollectable('database', 1280, 300, 0, 0);
+        createCollectable('database', 860, 200, 0, 0);
       } 
 
     }
+    
     // TODO 2
     // Create collectables
     // You must decide on the collectable type, the x position, the y position, the gravity, and the bounce strength
@@ -108,6 +104,6 @@ $(function () {
     //////////ONLY CHANGE ABOVE THIS POINT///////////
     /////////////////////////////////////////////////
   }
-
+ 
   registerSetup(setup);
 });
