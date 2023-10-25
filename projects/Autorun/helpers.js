@@ -348,9 +348,8 @@ function resolveCollision(objx, objy, objw, objh) {
   } else {
     if (dx > 0) {
       //left collision
-      collisionDirection = "left";
-      player.x = player.x + originx;
-      player.speedX = 0;
+      keyPress.right = true;
+      keyPress.left = false;
       //walljumping code
       if (keyPress.space || keyPress.up) {
         if (lCanJump) {
@@ -359,14 +358,17 @@ function resolveCollision(objx, objy, objw, objh) {
           player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
           frameIndex = 4;
           setTimeout(offl(), 120)
+          
+
+
         }
 
       }
     } else {
       //right collision
-      collisionDirection = "right";
-      player.x = player.x - originx;
-      player.speedX = 0;
+      keyPress.left = true;
+      keyPress.right = false;
+      
       //walljumping code
       if (keyPress.space || keyPress.up) {
         if (rCanJump) {
@@ -758,17 +760,15 @@ function handleKeyDown(e) {
   if (e.key === "ArrowUp" || e.key === "w") {
     keyPress.up = true;
   }
-  if (e.key === "ArrowLeft" || e.key === "a") {
-    keyPress.left = true;
 
-  }
+
+
+
   if (e.key === "ArrowDown" || e.key === "s") {
     keyPress.down = true;
   }
-  if (e.key === "ArrowRight" || e.key === "d") {
-    keyPress.right = true;
 
-  }
+
   if (e.key === " ") {
     keyPress.space = true;
   }
@@ -778,9 +778,7 @@ function handleKeyUp(e) {
   if (e.key === "ArrowUp" || e.key === "w") {
     keyPress.up = false;
   }
-  if (e.key === "ArrowLeft" || e.key === "a") {
-    keyPress.left = false;
-  }
+
   if (e.key === "ArrowDown" || e.key === "s") {
     keyPress.down = false;
     if (currentAnimationType === animationTypes.duck) {
@@ -788,9 +786,7 @@ function handleKeyUp(e) {
       frameIndex = 20;
     }
   }
-  if (e.key === "ArrowRight" || e.key === "d") {
-    keyPress.right = false;
-  }
+
   if (e.key === " ") {
     keyPress.space = false;
   }

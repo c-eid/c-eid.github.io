@@ -1,0 +1,65 @@
+// Put below at the very end of setup.js
+function setCookie(name, value) {
+    document.cookie = `${name}=${value};`
+  };
+  
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  
+  }
+  function checkCookie() {
+    let ss = getCookie("lvlNum");
+    if (ss === "") {
+      setCookie("lvlNum", 1);
+    }
+  }
+//Put the code below at the end of "function handleKeyUp(e)" which is in helpers.js
+if (e.key === "r") {
+    setCookie("lvlNum", 1)
+    window.location.reload()
+  }
+//put the code below inside of "function main()" which is in helpers.js
+if (
+    collectables[0].collected &&
+    collectables[1].collected &&
+    collectables[2].collected &&
+    collectables[3].collected &&
+    collectables[4].collected
+  ) {
+    setCookie("lvlNum", (savedLevel += 1))
+    collectables[2].collected = false
+    window.location.reload()
+  }
+//put the code below inside of "if(firstTimeSetup)" which is in platformer.js
+      checkCookie()
+      var savedLevel = parseInt(getCookie("lvlNum"))
+      levelmake();
+
+//put the code below after the text where your level data was in platformer.js
+/* Your level data is stored in a if else statement. 
+savedlevel 1 is the first level. 2 is the second level. 
+if you want to add more levels then add another if else 
+that checks if the savedlevel === 3 or whatever level number you want to add.
+*/
+
+
+function levelmake() {
+      if (savedLevel === 1) { //level editor
+
+      }
+      else if (savedLevel === 2) {
+
+      } 
+}
