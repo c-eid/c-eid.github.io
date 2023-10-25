@@ -1,5 +1,6 @@
 $(function () {
   // initialize canvas and context when able to
+  
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
   window.addEventListener("load", loadJson);
@@ -63,12 +64,10 @@ $(function () {
         createPlatform(100, 400, 200, 10); //right
         createPlatform(400, 300, 600, 10);//top
         createPlatform(750, 0, 10, 300);//top wall
+        createPlatform(100, 0, 10, 900)
         createCollectable('database', 1280, 450, 0, 0); //collectables
         createCollectable('database', 1280, 300, 0, 0);
         createCollectable('database', 860, 200, 0, 0);
-        createCannon("bottom", 1000, 1500);// cannons \/
-        createCannon("top", 1118, 1500);
-        createCannon("right", 230, 5000, 300, 300);
       }
       else if (savedLevel === 1) {
         createPlatform(300, 700, 200, 15);

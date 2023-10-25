@@ -2,7 +2,8 @@
 function setCookie(name, value) {
     document.cookie = `${name}=${value};`
   };
-  
+  var debug = jQuery('.debug');
+
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

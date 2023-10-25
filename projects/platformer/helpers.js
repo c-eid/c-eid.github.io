@@ -18,23 +18,23 @@ function main() {
     return;
   }
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-  
-  if(platforms[0].x <= 300){
+
+  if (platforms[0].x <= 300) {
     lor = true
   }
-  else if (platforms[0].x >= 1200){
-    lor  = false
+  else if (platforms[0].x >= 1200) {
+    lor = false
   }
 
 
 
-  if(lor === true){
+  if (lor === true) {
     platforms[0].x += 1
   }
-  else if (lor === false){
-    platforms[0].x -= 1 
+  else if (lor === false) {
+    platforms[0].x -= 1
   }
- //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+  //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
   var collected = 0
 
   if (
@@ -63,7 +63,7 @@ function main() {
   collectablesCollide(); //checks if player has touched a collectable
 
   animate(); //this changes halle's picture to the next frame so it looks animated.
-  // debug()                   //debugging values. Comment this out when not debugging.
+  debug()                   //debugging values. Comment this out when not debugging.
   drawRobot(); //this actually displays the image of the robot.
 }
 
@@ -296,7 +296,8 @@ function collision() {
   }
   return result;
 }
-
+let lCanJump
+let rCanJump
 function resolveCollision(objx, objy, objw, objh) {
   //this is the return value
   let collisionDirection = "";
@@ -325,6 +326,7 @@ function resolveCollision(objx, objy, objw, objh) {
     ctx.fillStyle = "rbga(252,186,3,.3)";
     ctx.fillRect(player.x, player.y, hitBoxWidth, hitBoxHeight);
   }
+  var WJ
 
   if (originx >= originy) {
     if (dy > 0) {
@@ -332,12 +334,17 @@ function resolveCollision(objx, objy, objw, objh) {
       collisionDirection = "bottom";
       player.y = player.y + originy + 1;
       player.speedY = 0;
+      rCanJump = true
+      lCanJump = true
     } else {
       //top collision
       collisionDirection = "top";
       player.y = player.y - originy;
       player.speedY = 0;
       player.onGround = true;
+      rCanJump = true
+      lCanJump = true
+
     }
   } else {
     if (dx > 0) {
@@ -345,17 +352,47 @@ function resolveCollision(objx, objy, objw, objh) {
       collisionDirection = "left";
       player.x = player.x + originx;
       player.speedX = 0;
+      //walljumping code
+      if (keyPress.space || keyPress.up) {
+        if (lCanJump) {
+          player.speedY = 0 - playerJumpStrength;
+          jumpTimer = 19; //this counts how many frames to have the jump last.
+          player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
+          frameIndex = 4;
+          setTimeout(offl(), 120)
+        }
+
+      }
     } else {
       //right collision
       collisionDirection = "right";
       player.x = player.x - originx;
       player.speedX = 0;
+      //walljumping code
+      if (keyPress.space || keyPress.up) {
+        if (rCanJump) {
+          player.speedY = 0 - playerJumpStrength;
+          jumpTimer = 19; //this counts how many frames to have the jump last.
+          player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
+          frameIndex = 4;
+          setTimeout(offR(), 120)
+        }
+
+      }
+
     }
   }
 
   return collisionDirection;
 }
-
+function offR() {
+  lCanJump = true
+  rCanJump = false
+}
+function offl() {
+  rCanJump = true
+  lCanJump = false
+}
 function projectileCollision() {
   //checking if the player is dead
   if (currentAnimationType === animationTypes.frontDeath) {
@@ -711,6 +748,9 @@ function keyboardControlActions() {
       player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
       frameIndex = 4;
     }
+
+
+
   }
 }
 

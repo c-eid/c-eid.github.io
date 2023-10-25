@@ -60,7 +60,7 @@ let frameIndex = 0;
 let jumpTimer = 0;
 let duckTimer = 0;
 let DUCK_COUNTER_IDLE_VALUE = 14;
-let debugVar = false;
+let debugVar = true;
 
 let spriteHeight = 0;
 let spriteWidth = 0;
