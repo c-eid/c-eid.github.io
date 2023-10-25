@@ -1,4 +1,5 @@
 // setup variables
+// REMOVED FROM HTML WAS CAUSING ISSUES <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg" />
 const walkAcceleration = 2.5; // how much is added to the speed each frame
 const gravity = 0.5; // how much is subtracted from speedY each frame
 const friction = 1.5; // how much the player is slowed each frame
@@ -60,7 +61,7 @@ let frameIndex = 0;
 let jumpTimer = 0;
 let duckTimer = 0;
 let DUCK_COUNTER_IDLE_VALUE = 14;
-let debugVar = true;
+let debugVar = false;
 
 let spriteHeight = 0;
 let spriteWidth = 0;

@@ -63,7 +63,7 @@ function main() {
   collectablesCollide(); //checks if player has touched a collectable
 
   animate(); //this changes halle's picture to the next frame so it looks animated.
-  debug()                   //debugging values. Comment this out when not debugging.
+  //debug()                   //debugging values. Comment this out when not debugging.
   drawRobot(); //this actually displays the image of the robot.
 }
 
