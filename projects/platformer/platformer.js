@@ -55,7 +55,7 @@ $(function () {
 
 
     function levelmake() {
-      if (savedLevel === 1) { //level editor
+      if (savedLevel === 2) { //level editor
         createPlatform(800, 670, 200, 10); //start
         createPlatform(1200, 532, 200, 10); //left
         createPlatform(1200, 395, 200, 10); //left
@@ -69,7 +69,7 @@ $(function () {
         createCollectable('database', 1280, 300, 0, 0);
         createCollectable('database', 860, 200, 0, 0);
       }
-      else if (savedLevel === 2) {
+      else if (savedLevel === 1) {
         createPlatform(300, 700, 200, 15);
         createPlatform(500, 600, 200, 15);
         createPlatform(200, 500, 200, 15);
