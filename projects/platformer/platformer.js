@@ -81,7 +81,17 @@ $(function () {
         createCollectable('database', 1280, 300, 0, 0);
         createCollectable('database', 860, 200, 0, 0);
       } 
-
+      else if (savedLevel === 3) {
+        createPlatform(300, 700, 200, 15);
+        createPlatform(500, 600, 200, 15);
+        createPlatform(200, 500, 200, 15);
+        createPlatform(600, 400, 900, 15);
+        
+        
+        createCollectable('database', 1280, 450, 0, 0); //collectables
+        createCollectable('database', 1280, 300, 0, 0);
+        createCollectable('database', 860, 200, 0, 0);
+      } 
     }
     
     // TODO 2

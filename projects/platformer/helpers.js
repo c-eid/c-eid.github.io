@@ -18,21 +18,22 @@ function main() {
     return;
   }
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+  if (savedLevels === 1) {
+    if (platforms[0].x <= 300) {
+      lor = true
+    }
+    else if (platforms[0].x >= 1200) {
+      lor = false
+    }
 
-  if (platforms[0].x <= 300) {
-    lor = true
-  }
-  else if (platforms[0].x >= 1200) {
-    lor = false
-  }
 
 
-
-  if (lor === true) {
-    platforms[0].x += 1
-  }
-  else if (lor === false) {
-    platforms[0].x -= 1
+    if (lor === true) {
+      platforms[0].x += 1
+    }
+    else if (lor === false) {
+      platforms[0].x -= 1
+    }
   }
   //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
   var collected = 0
@@ -44,7 +45,7 @@ function main() {
   ) {
     collectables[2].collected = false
     collectables[1].collected = false
-    setInterval(main, 0);
+    setInterval(main, 200);
     setCookie("lvlNum", nextlvlint)
     window.location.reload()
   }
