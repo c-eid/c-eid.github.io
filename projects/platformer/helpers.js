@@ -1,4 +1,7 @@
 ///// DO NOT CHANGE ANYTHING IN THIS FILE /////
+let platOffset = 0
+let gridmove = 0
+let gridmoveY = 13
 
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
@@ -17,6 +20,7 @@ function main() {
     deathOfPlayer();
     return;
   }
+
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
   if (savedLevels === 1) {
     if (platforms[0].x <= 300) {
@@ -55,6 +59,8 @@ function main() {
   drawCollectables();
   playerFrictionAndGravity();
 
+
+
   player.x += player.speedX;
   player.y += player.speedY;
 
@@ -66,7 +72,26 @@ function main() {
   animate(); //this changes halle's picture to the next frame so it looks animated.
   //debug()                   //debugging values. Comment this out when not debugging.
   drawRobot(); //this actually displays the image of the robot.
+
+
+  while (gridmove < 13 && platforms[platOffset + 12].x < 2575) {
+    platforms[platOffset + gridmove].x *= 1.002
+    gridmove += 1
+  }
+  if (gridmove === 13) {
+    gridmove = 0
+  }
+
+  while (gridmoveY < 20 && platforms[platOffset + 16].y < 800) {
+    platforms[platOffset + gridmoveY].y *= 1.002
+    gridmoveY += 1
+  }
+  if (gridmoveY === 20) {
+    gridmoveY = 13
+  }
+
 }
+
 
 function getJSON(url, callback) {
   var xhr = new XMLHttpRequest();
@@ -482,7 +507,7 @@ function playerFrictionAndGravity() {
 
 function drawPlatforms() {
   for (var i = 0; i < platforms.length; i++) {
-    ctx.fillStyle = "white";
+    ctx.fillStyle = platforms[i].color;
     ctx.fillRect(
       platforms[i].x,
       platforms[i].y,
@@ -595,8 +620,12 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height) {
-  platforms.push({ x, y, width, height });
+function createPlatform(x, y, width, height, color) {
+  if (width >= 5) {
+    platOffset += 1
+  }
+  platforms.push({ x, y, width, height, color });
+
 }
 
 function createCannon(

@@ -24,7 +24,7 @@ $(function () {
 
   
     //create walls
-    createPlatform(-50, -50, canvas.width + 100, 50); //top
+    createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
     createPlatform(-50, canvas.height - 10, canvas.width + 100, 200); //right
     createPlatform(-50, -50, 50, canvas.height + 500); //bottom
     createPlatform(canvas.width, -50, 50, canvas.height + 100);
@@ -39,9 +39,13 @@ $(function () {
     for (let i = 100; i < canvas.width; i += 100) {
       createPlatform(i, canvas.height, -1, -canvas.height);
     }
-    for (let i = 100; i < canvas.height; i += 100) {
+    var i = 100
+    while (i < canvas.height) {
       createPlatform(canvas.width, i, -canvas.width, -1);
+      i += 100
     }
+
+
 
     /////////////////////////////////////////////////
     //////////ONLY CHANGE BELOW THIS POINT///////////
@@ -71,8 +75,8 @@ $(function () {
         createCollectable('database', 600, 200, 0, 0);
       }
       else if (savedLevel === 1) {
-        createPlatform(300, 700, 200, 15);
-        createPlatform(500, 600, 200, 15);
+        createPlatform(300, 700, 200, 15, "#FF00FF");
+        createPlatform(500, 600, 200, 15, "white");
         createPlatform(200, 500, 200, 15);
         createPlatform(600, 400, 900, 15);
         
@@ -82,10 +86,7 @@ $(function () {
         createCollectable('database', 860, 200, 0, 0);
       } 
       else if (savedLevel === 3) {
-        createPlatform(300, 700, 200, 15);
-        createPlatform(500, 600, 200, 15);
-        createPlatform(200, 500, 200, 15);
-        createPlatform(600, 400, 900, 15);
+        createPlatform(0, 200, 200, 15, "blue");
         
         
         createCollectable('database', 1280, 450, 0, 0); //collectables

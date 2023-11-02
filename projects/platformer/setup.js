@@ -101,3 +101,4 @@ var collectableList = {
   steve: { image: "images/collectables/steve-head.png" },
 };
 
+
