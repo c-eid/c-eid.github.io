@@ -19,7 +19,7 @@ $(function () {
       
       //start game
       levelmake();
-      setInterval(main, 1000 / frameRate);
+      
     }
 
   
@@ -75,6 +75,8 @@ $(function () {
         createCollectable('database', 600, 200, 0, 0);
       }
       else if (savedLevel === 1) {
+        min = 300
+        max = 1200
         createPlatform(300, 700, 200, 15, "#FF00FF");
         createPlatform(500, 600, 200, 15, "white");
         createPlatform(200, 500, 200, 15);
@@ -86,7 +88,11 @@ $(function () {
         createCollectable('database', 860, 200, 0, 0);
       } 
       else if (savedLevel === 3) {
-        createPlatform(0, 200, 200, 15, "blue");
+        min = 400
+        max = 600
+        createPlatform(400, 300, 200, 15, "#FF00FF");
+        createPlatform(0, 200, 200, 15, "white");
+        
         
         
         createCollectable('database', 1280, 450, 0, 0); //collectables
@@ -94,6 +100,8 @@ $(function () {
         createCollectable('database', 860, 200, 0, 0);
       } 
     }
+
+    setInterval(main, 1000 / frameRate);
     
     // TODO 2
     // Create collectables

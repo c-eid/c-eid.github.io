@@ -4,8 +4,16 @@ body {
 
 canvas {
   background-color: rgb(0, 0, 0);
+  
+  
 }
 
 img {
   display: none;
+}
+div {
+  display: block;
+  margin: auto;
+  padding: auto;
+
 }

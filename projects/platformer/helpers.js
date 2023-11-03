@@ -2,7 +2,8 @@
 let platOffset = 0
 let gridmove = 0
 let gridmoveY = 13
-
+let min
+let max5T
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
@@ -22,11 +23,11 @@ function main() {
   }
 
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-  if (savedLevels === 1) {
-    if (platforms[0].x <= 300) {
+  if (savedLevels === 1 || savedLevels === 3) {
+    if (platforms[0].x <= min) {
       lor = true
     }
-    else if (platforms[0].x >= 1200) {
+    else if (platforms[0].x >= max) {
       lor = false
     }
 
@@ -75,7 +76,7 @@ function main() {
 
 
   while (gridmove < 13 && platforms[platOffset + 12].x < 2575) {
-    platforms[platOffset + gridmove].x *= 1.002
+    platforms[platOffset + gridmove].x *= 1.001
     gridmove += 1
   }
   if (gridmove === 13) {
@@ -83,7 +84,7 @@ function main() {
   }
 
   while (gridmoveY < 20 && platforms[platOffset + 16].y < 800) {
-    platforms[platOffset + gridmoveY].y *= 1.002
+    platforms[platOffset + gridmoveY].y *= 1.001
     gridmoveY += 1
   }
   if (gridmoveY === 20) {
