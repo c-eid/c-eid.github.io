@@ -11,7 +11,7 @@ var init = function (window) {
 
 
     window.opspark.makeGame = function () {
-
+    let numScore = jQuery('#num');
         window.opspark.game = {};
         var game = window.opspark.game;
 
@@ -26,16 +26,18 @@ var init = function (window) {
         // TODO 2 : Create a function that draws a circle 
 
         function drawCircle() {
+            
             circle = draw.randomCircleInArea(canvas, true, true, "#999", 2);
             physikz.addRandomVelocity(circle, canvas, 10, 10);
             view.addChild(circle);
             circles.push(circle);
         }
-
+        
         // TODO 3 / 7 : Call the drawCircle() function 
-        for (var int = 0; int < 100; int++) {
-            drawCircle();
-        }
+        
+        // for (var int = 0; int < 100; int++) {
+        //     drawCircle();
+        // }
 
         ////////////////////////////////////////////////////////////
         ///////////////// PROGRAM LOGIC ////////////////////////////
@@ -48,6 +50,10 @@ var init = function (window) {
         */
         function update() {
             // TODO 4 : Update the circle's position //
+            if((Math.round(createjs.Ticker.getMeasuredFPS())) >= 58){
+                drawCircle();
+                
+            }
             for (var i = 0; i < circles.length; i++) {
                 physikz.updatePosition(circles[i])
 
@@ -57,10 +63,10 @@ var init = function (window) {
 
                 game.checkCirclePosition(circles[i])
             }
-
+           numScore.text("Your score: " + circles.length)
             // TODO 9 : Iterate over the array
 
-
+            
         }
 
         /* 
@@ -79,14 +85,14 @@ var init = function (window) {
             var bottomEdge = circle.y + circle.radius;
 
             if (leftEdge > canvas.width) {
-                circle.x = 0;
+                circle.x = 0 ;
             }
 
             // TODO 6 : YOUR CODE STARTS HERE //////////////////////
 
             //left
-            if (rightEdge < 0) {
-                circle.x = canvas.width + circle.radius;
+            if (rightEdge < -1) {
+                circle.x = canvas.width;
             }
             //bottom
             if (topEdge > canvas.height) {

@@ -7,7 +7,9 @@
  * See: http://www.createjs.com/Docs/EaselJS/classes/Graphics.html
  *
  */
+
 (function (window) {
+    let radMax = 20
     const TYPE_RECTANGULAR  = 'retangular';
     const TYPE_CIRCULAR     = 'circular';
     const TYPE_TRIANGULAR   = 'triangular';
@@ -299,9 +301,9 @@
     	
     	randomRadialProps: function (area, radiusMin, radiusMax, redMax, greenMax, blueMax) {
     	    return {
-    	        radius: randomIntBetween(radiusMin || 5, radiusMax || 20),
+    	        radius: randomIntBetween(radiusMin || 5, radiusMax || radMax),
     	        color: randomColor(redMax || 255, greenMax || 255, blueMax || 255),
-    	        x: randomIntBetween(0, area.width),
+    	        x: (randomIntBetween(0, area.width)),
     	        y: randomIntBetween(0, area.height)
     	    };
     	},

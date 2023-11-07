@@ -1,0 +1,13 @@
+#score{
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+}
+#else{
+    position: absolute;
+    z-index: -1;
+}
+#num{
+    background-color: rgba(0, 0, 0, 0.2);
+}
