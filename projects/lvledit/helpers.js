@@ -1,14 +1,33 @@
 ///// DO NOT CHANGE ANYTHING IN THIS FILE /////
-
+let platOffset = 0
+let gridSize = 100
+let gridmove = 0
+let gridmoveY = 13
+let min
+let max
+let editMode = true
+let gridSnap = false
+let cursorX
+let cursorY
+let SizeNum = 50
+let SizeButton = document.getElementById('sizeButton') 
+let Showsize = document.getElementById('Showsize')
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
 function registerSetup(setup) {
   setupGame = setup;
 }
+
+
+
+
 var lor
 var savedLevels = parseInt(getCookie("lvlNum"))
 var nextlvlint = savedLevels + 1
+
+
+
 
 function main() {
   ctx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
@@ -17,55 +36,100 @@ function main() {
     deathOfPlayer();
     return;
   }
+
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+  if (savedLevels === 4 || savedLevels === 3) {
+    if (platforms[0].x <= min) {
+      lor = true
+    }
+    else if (platforms[0].x >= max) {
+      lor = false
+    }
 
-  if (platforms[0].x <= 300) {
-    lor = true
-  }
-  else if (platforms[0].x >= 1200) {
-    lor = false
-  }
 
 
-
-  if (lor === true) {
-    platforms[0].x += 1
-  }
-  else if (lor === false) {
-    platforms[0].x -= 1
+    if (lor === true) {
+      platforms[0].x += 1
+    }
+    else if (lor === false) {
+      platforms[0].x -= 1
+    }
   }
   //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-  var collected = 0
+  let collected
 
-  if (
-    collectables[0].collected &&
-    collectables[1].collected &&
-    collectables[2].collected
-  ) {
-    collectables[2].collected = false
-    collectables[1].collected = false
-    setInterval(main, 0);
-    setCookie("lvlNum", nextlvlint)
-    window.location.reload()
+  for(var i = 0; i < collectables.length; i++){
+    collected += 1
+    if(collected >= collected.length){
+      setInterval(main, 100000)
+    }
   }
+
+
+
+  // if (
+  //   collectables[0].collected &&
+  //   collectables[1].collected &&
+  //   collectables[2].collected
+  // ) {
+  //   collectables[2].collected = false
+  //   collectables[1].collected = false
+  //   setInterval(main, 200);
+  //   setCookie("lvlNum", nextlvlint)
+  //   window.location.reload()
+  // }
+  // else{
+
+  // }
+
+  
   drawPlatforms();
+  drawOutlines();
   drawProjectiles();
   drawCannons();
   drawCollectables();
-  playerFrictionAndGravity();
+  document.getElementById("demo")
 
-  player.x += player.speedX;
-  player.y += player.speedY;
 
-  collision(); //checks if the player will collide with something in this frame
-  keyboardControlActions(); //keyboard controls.
-  projectileCollision(); //checks if the player is getting hit by a projectile in the next frame
-  collectablesCollide(); //checks if player has touched a collectable
 
-  animate(); //this changes halle's picture to the next frame so it looks animated.
-  //debug()                   //debugging values. Comment this out when not debugging.
-  drawRobot(); //this actually displays the image of the robot.
+  if (editMode === false) {
+    playerFrictionAndGravity();
+    player.x += player.speedX;
+    player.y += player.speedY;
+    collision(); //checks if the player will collide with something in this frame
+    keyboardControlActions(); //keyboard controls.
+    projectileCollision(); //checks if the player is getting hit by a projectile in the next frame
+    collectablesCollide(); //checks if player has touched a collectable
+
+    animate(); //this changes halle's picture to the next frame so it looks animated.
+    //debug()                   //debugging values. Comment this out when not debugging.
+    drawRobot(); //this actually displays the image of the robot.
+
+
+
+  }
+
+
+
+
+  // while (gridmove < 13 && platforms[platOffset + 12].x < 2575) {
+  //   platforms[platOffset + gridmove].x *= 1.001
+  //   gridmove += 1
+  // }
+  // if (gridmove === 13) {
+  //   gridmove = 0
+  // }
+
+  // while (gridmoveY < 20 && platforms[platOffset + 16].y < 800) {
+  //   platforms[platOffset + gridmoveY].y *= 1.001
+  //   gridmoveY += 1
+  // }
+  // if (gridmoveY === 20) {
+  //   gridmoveY = 13
+  // }
+
 }
+
 
 function getJSON(url, callback) {
   var xhr = new XMLHttpRequest();
@@ -111,6 +175,8 @@ function JsonFunction(status, response) {
 ///////////////////////////////////////////////
 // Helper functions ///////////////////////////
 ///////////////////////////////////////////////
+
+
 
 function changeAnimationType() {
   if (currentAnimationType === animationTypes.frontDeath) {
@@ -179,6 +245,16 @@ function debug() {
     ctx.fillRect(player.x, player.y - 50, 10, 10);
   }
 }
+
+function SizeButton2(){
+  gridSize /= 2
+  document.getElementById("ShowSize").innerHTML = "GridSize: " + gridSize;
+}
+function SizeButton3(){
+  gridSize *= 2
+  document.getElementById("ShowSize").innerHTML = "GridSize: " + gridSize;
+}
+
 
 function animate() {
   if (
@@ -348,8 +424,9 @@ function resolveCollision(objx, objy, objw, objh) {
   } else {
     if (dx > 0) {
       //left collision
-      keyPress.right = true;
-      keyPress.left = false;
+      collisionDirection = "left";
+      player.x = player.x + originx;
+      player.speedX = 0;
       //walljumping code
       if (keyPress.space || keyPress.up) {
         if (lCanJump) {
@@ -358,17 +435,14 @@ function resolveCollision(objx, objy, objw, objh) {
           player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
           frameIndex = 4;
           setTimeout(offl(), 120)
-          
-
-
         }
 
       }
     } else {
       //right collision
-      keyPress.left = true;
-      keyPress.right = false;
-      
+      collisionDirection = "right";
+      player.x = player.x - originx;
+      player.speedX = 0;
       //walljumping code
       if (keyPress.space || keyPress.up) {
         if (rCanJump) {
@@ -393,6 +467,14 @@ function offR() {
 function offl() {
   rCanJump = true
   lCanJump = false
+}
+function snapChange(){
+  if(gridSnap === false){
+    gridSnap = true
+  }
+  else if (gridSnap === true){
+    gridSnap = false
+  }
 }
 function projectileCollision() {
   //checking if the player is dead
@@ -481,17 +563,44 @@ function playerFrictionAndGravity() {
   }
 }
 
+function place() {
+  createPlatform(cursorX, cursorY, 100, 10)
+}
+
 function drawPlatforms() {
   for (var i = 0; i < platforms.length; i++) {
-    ctx.fillStyle = "white";
+    ctx.fillStyle = platforms[i].color;
     ctx.fillRect(
       platforms[i].x,
       platforms[i].y,
       platforms[i].width,
       platforms[i].height
+
     );
   }
 }
+function drawOutlines() {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.fillRect(
+      outlines[0].x,
+      outlines[0].y,
+      outlines[0].width,
+      outlines[0].height
+
+    );
+}
+function createOutline(x, y, width, height) {
+  outlines[0] = ({x, y, width, height});
+}
+// function createOutline(x, y, width, height){
+//   ctx.fillStyle = "white"
+//   ctx.fillRect(
+//     x,
+//     y,
+//     width,
+//     height
+//   )
+// }
 
 function drawProjectiles() {
   for (var i = 0; i < projectiles.length; i++) {
@@ -596,9 +705,14 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height) {
-  platforms.push({ x, y, width, height });
+function createPlatform(x, y, width, height, color) {
+  if (width >= 5) {
+    platOffset += 1
+  }
+  platforms.push({ x, y, width, height, color });
+
 }
+
 
 function createCannon(
   wallLocation,
@@ -760,15 +874,17 @@ function handleKeyDown(e) {
   if (e.key === "ArrowUp" || e.key === "w") {
     keyPress.up = true;
   }
+  if (e.key === "ArrowLeft" || e.key === "a") {
+    keyPress.left = true;
 
-
-
-
+  }
   if (e.key === "ArrowDown" || e.key === "s") {
     keyPress.down = true;
   }
+  if (e.key === "ArrowRight" || e.key === "d") {
+    keyPress.right = true;
 
-
+  }
   if (e.key === " ") {
     keyPress.space = true;
   }
@@ -778,7 +894,9 @@ function handleKeyUp(e) {
   if (e.key === "ArrowUp" || e.key === "w") {
     keyPress.up = false;
   }
-
+  if (e.key === "ArrowLeft" || e.key === "a") {
+    keyPress.left = false;
+  }
   if (e.key === "ArrowDown" || e.key === "s") {
     keyPress.down = false;
     if (currentAnimationType === animationTypes.duck) {
@@ -786,7 +904,9 @@ function handleKeyUp(e) {
       frameIndex = 20;
     }
   }
-
+  if (e.key === "ArrowRight" || e.key === "d") {
+    keyPress.right = false;
+  }
   if (e.key === " ") {
     keyPress.space = false;
   }
@@ -827,4 +947,32 @@ function checkCookie() {
   if (ss === "") {
     setCookie("lvlNum", 1);
   }
+}
+
+
+
+
+function showCoords(event) {
+  let x = event.clientX;
+  let y = event.clientY;
+  
+  if (gridSnap === false) {
+    cursorX = x
+    cursorY = y
+    if(x < 1400 && y < 750){
+    createOutline(x, y, 100, 10)
+    }
+  }
+  else if(gridSnap === true) {
+    x = Math.floor(x/gridSize)*gridSize
+    y = Math.floor(y/gridSize)*gridSize
+    cursorX = x
+    cursorY = y
+    if(x < 1400 && y < 750){
+    createOutline(x, y, 100, 10)
+    }
+  }
+  let text = "X coords: " + x + ", Y coords: " + y;
+  document.getElementById("demo").innerHTML = text;
+  
 }

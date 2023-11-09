@@ -1,4 +1,7 @@
 // setup variables
+$(function() {
+  console.log( "ready!" );
+});
 // REMOVED FROM HTML WAS CAUSING ISSUES <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg" />
 const walkAcceleration = 2.5; // how much is added to the speed each frame
 const gravity = 0.5; // how much is subtracted from speedY each frame
@@ -72,6 +75,7 @@ let offsetY = 0;
 
 // Platform, cannon, projectile, and collectable variables
 let platforms = [];
+let outlines = [];
 let cannons = [];
 const cannonWidth = 118;
 const cannonHeight = 80;
@@ -100,4 +104,5 @@ var collectableList = {
   max: { image: "images/collectables/max-head.png" },
   steve: { image: "images/collectables/steve-head.png" },
 };
+
 

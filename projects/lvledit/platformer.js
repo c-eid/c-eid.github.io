@@ -1,6 +1,6 @@
 $(function () {
   // initialize canvas and context when able to
-  
+ 
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
   window.addEventListener("load", loadJson);
@@ -19,14 +19,12 @@ $(function () {
       
       //start game
       levelmake();
-      keyPress.left = true;
-      keyPress.right = false;
-      setInterval(main, 1000 / frameRate);
+      
     }
 
   
     //create walls
-    createPlatform(-50, -50, canvas.width + 100, 50); //top
+    createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
     createPlatform(-50, canvas.height - 10, canvas.width + 100, 200); //right
     createPlatform(-50, -50, 50, canvas.height + 500); //bottom
     createPlatform(canvas.width, -50, 50, canvas.height + 100);
@@ -41,9 +39,13 @@ $(function () {
     for (let i = 100; i < canvas.width; i += 100) {
       createPlatform(i, canvas.height, -1, -canvas.height);
     }
-    for (let i = 100; i < canvas.height; i += 100) {
+    var i = 100
+    while (i < canvas.height) {
       createPlatform(canvas.width, i, -canvas.width, -1);
+      i += 100
     }
+
+
 
     /////////////////////////////////////////////////
     //////////ONLY CHANGE BELOW THIS POINT///////////
@@ -72,9 +74,11 @@ $(function () {
         createCollectable('database', 1280, 300, 0, 0);
         createCollectable('database', 600, 200, 0, 0);
       }
-      else if (savedLevel === 1) {
-        createPlatform(300, 700, 200, 15);
-        createPlatform(500, 600, 200, 15);
+      else if (savedLevel === 4) {
+        min = 300
+        max = 1200
+        createPlatform(300, 700, 200, 15, "#FF00FF");
+        createPlatform(500, 600, 200, 15, "white");
         createPlatform(200, 500, 200, 15);
         createPlatform(600, 400, 900, 15);
         
@@ -84,19 +88,23 @@ $(function () {
         createCollectable('database', 860, 200, 0, 0);
       } 
       else if (savedLevel === 3) {
-        createPlatform(300, 700, 200, 15);
-        createPlatform(500, 600, 200, 15);
-        createPlatform(200, 500, 200, 15);
-        createPlatform(600, 400, 900, 15);
+        min = 400
+        max = 600
+        createPlatform(400, 300, 200, 15, "#FF00FF");
+        createPlatform(0, 200, 200, 15, "white");
+        
         
         
         createCollectable('database', 1280, 450, 0, 0); //collectables
         createCollectable('database', 1280, 300, 0, 0);
         createCollectable('database', 860, 200, 0, 0);
-
+      } 
+      else{
+        
+      }
     }
-
-    }
+    createPlatform(10000, 1, 100, 10) //buffer
+    setInterval(main, 1000 / frameRate);
     
     // TODO 2
     // Create collectables
@@ -121,3 +129,4 @@ $(function () {
  
   registerSetup(setup);
 });
+
