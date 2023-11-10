@@ -2,49 +2,92 @@ body {
   margin: 0px;
   display: inline-flex;
 }
+#ShowSize{
+  margin: auto;
+}
 
+#block {
+  width: 14vw;
+}
+
+.sizeButton {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 16px;
+}
+#fill{
+  width: 14vw;
+}
+.textbox{
+  width: 4vw;
+  margin:auto;
+  
+}
 .gridSize{
   width: 5vw;
   height: 3vh;
-  margin: .75vw;
 }
+.automargin{
+  margin: auto;
+  width: 14vw;
+  height: max-content;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  align-items: center;
+  text-align: center;
 
+}
 #canvas {
   background-color: rgb(0, 0, 0);
 
   
 }
-.switch{
-  margin: 0.75vw;
-}
+
 #snapText{
-  margin: 0.75vw;
+
+  margin-left: 1.3vw;
 }
 #inflex{
   display: inline-flex;
   align-items: center;
-  width: max-content;
+  width: 100%;
+
   
 }
 
+p{
+  margin: auto;
+  font-size: large;
+}
 img {
   display: none;
 }
 div {
-  
+  align-items: center;
+  text-align: center;
   display: block;
-  
-  
-
+  /* outline-color: #2196F3;
+  outline-style: dashed;
+  outline-width: 2px; */
 }
 
-
+#PlatWH{
+  font-size: large;
+  width: 12vw;
+}
 
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
+  margin-left: 2.3vw;
+
 }
 
 .switch input { 

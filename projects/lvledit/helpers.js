@@ -4,14 +4,18 @@ let gridSize = 100
 let gridmove = 0
 let gridmoveY = 13
 let min
+let placecolor = "rgba(255, 255, 255, 0.3)"
 let max
 let editMode = true
 let gridSnap = false
+let placemode = true
 let cursorX
 let cursorY
 let SizeNum = 50
-let SizeButton = document.getElementById('sizeButton') 
+let SizeButton = document.getElementById('sizeButton')
 let Showsize = document.getElementById('Showsize')
+let setWidth = 100
+let setHeight = 10
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
@@ -58,9 +62,9 @@ function main() {
   //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
   let collected
 
-  for(var i = 0; i < collectables.length; i++){
+  for (var i = 0; i < collectables.length; i++) {
     collected += 1
-    if(collected >= collected.length){
+    if (collected >= collected.length) {
       setInterval(main, 100000)
     }
   }
@@ -82,7 +86,7 @@ function main() {
 
   // }
 
-  
+
   drawPlatforms();
   drawOutlines();
   drawProjectiles();
@@ -246,11 +250,11 @@ function debug() {
   }
 }
 
-function SizeButton2(){
+function SizeButton2() {
   gridSize /= 2
   document.getElementById("ShowSize").innerHTML = "GridSize: " + gridSize;
 }
-function SizeButton3(){
+function SizeButton3() {
   gridSize *= 2
   document.getElementById("ShowSize").innerHTML = "GridSize: " + gridSize;
 }
@@ -468,12 +472,32 @@ function offl() {
   rCanJump = true
   lCanJump = false
 }
-function snapChange(){
-  if(gridSnap === false){
+function snapChange() {
+  if (gridSnap === false) {
     gridSnap = true
   }
-  else if (gridSnap === true){
+  else if (gridSnap === true) {
     gridSnap = false
+  }
+}
+function snapChange2() {
+  if (editMode === false) {
+    editMode = true
+  }
+  else if (editMode === true) {
+    editMode = false
+  }
+}
+function snapChange3() {
+  if (placemode === false) {
+    placemode = true
+    document.getElementById("removeMode").innerHTML = "Remove Mode";
+    placecolor = "rgba(255, 255, 255, 0.3)"
+  }
+  else if (placemode === true) {
+    placemode = false
+    document.getElementById("removeMode").innerHTML = "Place Mode";
+    placecolor = "rgba(255, 0, 0, 0.3)"
   }
 }
 function projectileCollision() {
@@ -564,7 +588,15 @@ function playerFrictionAndGravity() {
 }
 
 function place() {
-  createPlatform(cursorX, cursorY, 100, 10)
+  if (placemode) {
+
+    createPlatform(cursorX, cursorY, setWidth, setHeight)
+
+  }
+  else {
+    remove()
+    placecolor = "rgba(255, 0, 0, 0.3)"
+  }
 }
 
 function drawPlatforms() {
@@ -580,17 +612,17 @@ function drawPlatforms() {
   }
 }
 function drawOutlines() {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
-    ctx.fillRect(
-      outlines[0].x,
-      outlines[0].y,
-      outlines[0].width,
-      outlines[0].height
+  ctx.fillStyle = placecolor;
+  ctx.fillRect(
+    outlines[0].x,
+    outlines[0].y,
+    outlines[0].width,
+    outlines[0].height
 
-    );
+  );
 }
 function createOutline(x, y, width, height) {
-  outlines[0] = ({x, y, width, height});
+  outlines[0] = ({ x, y, width, height });
 }
 // function createOutline(x, y, width, height){
 //   ctx.fillStyle = "white"
@@ -955,24 +987,43 @@ function checkCookie() {
 function showCoords(event) {
   let x = event.clientX;
   let y = event.clientY;
-  
+
   if (gridSnap === false) {
     cursorX = x
     cursorY = y
-    if(x < 1400 && y < 750){
-    createOutline(x, y, 100, 10)
+    if (x < 1400 && y < 750) {
+      createOutline(x, y, setWidth, setHeight)
     }
   }
-  else if(gridSnap === true) {
-    x = Math.floor(x/gridSize)*gridSize
-    y = Math.floor(y/gridSize)*gridSize
+  else if (gridSnap === true) {
+    x = Math.floor(x / gridSize) * gridSize
+    y = Math.floor(y / gridSize) * gridSize
     cursorX = x
     cursorY = y
-    if(x < 1400 && y < 750){
-    createOutline(x, y, 100, 10)
+    if (x < 1400 && y < 750) {
+      createOutline(x, y, setWidth, setHeight)
     }
   }
   let text = "X coords: " + x + ", Y coords: " + y;
   document.getElementById("demo").innerHTML = text;
-  
+
+}
+
+function remove() {
+  for (var i = 0; i < platforms.length; i++) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height -1) > cursorY) {
+      platforms.splice(i, 1)
+    }
+  }
+}
+
+function setWH() {
+  var xloc = document.getElementById("height").value;
+  var text;
+  text = parseInt(xloc)
+  setHeight = text
+  var yloc = document.getElementById("width").value;
+  var texty
+  texty = parseInt(yloc)
+  setWidth = texty
 }
