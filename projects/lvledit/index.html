@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="html" onmousemove="showCoords(event)" onmousedown="place()">
 
 <head>
   <meta charset="UTF-8" />
@@ -13,53 +13,94 @@
 
 </head>
 
-<body id="body">
-  <div onmousemove="showCoords(event)" onmousedown="place()">
-    <canvas id="canvas" width="1400" height="750"></canvas>
-  </div>
-  <div id="fill">
-    <div class="automargin">
-      <p id="demo" class="automargin></p>
-    </div>
-    <div id="block">
-      <div id="inflex">
-        <label class="switch">
-          <input id="gridSlider" type="checkbox" onclick="snapChange()">
-          <span class="slider round"></span>
-        </label>
-        <p id="snapText" >Snap to grid</p>
+<body>
+  <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
+  <div>
+    <div class="canvas" >
+
+      <canvas id="canvas" width="1400" height="750"></canvas>
+
+      <div id="sidebar">
+        <div>
+
+          <div class="wide">
+
+            <div class="wide">
+              <h4>Platfrom Width</h4>
+              <input value="100" id="width" class="wide" placeholder="(number)">
+
+            </div>
+
+            <div class="wide">
+              <h4>Platfrom height</h4>
+              <input id="height" class="wide" value="10" placeholder="(number)">
+            </div>
+
+          </div>
+
+          <div class="wide" id="smargin">
+            <button class="sizeButton" id="buttonwid" onclick="setWH()">Set Dimentions</button>
+          </div>
+         <div id="marginer">
+          <div class="colorbg">
+            <div id="positioner">
+            <input type="color" id="color" name="color" value="#00FFFF">
+            <button class="sizeButton" id="buttonwid" onclick="setColor()">Set Color</button>
+            </div>
+          </div>
+          </div>
+
+
+        </div>
 
       </div>
-      <div id="inflexMargin" class="automargin">
+
+    </div>
+  </div>
+
+  <div id="bottom">
+
+    <div class="maxcont">
+      <p id="demo"></p>
+    </div>
+
+    <div class="maxcont" id="snapdiv">
+
+      <label class="switch">
+        <input id="gridSlider" type="checkbox" onclick="snapChange()">
+        <span class="slider round"></span>
+      </label>
+
+      <p id="placeholdertext">Snap to grid</p>
+
+    </div>
+
+    <div id="gridsizediv">
+      <div id="buttondiv">
         <button class="sizeButton" onclick="SizeButton3()">x2 size</button>
+
         <button class="sizeButton" onclick="SizeButton2()">1/2 size</button>
       </div>
-      <div class="automargin">
-        <p id="ShowSize">GridSize: 100</p>
-      </div>
-      <div class="automargin">
-        <button class="sizeButton" onclick="snapChange2()">Playtest</button>
-      </div>
-      <div class="automargin">
-        <button class="sizeButton"  id="removeMode" onclick="snapChange3()">Remove Mode</button>
-      </div>
-      <div id="inflex" class="automargin">
-        <p>Platfrom Width</p>
-        <input class="textbox" value="100" id="width" placeholder="(number)">
-      </div>
-      <div id="inflex" class="automargin">
-        <p>Platfrom Height</p>
-        <input class="textbox" id="height" value="10" placeholder="(number)">
-      </div>
-      <div class="automargin">
-        <button class="sizeButton" id="PlatWH" onclick="setWH()" >Set Dimentions</button>
-      </div>
-      <img id="cannon" src="images/cannon.png" />
-      <img id="player" src="images/halle.png" />
-      <img id="projectile" src="images/projectile.png" />
-
+      <p id="ShowSize">GridSize: 100</p>
     </div>
+
+
+    <div class="maxcont">
+      <button class="sizeButton" id="removeMode" onclick="snapChange3()">Remove Mode</button>
+    </div>
+
+    
   </div>
+
+  <div>
+
+    <img id="cannon" src="images/cannon.png" />
+    <img id="player" src="images/halle.png" />
+    <img id="projectile" src="images/projectile.png" />
+
+  </div>
+  </div>
+
 </body>
 
 

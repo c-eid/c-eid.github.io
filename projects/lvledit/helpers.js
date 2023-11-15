@@ -6,6 +6,7 @@ let gridmoveY = 13
 let min
 let placecolor = "rgba(255, 255, 255, 0.3)"
 let max
+let oldcol
 let editMode = true
 let gridSnap = false
 let placemode = true
@@ -16,6 +17,7 @@ let SizeButton = document.getElementById('sizeButton')
 let Showsize = document.getElementById('Showsize')
 let setWidth = 100
 let setHeight = 10
+let setcolor
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
@@ -85,8 +87,7 @@ function main() {
   // else{
 
   // }
-
-
+  drawGrid();
   drawPlatforms();
   drawOutlines();
   drawProjectiles();
@@ -497,7 +498,7 @@ function snapChange3() {
   else if (placemode === true) {
     placemode = false
     document.getElementById("removeMode").innerHTML = "Place Mode";
-    placecolor = "rgba(255, 0, 0, 0.3)"
+    
   }
 }
 function projectileCollision() {
@@ -586,11 +587,13 @@ function playerFrictionAndGravity() {
     player.speedY = player.speedY + gravity;
   }
 }
-
+function setColor(){
+  setcolor = document.getElementById("color").value
+}
 function place() {
   if (placemode) {
 
-    createPlatform(cursorX, cursorY, setWidth, setHeight)
+    createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor)
 
   }
   else {
@@ -612,7 +615,7 @@ function drawPlatforms() {
   }
 }
 function drawOutlines() {
-  ctx.fillStyle = placecolor;
+  ctx.fillStyle = setcolor+"3F";
   ctx.fillRect(
     outlines[0].x,
     outlines[0].y,
@@ -738,10 +741,11 @@ function collectablesCollide() {
 }
 
 function createPlatform(x, y, width, height, color) {
-  if (width >= 5) {
+  if (width >= 5 && width >= 0) {
     platOffset += 1
   }
-  platforms.push({ x, y, width, height, color });
+  let savedcolor = color
+  platforms.push({ x, y, width, height, color, savedcolor });
 
 }
 
@@ -991,8 +995,11 @@ function showCoords(event) {
   if (gridSnap === false) {
     cursorX = x
     cursorY = y
-    if (x < 1400 && y < 750) {
+    if (x < 1400 && y < 750 && placemode) {
       createOutline(x, y, setWidth, setHeight)
+    }
+    else{
+      removeHi();
     }
   }
   else if (gridSnap === true) {
@@ -1000,8 +1007,11 @@ function showCoords(event) {
     y = Math.floor(y / gridSize) * gridSize
     cursorX = x
     cursorY = y
-    if (x < 1400 && y < 750) {
+    if (x < 1400 && y < 750 && placemode) {
       createOutline(x, y, setWidth, setHeight)
+    }
+    else{
+      removeHi()
     }
   }
   let text = "X coords: " + x + ", Y coords: " + y;
@@ -1016,6 +1026,18 @@ function remove() {
     }
   }
 }
+function removeHi() {
+  for (var i = 0; i < platforms.length; i++) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height -1) > cursorY && cursorY < 740) {
+
+      platforms[i].color = "rgba(255, 0, 0, 1)"
+
+    }else{
+      platforms[i].color = platforms[i].savedcolor
+    }
+  }
+}
+
 
 function setWH() {
   var xloc = document.getElementById("height").value;
@@ -1026,4 +1048,25 @@ function setWH() {
   var texty
   texty = parseInt(yloc)
   setWidth = texty
+}
+function drawGrid(){
+  for (let i = gridSize; i < canvas.width; i += gridSize) {
+    ctx.fillStyle = "white"
+    ctx.fillRect(
+      i,
+      0,
+      1,
+      canvas.height
+    )
+    
+  }
+  
+  for (let i = gridSize; i < canvas.height; i += gridSize) {
+    ctx.fillRect(
+      0,
+      i,
+      canvas.width,
+      1
+    )
+  }
 }

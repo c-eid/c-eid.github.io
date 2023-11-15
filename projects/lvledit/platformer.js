@@ -26,7 +26,7 @@ $(function () {
     //create walls
     createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
     createPlatform(-50, canvas.height - 10, canvas.width + 100, 200); //right
-    createPlatform(-50, -50, 50, canvas.height + 500); //bottom
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26"); //bottom
     createPlatform(canvas.width, -50, 50, canvas.height + 100);
 
     /**
@@ -35,15 +35,6 @@ $(function () {
      * This can give you a better idea of where to create new platforms
      * Comment the lines out to remove the grid
      */
-
-    for (let i = 100; i < canvas.width; i += 100) {
-      createPlatform(i, canvas.height, -1, -canvas.height);
-    }
-    var i = 100
-    while (i < canvas.height) {
-      createPlatform(canvas.width, i, -canvas.width, -1);
-      i += 100
-    }
 
 
 
@@ -119,9 +110,15 @@ $(function () {
     // Your wall choices are: 'top' 'left' 'right' and 'bottom'
     // example usage: createCannon(side, position, delay, width, height)
 
+    // to do:
+    // collectables
+    // cannons
+    // moving platforms
+    // breakable platforms
+    // slow and fast movement for halle (ice)platforms
 
 
-
+    setColor()
     /////////////////////////////////////////////////
     //////////ONLY CHANGE ABOVE THIS POINT///////////
     /////////////////////////////////////////////////
