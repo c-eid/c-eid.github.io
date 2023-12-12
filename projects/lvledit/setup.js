@@ -75,7 +75,7 @@ let offsetY = 0;
 
 // Platform, cannon, projectile, and collectable variables
 let platforms = [];
-let outlines = [];
+let outlines = [0, 0, 0, 0];
 let cannons = [];
 const cannonWidth = 118;
 const cannonHeight = 80;

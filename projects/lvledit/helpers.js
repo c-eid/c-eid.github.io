@@ -18,6 +18,7 @@ let Showsize = document.getElementById('Showsize')
 let setWidth = 100
 let setHeight = 10
 let setcolor
+let rot = 1
 let barSwitch = document.getElementById('dropdown')
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
@@ -255,11 +256,14 @@ function debug() {
 
 function SizeButton2() {
   gridSize /= 2
-  document.getElementById("ShowSize").innerHTML = "GridSize: " + gridSize;
+  document.getElementById("gridinput").value = gridSize;
 }
 function SizeButton3() {
   gridSize *= 2
-  document.getElementById("ShowSize").innerHTML = "GridSize: " + gridSize;
+  document.getElementById("gridinput").value = gridSize;
+}
+function SizeButton4() {
+  gridSize = parseFloat(document.getElementById("gridinput").value)
 }
 
 
@@ -594,7 +598,10 @@ function setColor(){
 }
 function place() {
   if (placemode) {
-    
+    if(setWidth < 0 && setHeight < 0 && gridSnap){
+      cursorX += gridSize
+      cursorY += gridSize
+    }
     createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor)
 
   }
@@ -680,6 +687,7 @@ function drawCannons() {
   }
 }
 function rotate(){
+  if(rot <= 1){
   let tempW = setWidth
   let tempH = setHeight
   setWidth = tempH
@@ -687,7 +695,18 @@ function rotate(){
   document.getElementById("height").value = setHeight
   document.getElementById("width").value = setWidth
   showCoords(event)
-
+  rot += 1
+  }
+  else if(rot === 2){
+    let tempW = setWidth * -1
+    let tempH = setHeight * -1
+    setWidth = tempH
+    setHeight = tempW
+    document.getElementById("height").value = setHeight
+    document.getElementById("width").value = setWidth
+    showCoords(event)
+    rot = 1
+  }
 }
 function drawCollectables() {
   for (var i = 0; i < collectables.length; i++) {
@@ -1028,6 +1047,10 @@ function showCoords(event) {
     cursorX = x
     cursorY = y
     if (x < 1400 && y < 750 && placemode) {
+      if(setWidth < 0 && setHeight < 0){
+        x += gridSize
+        y += gridSize
+      }
       createOutline(x, y, setWidth, setHeight)
     }
     else{
@@ -1035,7 +1058,7 @@ function showCoords(event) {
       removeHi()
     }
   }
-  let text = "X coords: " + x + ", Y coords: " + y;
+  let text = "X coords: " + Math.round(x) + ", Y coords: " + Math.round(y);
   document.getElementById("demo").innerHTML = text;
 
 }

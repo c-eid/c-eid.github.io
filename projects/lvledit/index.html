@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="html" onmousemove="showCoords(event)" oncontextmenu="return false;">
+<html id="html" onmousemove="showCoords(event)">
 
 <head>
   <meta charset="UTF-8" />
@@ -16,7 +16,7 @@
 <body>
   <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
   <div>
-    <div class="canvas">
+    <div class="canvas" oncontextmenu="return false;">
 
       <canvas id="canvas" width="1400" height="750" onclick="place()" oncontextmenu="rotate()"></canvas>
       <div class="sidebar">
@@ -52,13 +52,9 @@
 
               <button class="sizeButton" id="buttonwid" onclick="setWH()">Set Dimentions</button>
             </div>
-            <div id="marginer">
-              <div class="colorbg">
-                <div id="positioner">
-                  <input type="color" id="color" name="color" value="#00FFFF">
-                  <button class="sizeButton" id="buttonwid" onclick="setColor()">Set Color</button>
-                </div>
-              </div>
+            <div class="colorbg">
+              <input type="color" id="color" name="color" value="#00FFFF">
+              <button class="sizeButton" onclick="setColor()">Set Color</button>
             </div>
           </div>
 
@@ -71,7 +67,7 @@
 
   <div id="bottom">
 
-    <div class="maxcont">
+    <div class="maxcont2">
       <p id="demo"></p>
     </div>
 
@@ -86,23 +82,22 @@
 
     </div>
 
-    <div id="gridsizediv">
-      <div class="wide">
-        <div class="buttondiv">
-          <button class="sizeButton" onclick="SizeButton3()">x2 size</button>
+    <div class="flex">
 
-          <button class="sizeButton" onclick="SizeButton2()">1/2 size</button>
-        </div>
+      <div class="colflex">
+
+        <button class="sizeButtonGS" onclick="SizeButton3()">x2 size</button>
+        <p id="ShowSize">GridSize:</p>
+
       </div>
-      <div class="wide">
-        <div class="buttondiv" id="gridsizeinputdiv">
 
-          <p id="ShowSize">GridSize:</p>
-
-          <input id="gridinput" value="100" class="inputtxt">
+      <div class="colflex">
 
 
-        </div>
+        <button class="sizeButtonGS" onclick="SizeButton2()">1/2 size</button>
+        <input id="gridinput" value="100" class="inputtxt" onblur="SizeButton4()">
+
+
       </div>
     </div>
 
