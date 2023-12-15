@@ -61,9 +61,9 @@ $(function () {
         createPlatform(1200, 200, 10, 370)
         createPlatform(400, 300, 600, 10);//top
         createPlatform(750, 0, 10, 300);//top wall
-        createCollectable('database', 850, 200, 0, 0); //collectables
-        createCollectable('database', 1280, 300, 0, 0);
-        createCollectable('database', 600, 200, 0, 0);
+        createCollectable('database', 850, 200, 5, 1); //collectables
+        createCollectable('database', 1280, 300, 5, 1);
+        createCollectable('database', 600, 200, 5, 1);
       }
       else if (savedLevel === 4) {
         min = 300

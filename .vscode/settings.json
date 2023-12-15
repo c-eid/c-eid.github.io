@@ -2,5 +2,9 @@
   "workbench.editorAssociations": {   
       "*.md": "vscode.markdown.preview.editor"
   },
-  "liveServer.settings.port": 5513
+  "liveServer.settings.port": 5515,
+  "console-ninja.toolsToEnableSupportAutomaticallyFor": {
+    "live-server-extension": true,
+    "live-preview-extension": true
+  }
 }

@@ -6,7 +6,11 @@
   <title>platformer</title>
   <script src="jquery.min.js"></script>
   <link href="platformer.css" rel="stylesheet" />
-
+  <script>
+    window.onerror = function (message, url, line) {
+				alert(message + ', ' + url + ', ' + line);
+			};
+  </script>
   <script src="setup.js"></script>
   <script src="helpers.js"></script>
   <script src="platformer.js"></script>
@@ -14,6 +18,7 @@
 </head>
 
 <body>
+  
   <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
   <div>
     <div class="canvas" oncontextmenu="return false;">
@@ -114,7 +119,7 @@
     <img id="cannon" src="images/cannon.png" />
     <img id="player" src="images/halle.png" />
     <img id="projectile" src="images/projectile.png" />
-
+    <img id="database" src="images/collectables/database.png" />
   </div>
   </div>
 

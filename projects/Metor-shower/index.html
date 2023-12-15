@@ -1,10 +1,12 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
 	<meta charset="utf-8">
 	<title>Metor Shower</title>
 	<script src="jquery.min.js"></script>
+	<script src="halle.js"></script>
+
 	<style>
 		.box {
 			width: 70px;
@@ -60,6 +62,15 @@
 			position: absolute;
 		}
 
+		#canvas {
+			position: absolute;
+			z-index: 6;
+		}
+		#canvastop {
+			position: absolute;
+			z-index: 7;
+		}
+
 		#death {
 			position: absolute;
 			background-color: rgba(85, 0, 255, 0.478);
@@ -75,7 +86,7 @@
 		#deathText {
 			position: absolute;
 			top: 10vh;
-			left: 25vw;
+			left: 12vw;
 			color: white;
 			font-family: Lucida Console;
 			font-size: 78px;
@@ -113,6 +124,13 @@
 			font-size: 50px;
 		}
 
+		#log {
+			color: black;
+			position: absolute;
+			z-index: 4;
+			font-size: xx-large;
+		}
+
 		.deathAlert {
 			opacity: 0%;
 			z-index: -2;
@@ -123,6 +141,8 @@
 </head>
 
 <body class="board">
+
+
 	<!-- HTML for the box -->
 	<div class="box"></div>
 	<p class="point">--0--</p>
@@ -135,11 +155,19 @@
 		</div>
 		<p class="deathAlert" id="pointsText">Your points this round:</p>
 	</div>
+	<canvas height=700 width=1500 id="canvas">
+		<img id="player" src="halle.png">
+	</canvas>
+	<canvas height=700 width=1500 id="canvastop">
+		<img id="player12" src="halle12.png">
+	</canvas>
 	<script>
 
 		(function () {
+
 			
-			setInterval(main, 1000 / 60);
+
+
 			'use strict'
 			/* global jQuery */
 			function moveBoxTo(newPositionY) {
@@ -151,7 +179,7 @@
 			var highPoints = 0;
 			checkCookie();
 			var savedPoints = getCookie("savedScore");
-			
+
 
 
 			window.addEventListener('keyup', function (e) {
@@ -186,23 +214,37 @@
 			var board = jQuery('.board');	// reference to the HTML .board element
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
 			var boardHeight = board.height();
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			var canvastop = document.getElementById("canvastop");
+			var tctx = canvastop.getContext("2d");
+			var halleImage = document.getElementById("player");
+			var halleImage12 = document.getElementById("player12");
 			// Every 50 - changed to 20 - milliseconds, call the update Function (see below)
 			line.css("top", (board.height() * .35 + 175))
 			var updateInt = setInterval(update, 20);
 			var ranPos = Math.random() * boardWidth
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
-
+			setInterval(animateIt, 20);
 			// moves the Box to a new position on the screen along the X-Axis
 			retry.on('click', handleRetry);
-
+			
+			canvas.height = boardHeight
+			canvas.width = boardWidth
+			canvastop.height = boardHeight
+			canvastop.width = boardWidth
 			// changes the text displayed on the Box
 			function changeBoxText(newText) {
 				point.text(newText);
 			}
-			
+
 			function handleRetry() {
 				deathAlert.css("opacity", 0)
 				deathAlert.css("z-index", -2)
+				tctx.clearRect(0, 0, 9999, 9999);
+				ctx.clearRect(0, 0, 9999, 9999);
+				animate = false
+				index = 0
 				positionY = -230
 				updateInt = setInterval(update, 20);
 			}
@@ -217,7 +259,44 @@
 			it should move the Box to a new location. If the box drifts off the screen
 			turn it around! 
 			*/
+			let animate = false
+			let index = 0
+
+			function animateIt() {
+				if (index < coordinates.length && animate) {
+					tctx.clearRect(0, 0, 9999, 9999);
+					var left = (parseInt(box.css("left")) - 750)
+					ctx.drawImage(
+						halleImage,
+						coordinates[index].sx,
+						coordinates[index].sy,
+						coordinates[index].width,
+						coordinates[index].height,
+						left,
+						0,
+						1500,
+						1500
+					);
+
+					tctx.drawImage(
+						halleImage12,
+						coordinates[index].sx,
+						coordinates[index].sy,
+						coordinates[index].width,
+						coordinates[index].height,
+						left,
+						0,
+						1500,
+						1500
+					);
+					
+					index++
+				}
+			}
+
 			function update() {
+				
+				
 				/* Your Code to Increase positionX by 4 HERE */
 
 				positionY = positionY + speed
@@ -233,14 +312,14 @@
 						savedPoints = points
 						setCookie("savedScore", points)
 					}
-
+					animate = true
 
 					highScore.text("High-Score = " + parseInt(savedPoints))
 					pointsText.text("Your points this round: " + points)
 					positionY = -230
 
 					deathAlert.css("opacity", 100)
-					deathAlert.css("z-index", 2)
+					deathAlert.css("z-index", 10)
 					points = 0
 
 					changeBoxText("--" + points + "--")
@@ -249,6 +328,8 @@
 
 				}
 			};
+
+
 
 			function setCookie(name, value) {
 				document.cookie = `${name}=${value};`
@@ -277,105 +358,15 @@
 				}
 			}
 
-			function main() {
-				animate();
-			}
 
-			let animationDetails = {};
-			var playerScale = 20
-			let hitDx;
-			let hitDy;
-			let spriteHeight = 0;
-			let spriteWidth = 0;
-			let spriteX = 0;
-			let spriteY = 0;
-			let offsetX = 0;
-			let offsetY = 0;
-			function animate() {
-				spriteX =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.sx;
-				spriteY =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.sy;
-				spriteWidth =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.width;
-				spriteHeight =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.height;
-				maxWidth = animationDetails["front-death"].maxWidth * playerScale;
-				maxHeight = animationDetails["front-death"].maxHeight * playerScale;
-				offsetX =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.xoffset * playerScale;
-				offsetY =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.yoffset * playerScale;
-				box.width =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.width * playerScale;
-				box.height =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.height * playerScale;
-				hitDx =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.hitDx * playerScale;
-				hitDy =
-					animationDetails["front-death"].coordinates[Math.floor(0)]
-						.hitDy * playerScale;
-			}
-			function JsonFunction(status, response) {
-				/*
-					diagram of the json
-					top level is the name of the animation
-					also don't you dare complain, this is operation sparks fault for making the animation so complicated.
-					animation name{
-						coordinates{
-							sx: xpadding,
-							sy: ypadding,
-							width: cords.swidth,
-							height: cords.sheight,
-							hitWidth: 50, //cords.width,
-							hitHeight: 105,//cords.height,
-							hitDx: 0,
-							hitDy: 0,
-							xoffset: xoffset,
-							yoffset: yoffset,
-						}
-						maxHeight: largest size the sprite can be
-						maxWidth: 
-					}
-				  */
-				animationDetails = response;
-			}
-			function getJSON(url, callback) {
-				var xhr = new XMLHttpRequest();
-				xhr.open("GET", url, true);
-				xhr.responseType = "json";
-				xhr.onload = function () {
-					var status = xhr.status;
-					if (status === 200) {
-						callback(null, xhr.response);
-					} else {
-						callback(status, xhr.response);
-					}
-				};
-				xhr.send();
-			}
-			function loadJson() {
-				getJSON("halle.json", JsonFunction); //runs this before the setup because of timing things
-			}
-			let halleImage;
-			highScore.text("High-Score = " + parseInt(savedPoints))
-			/* 
-			This Function will be called each time the box is clicked. Each time it is called,
-			it should increase the points total, increase the speed, and move the box to
-			the left side of the screen.
-			*/
+
+
+
+
 		})();
 
 	</script>
+
 </body>
 
 </html>

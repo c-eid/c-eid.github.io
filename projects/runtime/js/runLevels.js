@@ -53,44 +53,44 @@ var runLevels = function (window) {
       game.addGameItem(enemy);
     }
     function createReward(x, y) {
-      var enemy = game.createGameItem("enemy", 25);
+      var reward = game.createGameItem("reward", 25);
       var blueSquare = draw.rect(50, 50, "blue");
       blueSquare.x = -25;
       blueSquare.y = -25;
-      enemy.addChild(blueSquare);
-      enemy.x = x;
-      enemy.y = groundY - y;
-      enemy.velocityX = -1;
-      enemy.rotationalVelocity = 1;
-      enemy.onPlayerCollision = function () {
+      reward.addChild(blueSquare);
+      reward.x = x;
+      reward.y = groundY - y;
+      reward.velocityX = -1;
+      reward.rotationalVelocity = 1;
+      reward.onPlayerCollision = function () {
         game.changeIntegrity(1000)
-        enemy.fadeOut();
+        reward.fadeOut();
       };
-      enemy.onProjectileCollision = function () {
-        enemy.fadeOut();
+      reward.onProjectileCollision = function () {
+        reward.fadeOut();
       };
-      game.addGameItem(enemy);
+      game.addGameItem(reward);
     }
     function createMarker(x, y) {
-      var enemy = game.createGameItem("enemy", 50);
+      var marker = game.createGameItem("marker", 50);
       var whiteSquare = draw.rect(50, 50, "White");
       whiteSquare.x = -25;
       whiteSquare.y = -25;
-      enemy.addChild(whiteSquare);
-      enemy.x = x;
-      enemy.y = groundY - y;
-      enemy.velocityX = -1;
-      enemy.onPlayerCollision = function () {
+      marker.addChild(whiteSquare);
+      marker.x = x;
+      marker.y = groundY - y;
+      marker.velocityX = -1;
+      marker.onPlayerCollision = function () {
         startLevel()
-        enemy.fadeOut();
+        marker.fadeOut();
       }
-      enemy.onProjectileCollision = function () {
+      marker.onProjectileCollision = function () {
         startLevel()
-        enemy.fadeOut();
+        marker.fadeOut();
       
       };
 
-      game.addGameItem(enemy);
+      game.addGameItem(marker);
     }
     // createEnemy(400, 50)
     // createEnemy(800, 50)

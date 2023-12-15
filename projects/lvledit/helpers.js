@@ -4,6 +4,7 @@ let gridSize = 100
 let gridmove = 0
 let gridmoveY = 13
 let min
+let placetype = "collectable" //["platform", "collectable", "cannon"]
 let placecolor = "rgba(255, 255, 255, 0.3)"
 let max
 let oldcol
@@ -20,6 +21,7 @@ let setHeight = 10
 let setcolor
 let rot = 1
 let barSwitch = document.getElementById('dropdown')
+
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
@@ -490,6 +492,9 @@ function snapChange() {
 function snapChange2() {
   if (editMode === false) {
     editMode = true
+    for(var i = 0; i < collectables.length; i++){
+      collectables[i].collected = false
+    }
   }
   else if (editMode === true) {
     editMode = false
@@ -499,12 +504,14 @@ function snapChange3() {
   if (placemode === false) {
     placemode = true
     document.getElementById("removeMode").innerHTML = "Remove Mode";
+
     placecolor = "rgba(255, 255, 255, 0.3)"
   }
   else if (placemode === true) {
     placemode = false
     document.getElementById("removeMode").innerHTML = "Place Mode";
-    
+    document.getElementById("gridSlider").checked = false
+
   }
 }
 function projectileCollision() {
@@ -593,17 +600,26 @@ function playerFrictionAndGravity() {
     player.speedY = player.speedY + gravity;
   }
 }
-function setColor(){
+function setColor() {
   setcolor = document.getElementById("color").value
 }
 function place() {
   if (placemode) {
-    if(setWidth < 0 && setHeight < 0 && gridSnap){
-      cursorX += gridSize
-      cursorY += gridSize
+    if (placetype === "platforms") {
+      if (setWidth < 0 && setHeight < 0 && gridSnap) {
+        cursorX += gridSize
+        cursorY += gridSize
+      }
+      createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor)
     }
-    createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor)
-
+    else if (placetype === "collectable") {
+      if (gridSnap) {
+        createCollectable('database', cursorX + (gridSize / 2 - (database.width / 2)), cursorY + (gridSize / 2 - (database.height / 2)), 1, 1)
+      }
+      else {
+        createCollectable('database', cursorX, cursorY, 1, 1)
+      }
+    }
   }
   else {
     remove()
@@ -621,31 +637,53 @@ function drawPlatforms() {
       platforms[i].width,
       platforms[i].height
     );
-    
+
   }
 }
 function drawOutlines() {
-  ctx.fillStyle = setcolor+"3F";
-  ctx.fillRect(
-    outlines[0].x,
-    outlines[0].y,
-    outlines[0].width,
-    outlines[0].height
 
-  );
+  if (placetype === "platform") {
+    ctx.fillStyle = setcolor + "3F";
+    ctx.fillRect(
+      outlines[0].x,
+      outlines[0].y,
+      outlines[0].width,
+      outlines[0].height
+    );
+  }
+  else if (placetype === "collectable") {
+    if (gridSnap === true) {
+      ctx.drawImage(
+        database,
+
+        cursorX + (gridSize / 2 - (database.width / 2)),
+        cursorY + (gridSize / 2 - (database.height / 2)),
+        database.width,
+        database.height
+      )
+    }
+    else {
+      ctx.drawImage(
+        database,
+        cursorX,
+        cursorY,
+        37,
+        50
+      )
+    }
+  }
 }
+
 function createOutline(x, y, width, height) {
-  outlines[0] = ({ x, y, width, height });
+  if (placetype === "platform") {
+    outlines[0] = ({ x, y, width, height });
+  }
+  //this makes a platform using a seperate array i could have just made a fill style but whatever
+  //collectables are in draw func
+
+
 }
-// function createOutline(x, y, width, height){
-//   ctx.fillStyle = "white"
-//   ctx.fillRect(
-//     x,
-//     y,
-//     width,
-//     height
-//   )
-// }
+
 
 function drawProjectiles() {
   for (var i = 0; i < projectiles.length; i++) {
@@ -686,26 +724,28 @@ function drawCannons() {
     ctx.restore(); //this unrotates the canvas so the canvas is straight, but now since you did that the picture looks rotated
   }
 }
-function rotate(){
-  if(rot <= 1){
-  let tempW = setWidth
-  let tempH = setHeight
-  setWidth = tempH
-  setHeight = tempW
-  document.getElementById("height").value = setHeight
-  document.getElementById("width").value = setWidth
-  showCoords(event)
-  rot += 1
-  }
-  else if(rot === 2){
-    let tempW = setWidth * -1
-    let tempH = setHeight * -1
-    setWidth = tempH
-    setHeight = tempW
-    document.getElementById("height").value = setHeight
-    document.getElementById("width").value = setWidth
-    showCoords(event)
-    rot = 1
+function rotate() {
+  if (placetype === "platform") {
+    if (rot <= 1) {
+      let tempW = setWidth
+      let tempH = setHeight
+      setWidth = tempH
+      setHeight = tempW
+      document.getElementById("height").value = setHeight
+      document.getElementById("width").value = setWidth
+      showCoords(event)
+      rot += 1
+    }
+    else if (rot === 2) {
+      let tempW = setWidth * -1
+      let tempH = setHeight * -1
+      setWidth = tempH
+      setHeight = tempW
+      document.getElementById("height").value = setHeight
+      document.getElementById("width").value = setWidth
+      showCoords(event)
+      rot = 1
+    }
   }
 }
 function drawCollectables() {
@@ -774,11 +814,11 @@ function collectablesCollide() {
 function createPlatform(x, y, width, height, color) {
   let savedcolor = color
 
-  if(width < 0){
+  if (width < 0) {
     x += width
     width *= -1
   }
-  if(height < 0){
+  if (height < 0) {
     y += height
     height *= -1
   }
@@ -1036,7 +1076,7 @@ function showCoords(event) {
     if (x < 1400 && y < 750 && placemode) {
       createOutline(x, y, setWidth, setHeight)
     }
-    else{
+    else {
       createOutline(x, y, 0, 0)
       removeHi();
     }
@@ -1047,13 +1087,13 @@ function showCoords(event) {
     cursorX = x
     cursorY = y
     if (x < 1400 && y < 750 && placemode) {
-      if(setWidth < 0 && setHeight < 0){
+      if (setWidth < 0 && setHeight < 0) {
         x += gridSize
         y += gridSize
       }
       createOutline(x, y, setWidth, setHeight)
     }
-    else{
+    else {
       createOutline(x, y, 0, 0)
       removeHi()
     }
@@ -1065,18 +1105,18 @@ function showCoords(event) {
 
 function remove() {
   for (var i = 0; i < platforms.length; i++) {
-    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height -1) > cursorY && cursorY < 740)  {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
       platforms.splice(i, 1)
     }
   }
 }
 function removeHi() {
   for (var i = 0; i < platforms.length; i++) {
-    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height -1) > cursorY && cursorY < 740) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
 
       platforms[i].color = "rgba(255, 0, 0, 0.5)"
 
-    }else{
+    } else {
       platforms[i].color = platforms[i].savedcolor
     }
   }
@@ -1093,7 +1133,7 @@ function setWH() {
   texty = parseInt(yloc)
   setWidth = texty
 }
-function drawGrid(){
+function drawGrid() {
   for (let i = gridSize; i < canvas.width; i += gridSize) {
     ctx.fillStyle = "white"
     ctx.fillRect(
@@ -1102,9 +1142,9 @@ function drawGrid(){
       1,
       canvas.height
     )
-    
+
   }
-  
+
   for (let i = gridSize; i < canvas.height; i += gridSize) {
     ctx.fillRect(
       0,

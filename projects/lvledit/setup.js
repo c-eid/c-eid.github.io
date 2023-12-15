@@ -63,7 +63,7 @@ let currentAnimationType = animationTypes.run;
 let frameIndex = 0;
 let jumpTimer = 0;
 let duckTimer = 0;
-let DUCK_COUNTER_IDLE_VALUE = 14;
+let DUCK_COUNTER_IDLE_VALUE = 14; 
 let debugVar = false;
 
 let spriteHeight = 0;
@@ -82,8 +82,8 @@ const cannonHeight = 80;
 let projectiles = [];
 const defaultProjectileWidth = 24;
 const defaultProjectileHeight = defaultProjectileWidth;
-const collectableWidth = 40;
-const collectableHeight = 40;
+const collectableWidth = 37;
+const collectableHeight = 50;
 let collectables = [];
 
 // canvas and context variables; must be initialized later
