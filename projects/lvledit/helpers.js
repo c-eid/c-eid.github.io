@@ -1,10 +1,11 @@
+
 ///// DO NOT CHANGE ANYTHING IN THIS FILE /////
 let platOffset = 0
 let gridSize = 100
 let gridmove = 0
 let gridmoveY = 13
 let min
-let placetype = "collectable" //["platform", "collectable", "cannon"]
+let placetype = "cannon" //["platform", "collectable", "cannon"]
 let placecolor = "rgba(255, 255, 255, 0.3)"
 let max
 let oldcol
@@ -20,7 +21,31 @@ let setWidth = 100
 let setHeight = 10
 let setcolor
 let rot = 1
-let barSwitch = document.getElementById('dropdown')
+let canpos = 0
+let cannonCR = 0
+var barSwitch = document.getElementById('dropdown')
+var platbar = jQuery('#platformBar')
+var collbar = jQuery('#collectableBar')
+var cannbar = jQuery('#cannonBar')
+var gRange
+var rotatedir = "left"
+var bRange
+var rotationPoint
+var msslider
+var msvalue
+window.onload = (event) => {
+  msslider = document.getElementById('ms')
+  msvalue = document.getElementById('msvalue')
+  msvalue.value = msslider.value
+
+  msslider.oninput = function () {
+    msvalue.value = msslider.value
+  }
+  msvalue.oninput = function () {
+    msslider.value = msvalue.value
+  }
+}
+
 
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
@@ -29,6 +54,34 @@ function registerSetup(setup) {
   setupGame = setup;
 }
 
+
+function placeTypeChange() {
+  placetype = document.getElementById('dropdown').value
+  if (placetype === "platform") {
+    platbar = jQuery('#platformBar')
+
+    platbar.css("display", "inherit")
+
+  } else {
+    platbar = jQuery('#platformBar')
+    platbar.css("display", "none")
+  }
+  if (placetype === "collectable") {
+    collbar = jQuery('#collectableBar')
+    collbar.css("display", "inherit")
+  } else {
+    collbar = jQuery('#collectableBar')
+    collbar.css("display", "none")
+  }
+  if (placetype === "cannon") {
+    cannbar = jQuery('#cannonBar')
+    cannbar.css("display", "inherit")
+  } else {
+    cannbar = jQuery('#cannonBar')
+    cannbar.css("display", "none")
+  }
+
+}
 
 
 
@@ -47,6 +100,9 @@ function main() {
     deathOfPlayer();
     return;
   }
+
+  rotationPoint = 80 - gridSize / 2
+
 
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
   if (savedLevels === 4 || savedLevels === 3) {
@@ -95,7 +151,7 @@ function main() {
   drawGrid();
   drawPlatforms();
   drawOutlines();
-  drawProjectiles();
+
   drawCannons();
   drawCollectables();
   document.getElementById("demo")
@@ -110,7 +166,7 @@ function main() {
     keyboardControlActions(); //keyboard controls.
     projectileCollision(); //checks if the player is getting hit by a projectile in the next frame
     collectablesCollide(); //checks if player has touched a collectable
-
+    drawProjectiles();
     animate(); //this changes halle's picture to the next frame so it looks animated.
     //debug()                   //debugging values. Comment this out when not debugging.
     drawRobot(); //this actually displays the image of the robot.
@@ -492,7 +548,7 @@ function snapChange() {
 function snapChange2() {
   if (editMode === false) {
     editMode = true
-    for(var i = 0; i < collectables.length; i++){
+    for (var i = 0; i < collectables.length; i++) {
       collectables[i].collected = false
     }
   }
@@ -504,6 +560,8 @@ function snapChange3() {
   if (placemode === false) {
     placemode = true
     document.getElementById("removeMode").innerHTML = "Remove Mode";
+    document.getElementById("gridSlider").checked = true
+    gridSnap = true
 
     placecolor = "rgba(255, 255, 255, 0.3)"
   }
@@ -511,7 +569,7 @@ function snapChange3() {
     placemode = false
     document.getElementById("removeMode").innerHTML = "Place Mode";
     document.getElementById("gridSlider").checked = false
-
+    gridSnap = false
   }
 }
 function projectileCollision() {
@@ -605,7 +663,7 @@ function setColor() {
 }
 function place() {
   if (placemode) {
-    if (placetype === "platforms") {
+    if (placetype === "platform") {
       if (setWidth < 0 && setHeight < 0 && gridSnap) {
         cursorX += gridSize
         cursorY += gridSize
@@ -613,15 +671,21 @@ function place() {
       createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor)
     }
     else if (placetype === "collectable") {
+      gRange = ((document.getElementById("gRange").value) / 100)
+      bRange = ((document.getElementById("bRange").value) / 100)
       if (gridSnap) {
-        createCollectable('database', cursorX + (gridSize / 2 - (database.width / 2)), cursorY + (gridSize / 2 - (database.height / 2)), 1, 1)
+        createCollectable('database', cursorX + (gridSize / 2 - (database.width / 2)), cursorY + (gridSize / 2 - (database.height / 2)), gRange, bRange, cursorX + (gridSize / 2 - (database.width / 2)), cursorY + (gridSize / 2 - (database.height / 2)))
       }
       else {
-        createCollectable('database', cursorX, cursorY, 1, 1)
+        createCollectable('database', cursorX, cursorY, gRange, bRange, cursorX, cursorY)
       }
+    }
+    else if (placetype === "cannon") {
+      createCannon(rotatedir, cursorX, cursorY, msslider.value)
     }
   }
   else {
+
     remove()
     placecolor = "rgba(255, 0, 0, 0)"
   }
@@ -641,35 +705,147 @@ function drawPlatforms() {
   }
 }
 function drawOutlines() {
-
-  if (placetype === "platform") {
-    ctx.fillStyle = setcolor + "3F";
-    ctx.fillRect(
-      outlines[0].x,
-      outlines[0].y,
-      outlines[0].width,
-      outlines[0].height
-    );
-  }
-  else if (placetype === "collectable") {
-    if (gridSnap === true) {
-      ctx.drawImage(
-        database,
-
-        cursorX + (gridSize / 2 - (database.width / 2)),
-        cursorY + (gridSize / 2 - (database.height / 2)),
-        database.width,
-        database.height
-      )
+  if (placemode) {
+    if (placetype === "platform") {
+      ctx.fillStyle = setcolor + "3F";
+      ctx.fillRect(
+        outlines[0].x,
+        outlines[0].y,
+        outlines[0]``.width,
+        outlines[0].height
+      );
     }
-    else {
-      ctx.drawImage(
-        database,
-        cursorX,
-        cursorY,
-        37,
-        50
-      )
+    else if (placetype === "collectable") {
+      if (gridSnap === true) {
+        ctx.drawImage(
+          database,
+
+          cursorX + (gridSize / 2 - (database.width / 2)),
+          cursorY + (gridSize / 2 - (database.height / 2)),
+          database.width,
+          database.height
+        )
+      }
+      else {
+        ctx.drawImage(
+          database,
+          cursorX,
+          cursorY,
+          37,
+          50
+        )
+      }
+
+    }
+    else if (placetype === "cannon") {
+      if (gridSnap) {
+
+        if (rotatedir === "top") {
+          cannons[0] = {
+            x: cursorX + cannonWidth / 2 + (gridSize / 2),
+            y: cursorY + rotationPoint + (gridSize / 2),
+            rotation: 180,
+            projectileCountdown: 0,
+            location: "top",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10
+          };
+          canpos = cannons[0].x
+        } else if (rotatedir === "bottom") {
+          cannons[0] = {
+            x: cursorX - cannonWidth / 2 + (gridSize / 2),
+            y: cursorY - rotationPoint + (gridSize / 2),
+            // x: cursorX - cannonWidth / 2,
+            // y: cursorY,
+            rotation: 0,
+            projectileCountdown: 0,
+            location: "bottom",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10,
+          };
+          canpos = cannons[0].x
+        } else if (rotatedir === "left") {
+          cannons[0] = {
+            // x: cursorX,
+            // y: cursorY - cannonWidth / 2,
+            x: cursorX + cannonHeight,
+            y: cursorY - cannonWidth / 2 + (gridSize / 2),
+            rotation: 90,
+            projectileCountdown: 0,
+            location: "left",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10,
+          };
+          canpos = cannons[0].y
+        } else if (rotatedir === "right") {
+          cannons[0] = {
+            // x: cursorX,
+            // y: cursorY + cannonWidth / 2,
+            x: cursorX - cannonHeight + gridSize,
+            y: cursorY + cannonWidth / 2 + (gridSize / 2),
+            rotation: 270,
+            projectileCountdown: 0,
+            location: "right",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10,
+          };
+          canpos = cannons[0].y
+        }
+      } else {
+        if (rotatedir === "top") {
+          cannons[0] = {
+            x: cursorX + cannonWidth / 2,
+            y: cursorY,
+            rotation: 180,
+            projectileCountdown: 0,
+            location: "top",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10
+          };
+          canpos = cannons[0].x
+        } else if (rotatedir === "bottom") {
+          cannons[0] = {
+            x: cursorX - cannonWidth / 2,
+            y: cursorY,
+            rotation: 0,
+            projectileCountdown: 0,
+            location: "bottom",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10,
+          };
+          canpos = cannons[0].x
+        } else if (rotatedir === "left") {
+          cannons[0] = {
+            x: cursorX,
+            y: cursorY - cannonWidth / 2,
+            rotation: 90,
+            projectileCountdown: 0,
+            location: "left",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10,
+          };
+          canpos = cannons[0].y
+        } else if (rotatedir === "right") {
+          cannons[0] = {
+            x: cursorX,
+            y: cursorY + cannonWidth / 2,
+            rotation: 270,
+            projectileCountdown: 0,
+            location: "right",
+            timeBetweenShots: 10 / (1000 / frameRate),
+            projectileWidth: 10,
+            projectileHeight: 10,
+          };
+          canpos = cannons[0].y
+        }
+      }
     }
   }
 }
@@ -747,6 +923,21 @@ function rotate() {
       rot = 1
     }
   }
+  if (placetype === "cannon") {
+    if (cannonCR === 0) {
+      cannonCR = 90
+      rotatedir = "top"
+    } else if (cannonCR === 90) {
+      cannonCR = 180
+      rotatedir = "right"
+    } else if (cannonCR === 180) {
+      cannonCR = 270
+      rotatedir = "bottom"
+    } else if (cannonCR === 270) {
+      cannonCR = 0
+      rotatedir = "left"
+    }
+  }
 }
 function drawCollectables() {
   for (var i = 0; i < collectables.length; i++) {
@@ -776,21 +967,28 @@ function drawCollectables() {
     }
 
     //gravity
-    collectables[i].speedy = collectables[i].speedy + collectables[i].gravity;
-    collectables[i].y = collectables[i].y + collectables[i].speedy;
+    if (editMode === false) {
+      collectables[i].speedy = collectables[i].speedy + collectables[i].gravity;
+      collectables[i].y = collectables[i].y + collectables[i].speedy;
 
-    // Check for collision with platforms in order to bounce
-    for (var j = 0; j < platforms.length; j++) {
-      if (
-        collectables[i].x + collectableWidth > platforms[j].x &&
-        collectables[i].x < platforms[j].x + platforms[j].width &&
-        collectables[i].y < platforms[j].y + platforms[j].height &&
-        collectables[i].y + collectableHeight > platforms[j].y
-      ) {
-        //bottom of collectable is below top of platform
-        collectables[i].y = collectables[i].y - collectables[i].speedy;
-        collectables[i].speedy *= -collectables[i].bounce;
+      // Check for collision with platforms in order to bounce
+      for (var j = 0; j < platforms.length; j++) {
+        if (
+          collectables[i].x + collectableWidth > platforms[j].x &&
+          collectables[i].x < platforms[j].x + platforms[j].width &&
+          collectables[i].y < platforms[j].y + platforms[j].height &&
+          collectables[i].y + collectableHeight > platforms[j].y
+        ) {
+          //bottom of collectable is below top of platform
+          collectables[i].y = collectables[i].y - collectables[i].speedy;
+          collectables[i].speedy *= -collectables[i].bounce;
+        }
       }
+    }
+    else {
+      collectables[i].y = collectables[i].posY
+      collectables[i].x = collectables[i].posX
+      collectables[i].speedy = 0
     }
   }
 }
@@ -831,61 +1029,129 @@ function createPlatform(x, y, width, height, color) {
 function createCannon(
   wallLocation,
   position,
+  positionY,
   timeBetweenShots,
   width = defaultProjectileWidth,
   height = defaultProjectileHeight,
 ) {
-  if (wallLocation === "top") {
-    cannons.push({
-      x: position,
-      y: cannonHeight,
-      rotation: 180,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
-  } else if (wallLocation === "bottom") {
-    cannons.push({
-      x: position,
-      y: canvas.height - cannonHeight,
-      rotation: 0,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
-  } else if (wallLocation === "left") {
-    cannons.push({
-      x: cannonHeight,
-      y: position,
-      rotation: 90,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
-  } else if (wallLocation === "right") {
-    cannons.push({
-      width: 300,
-      height: 300,
-      x: canvas.width - cannonHeight,
-      y: position,
-      rotation: 270,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
+  if (gridSnap === true) {
+    if (wallLocation === "top") {
+      cannons.push({
+        x: parseInt(position + cannonWidth / 2 + (gridSize / 2)),
+        y: parseInt(positionY + rotationPoint + (gridSize / 2)),
+        rotation: 180,
+        wallLocation,
+        projectileCountdown: 0,
+        location: "top",
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].x
+    } else if (wallLocation === "bottom") {
+      cannons.push({
+        x: parseInt(position - cannonWidth / 2 + (gridSize / 2)),
+        y: parseInt(positionY - rotationPoint + (gridSize / 2)),
+        // x: cursorX - cannonWidth / 2,
+        // y: cursorY,
+        rotation: 0,
+        wallLocation,
+        projectileCountdown: 0,
+        location: "bottom",
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].x
+    } else if (wallLocation === "left") {
+      cannons.push({
+        // x: cursorX,
+        // y: cursorY - cannonWidth / 2,
+        x: parseInt(position + cannonHeight),
+        y: parseInt(positionY - cannonWidth / 2 + (gridSize / 2)),
+        rotation: 90,
+        wallLocation,
+        projectileCountdown: 0,
+        location: "left",
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].y
+    } else if (wallLocation === "right") {
+      cannons.push({
+        // x: cursorX,
+        // y: cursorY + cannonWidth / 2,
+        x: parseInt(position - cannonHeight + gridSize),
+        y: parseInt(positionY + cannonWidth / 2 + (gridSize / 2)),
+        rotation: 270,
+        projectileCountdown: 0,
+        location: "right",
+        wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].y
+    }
+  } else if (gridSnap === false) {
+
+    if (wallLocation === "top") {
+      cannons.push({
+        x: position + cannonWidth / 2,
+        y: positionY,
+        rotation: 180,
+        wallLocation,
+        projectileCountdown: 0,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    } else if (wallLocation === "bottom") {
+      cannons.push({
+        x: position - cannonWidth / 2,
+        y: positionY,
+        rotation: 0,
+        projectileCountdown: 0,
+        wallLocation,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    } else if (wallLocation === "left") {
+      cannons.push({
+        x: position,
+        y: positionY - cannonWidth / 2,
+        rotation: 90,
+        projectileCountdown: 0,
+        wallLocation,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    } else if (wallLocation === "right") {
+      cannons.push({
+        width: 300,
+        height: 300,
+        x: position,
+        wallLocation,
+        y: positionY + cannonWidth / 2,
+        rotation: 270,
+        projectileCountdown: 0,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    }
   }
 }
 
 
-function createCollectable(type, x, y, gravity = 0.1, bounce = 1) {
+function createCollectable(type, x, y, gravity = 0.1, bounce = 1, posX, posY) {
   if (type !== "") {
     var img = document.createElement("img"); // this is not necessary; we could simply make a single element for each collectable type in the HTML instead
     img.src = collectableList[type].image;
@@ -899,6 +1165,8 @@ function createCollectable(type, x, y, gravity = 0.1, bounce = 1) {
       alpha: 2,
       gravity: gravity,
       bounce: bounce,
+      posX,
+      posY
     });
   }
 }
@@ -1104,9 +1372,56 @@ function showCoords(event) {
 }
 
 function remove() {
+
   for (var i = 0; i < platforms.length; i++) {
     if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
       platforms.splice(i, 1)
+    }
+  }
+
+  for (var i = 0; i < collectables.length; i++) {
+    
+    if (collectables[i].x <= cursorX && (
+      collectables[i].x + collectableWidth - 1) > cursorX &&
+      collectables[i].y <= cursorY && (
+        collectables[i].y + collectableHeight - 1) > cursorY &&
+      cursorY < 740) {
+
+      collectables.splice(i, 1)
+    }
+  }
+  for (var i = 0; i < cannons.length; i++) {
+    if (cannons[i].x <= cursorX && (
+      cannons[i].x + cannonWidth - 1) > cursorX &&
+      cannons[i].y <= cursorY && (
+        cannons[i].y + cannonHeight - 1) > cursorY &&
+      cursorY < 740 &&
+      cannons[i].wallLocation ==="bottom") {/////////////////////////////bottomonly
+      cannons.splice(i, 1)
+    }
+    else if (cannons[i].x >= cursorX && (
+      cannons[i].x - cannonWidth - 40) < cursorX &&
+      cannons[i].y >= cursorY && (
+        cannons[i].y - cannonHeight - 1) < cursorY &&
+      cursorY < 740 &&
+      cannons[i].wallLocation ==="top") {/////////////////////////////top
+        cannons.splice(i, 1)
+    }
+    else if (cannons[i].x >= cursorX && (
+      cannons[i].x - cannonHeight - 1) < cursorX &&
+      cannons[i].y <= cursorY && (
+        cannons[i].y + cannonWidth - 1) > cursorY &&
+      cursorY < 740&&
+      cannons[i].wallLocation ==="left") {/////////////////////////////left
+        cannons.splice(i, 1)
+    }
+    else if (cannons[i].x <= cursorX && (
+      cannons[i].x + cannonHeight - 1) > cursorX &&
+      cannons[i].y >= cursorY && (
+        cannons[i].y - cannonWidth - 1) < cursorY &&
+      cursorY < 740&&
+      cannons[i].wallLocation ==="right") {/////////////////////////////bottomonly
+      cannons.splice(i, 1)
     }
   }
 }

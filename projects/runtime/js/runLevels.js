@@ -45,6 +45,7 @@ var runLevels = function (window) {
       enemy.rotationalVelocity = 1;
       enemy.onPlayerCollision = function () {
         game.changeIntegrity(-10)
+        enemy.fadeout
       };
       enemy.onProjectileCollision = function () {
         game.increaseScore(100);

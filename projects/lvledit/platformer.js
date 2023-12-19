@@ -111,10 +111,17 @@ $(function () {
     // example usage: createCannon(side, position, delay, width, height)
 
     // to do:
-    // collectables
+    // collectables DONE
+    //    different collectables
+    //    behaviors, like next level
+    //    
     // cannons
+    //    cannon rework needed for optimal usage DONE
+    
+    //    make cannon in html
     // moving platforms
     // breakable platforms
+    // semisolid platforms
     // slow and fast movement for halle (ice)platforms
 
 

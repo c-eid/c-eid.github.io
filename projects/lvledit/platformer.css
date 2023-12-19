@@ -328,11 +328,28 @@ input[type="color"] {
     background-color: #444444;
   }
   #platformBar{
+    display:none;
+    height:90%;
+    border-radius: 12px;
+    background-color:rgb(45, 44, 44)
+  }
+  #collectableBar{
+    display:none;
+    height:90%;
+    border-radius: 12px;
+    background-color:rgb(45, 44, 44)
+  }
+  #cannonBar{
     display:inherit;
     height:90%;
     border-radius: 12px;
     background-color:rgb(45, 44, 44)
   }
+  #msvalue{
+    margin-top: 25px;
+    width: 120px;
+  }
+
   h4{
     padding-top: 2vh;
   }

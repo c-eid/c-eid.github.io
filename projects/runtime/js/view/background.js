@@ -91,13 +91,13 @@ var background = function (window) {
 
 
             // TODO 3: Part 1 - Add a tree
-            // back = draw.bitmap("img/build1.png");
-            // back.x = 0;
-            // back.y = ground.y - 780;
-            // back.scaleX = 1.7
-            // back.scaleY = 1.7
-            // background.addChild(back);
-
+            back = draw.bitmap("img/build1.png");
+            back.x = 0;
+            back.y = ground.y - 780;
+            back.scaleX = 1.7
+            back.scaleY = 1.7
+            background.addChild(back);
+            
             for (var ix = 0; ix < canvasWidth; ix += 349) {
                 var building = draw.bitmap("img/aquefer.png")
                 building.x = ix;
@@ -119,9 +119,10 @@ var background = function (window) {
             var groundY = ground.y;
 
             // TODO 3: Part 2 - Move the tree!
-            // back.x -= .5;
-
-
+            back.x -= 5;
+            if(back.x < 0 - 1300){
+                back.x=canvasWidth
+            }
 
             // TODO 4: Part 2 - Parallax
             for (var i = 0; i < buildings.length; i++) {
