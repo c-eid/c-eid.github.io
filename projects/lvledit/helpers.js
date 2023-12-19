@@ -711,7 +711,7 @@ function drawOutlines() {
       ctx.fillRect(
         outlines[0].x,
         outlines[0].y,
-        outlines[0]``.width,
+        outlines[0].width,
         outlines[0].height
       );
     }
@@ -1009,7 +1009,7 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color) {
+function createPlatform(x, y, width, height, color = "#FFFFFF") {
   let savedcolor = color
 
   if (width < 0) {

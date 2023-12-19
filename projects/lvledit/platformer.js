@@ -45,7 +45,7 @@ $(function () {
     // TODO 1
     // Create platforms
     // You must decide the x position, y position, width, and height of the platforms
-    // example usage: createPlatform(x,y,width,height)
+    // example usage: createPlatform(x,y,width,height,color)
    
 
 
@@ -108,7 +108,7 @@ $(function () {
     // Create cannons
     // You must decide the wall you want the cannon on, the position on the wall, and the time between shots in milliseconds
     // Your wall choices are: 'top' 'left' 'right' and 'bottom'
-    // example usage: createCannon(side, position, delay, width, height)
+    // example usage: createCannon(rot, position, positionY, delay, width, height)
 
     // to do:
     // collectables DONE
@@ -118,7 +118,9 @@ $(function () {
     // cannons
     //    cannon rework needed for optimal usage DONE
     
-    //    make cannon in html
+    //    make cannon in html DONE
+
+    ////////EXPORTING
     // moving platforms
     // breakable platforms
     // semisolid platforms
