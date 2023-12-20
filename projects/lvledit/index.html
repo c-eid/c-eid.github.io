@@ -19,7 +19,7 @@
 </head>
 
 <body>
-
+  
   <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
   <div>
     <div class="canvas" oncontextmenu="return false;">
@@ -32,6 +32,7 @@
             <option value="platform">Platforms</option>
             <option value="cannon">Cannons</option>
             <option value="collectable">Collectables</option>
+            <option value="output">Export Output</option>
           </select>
           <div id="platformBar">
             <div class="textdivision">
@@ -89,9 +90,9 @@
             <div class="wide" id="smargin">
 
             </div>
-            
 
-            
+
+
           </div>
 
           <div id="cannonBar">
@@ -107,16 +108,36 @@
 
               </div>
 
-             
+
 
             </div>
 
             <div class="wide" id="smargin">
 
             </div>
-            
 
-            
+
+
+          </div>
+          <div id="exOutput">
+            <div class="textdivision">
+
+              <div class="wide" class="textdivision">
+                <p>Exported Level Data</p>
+                <div class="scroll" id="exported"></div>
+
+              </div>
+
+
+
+            </div>
+
+            <div class="wide" id="smargin">
+
+            </div>
+
+
+
           </div>
         </div>
       </div>
@@ -177,9 +198,8 @@
     <img id="projectile" src="images/projectile.png" />
     <img id="database" src="images/collectables/database.png" />
   </div>
-  </div>
 
-
+  
 
 </body>
 

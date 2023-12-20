@@ -65,6 +65,9 @@ $(function () {
         createCollectable('database', 1280, 300, 5, 1);
         createCollectable('database', 600, 200, 5, 1);
       }
+      else if (savedLevel === 1){
+
+      }
       else if (savedLevel === 4) {
         min = 300
         max = 1200

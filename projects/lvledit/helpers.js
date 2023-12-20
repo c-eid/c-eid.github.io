@@ -32,10 +32,12 @@ var rotatedir = "left"
 var bRange
 var rotationPoint
 var msslider
+
 var msvalue
 window.onload = (event) => {
   msslider = document.getElementById('ms')
   msvalue = document.getElementById('msvalue')
+  
   msvalue.value = msslider.value
 
   msslider.oninput = function () {
@@ -1040,6 +1042,7 @@ function createCannon(
         x: parseInt(position + cannonWidth / 2 + (gridSize / 2)),
         y: parseInt(positionY + rotationPoint + (gridSize / 2)),
         rotation: 180,
+        delay: timeBetweenShots,
         wallLocation,
         projectileCountdown: 0,
         location: "top",
@@ -1056,6 +1059,7 @@ function createCannon(
         // y: cursorY,
         rotation: 0,
         wallLocation,
+        delay: timeBetweenShots,
         projectileCountdown: 0,
         location: "bottom",
         timeBetweenShots: timeBetweenShots / (1000 / frameRate),
@@ -1071,6 +1075,7 @@ function createCannon(
         y: parseInt(positionY - cannonWidth / 2 + (gridSize / 2)),
         rotation: 90,
         wallLocation,
+        delay: timeBetweenShots,
         projectileCountdown: 0,
         location: "left",
         timeBetweenShots: timeBetweenShots / (1000 / frameRate),
@@ -1086,6 +1091,7 @@ function createCannon(
         y: parseInt(positionY + cannonWidth / 2 + (gridSize / 2)),
         rotation: 270,
         projectileCountdown: 0,
+        delay: timeBetweenShots,
         location: "right",
         wallLocation,
         timeBetweenShots: timeBetweenShots / (1000 / frameRate),
@@ -1104,6 +1110,7 @@ function createCannon(
         wallLocation,
         projectileCountdown: 0,
         location: wallLocation,
+        delay: timeBetweenShots,
         timeBetweenShots: timeBetweenShots / (1000 / frameRate),
         projectileWidth: width,
         projectileHeight: height,
@@ -1115,6 +1122,7 @@ function createCannon(
         rotation: 0,
         projectileCountdown: 0,
         wallLocation,
+        delay: timeBetweenShots,
         location: wallLocation,
         timeBetweenShots: timeBetweenShots / (1000 / frameRate),
         projectileWidth: width,
@@ -1126,6 +1134,7 @@ function createCannon(
         y: positionY - cannonWidth / 2,
         rotation: 90,
         projectileCountdown: 0,
+        delay: timeBetweenShots,
         wallLocation,
         location: wallLocation,
         timeBetweenShots: timeBetweenShots / (1000 / frameRate),
@@ -1137,6 +1146,7 @@ function createCannon(
         width: 300,
         height: 300,
         x: position,
+        delay: timeBetweenShots,
         wallLocation,
         y: positionY + cannonWidth / 2,
         rotation: 270,
