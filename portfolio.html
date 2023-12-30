@@ -2,38 +2,171 @@
 <html>
 
 <head>
-    <title>I owe you a good title</title>
-    <link rel="stylesheet" href="style.css"
+    <title>Chase Eid - Projects</title>
+    <link rel="stylesheet" href="style.css" >
 </head>
 
 <body>
-    <div class="containerbackground">
-        <h1 id="bt"> PixL </h1>
-    </div>
-    <div id="all-contents" class="container">
-        <nav>
-            <h1> No, I remember it was the uhhhhhhhhh....</h1>
-            <ul id="nav-ul">
-                <li class="nav-li">
-                    <a class="nav-a" href="index.html">Home</a>
-                </li>
-                <li class="nav-li">
-                    <a class="nav-a" href="portfolio.html">Portfolio</a>
-                </li>
-            </ul>
-        </nav>
-        
-        <main class="content">
-            <h1 class="porttext">Portfolio</h1>
-            <ul id="portfolio">
-                <li><a class="nav-a" href="index.html">Website: I made a website. Might seem familiar</a></li>
-                <li><a class="nav-a" href="projects/platformer/">Platformer: I made a platformer</a></li>
-                <li><a class="nav-a" href="projects/bouncing-box/index.html">Bouncing-Box: An uncustomized version of Meter-Shower</a></li>
-                <li><a class="nav-a" href="projects/Metor-shower/">Metor-Shower: A planet protection game</a></li>
-                <li><a class="nav-a" href="projects/circularity/">Spheremark: A browser benchmark based on circularity</a></li>
-                <li><a class="nav-a" href="projects/runtime/">Runtime: Update soon. Not happy with but meets rubric</a></li>
-            </ul>
-        </main>
+    <nav>
+        <img class="sidebar-img"
+            src="https://lh3.googleusercontent.com/pw/AIL4fc9B4KMtVJwst_CnIPJPFhzsIdgFYnDEo2aty4haggTzK1OKkmAMfu8FgY03AQI6CQimVB6Eww8w5oimpYkH3wJeREvKwqQKtOuV6DoKcWyp3b2bRXLP491mwXmNNlcjptzJxBPgML5W2OYM8xE9JIJ4eQ=w894-h894-s-no">
+
+        <h1 id="toptitle">Chase Eid - Projects</h1>
+        <ul id="nav-ul">
+            <li class="nav-li">
+                <a class="nav-a" href="index.html">Home</a>
+            </li>
+            <li class="nav-li">
+                <a class="nav-a" href="portfolio.html">Projects</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="all-contents">
+        <!--<div class="tagCompleted"><p>Completed</p></div>
+            <div class="tagCanceled"><p>Canceled</p></div>
+            <div class="tagActDev"><p>In active Development</p></div>
+            <div class="tagFutDev"><p>Future Development Planned</p></div>
+            <div class="tagUpt"><p>Recently-Updated</p></div>
+            <div class="tagUnFin"><p>Unfinished</p></div> -->
+
+
+        <!-- Bouncing-Box -->
+        <div class="projectDiv">
+            <video class="autoplayed" loop autoplay muted>
+                <source class="autoplayed" src="media/2023-12-28 19-18-31.mp4" type="video/mp4">
+            </video>
+            <div class="tagTitle">
+                <h1 class="projectTitle">Bouncing-Box</h1>
+                <div class="tagCompleted">
+                    <p>Completed</p>
+                </div>
+            </div>
+            <div class="projectNotes">
+                <p>Bouncing-Box is a project which I learned the fundementals of Jquery and Java-script function
+                    declarations. This
+                    is an uncustomized version of Metor-Shower, which is another project. To play, click on the box and
+                    your score will go up, the speed increaces with your score. Its trickier than it looks!</p>
+            </div>
+            <a class="proLink" href="/projects/bouncing-box">Go to Bouncing-Box</a>
+        </div>
+
+        <!-- metor shower -->
+        <div class="projectDiv">
+            <video class="autoplayed" loop autoplay muted>
+                <source class="autoplayed" src="media/2023-12-28 19-18-31_1.mp4" type="video/mp4">
+            </video>
+            <div class="tagTitle">
+                <h1 class="projectTitle">Metor-Shower</h1>
+                <div class="tagCompleted">
+                    <p>Completed</p>
+                </div>
+                <div class="tagFutDev">
+                    <p>Future Development Planned</p>
+                </div>
+            </div>
+            <div class="projectNotes">
+                <p>Metor-Shower is a customized version of bouncing-box. This furthered my expierence with Jquery and
+                    animations. To play, press down the spacebar to charge and release when the metor in within the
+                    horizontal line on the screen. The more you destroy the higher the score and speed. Your high score
+                    will be saved on a browser cookie!</p>
+            </div>
+            <a class="proLink" href="/projects/Metor-shower/">Go to Metor-Shower</a>
+        </div>
+
+        <!--platformer -->
+        <div class="projectDiv">
+            <video class="autoplayed" loop autoplay muted>
+                <source class="autoplayed" src="media/2023-12-28 19-18-31_2.mp4" type="video/mp4">
+            </video>
+            <div class="tagTitle">
+                <h1 class="projectTitle">Platformer</h1>
+                <div class="tagActDev">
+                    <p>In active Development</p>
+                </div>
+                <div class="tagUpt">
+                    <p>Recently-Updated</p>
+                </div>
+                <div class="tagUnFin">
+                    <p>Unfinished</p>
+                </div>
+            </div>
+            <div class="projectNotes">
+                <p>Platformer is a 2d... well... platformer. I learned how to use 2d canvas and its features.
+                    Origionally, the project only was able to support one level. However, I spun up a way to add
+                    multible levels. I also added moving platforms, backgrounds, wall jumping, and also coloring to
+                    platforms. Future
+                    development goals include more levels, ice platforms, and revamped cannons/p>
+            </div>
+            <a class="proLink" href="/projects/platformer/">Go to Platformer</a>
+        </div>
+
+        <!--Spheremark -->
+        <div class="projectDiv">
+            <video class="autoplayed" loop autoplay muted>
+                <source class="autoplayed" src="media/2023-12-28 19-18-31_3.mp4" type="video/mp4">
+            </video>
+            <div class="tagTitle">
+                <h1 class="projectTitle">Spheremark</h1>
+                <div class="tagCompleted">
+                    <p>Completed</p>
+                </div>
+            </div>
+            <div class="projectNotes">
+                <p>Spheremark is a browser based benchmark. The better your computer the higher your score! Scores vary
+                    between browsers. The score is the amount of circles that are currently on screen. If your fps is
+                    above 58, it adds another circle. Based on circularity./p>
+            </div>
+            <a class="proLink" href="/projects/circularity/">Go to Spheremark</a>
+        </div>
+
+        <!--runtime-->
+        <div class="projectDiv">
+            <video class="autoplayed" loop autoplay muted>
+                <source class="autoplayed" src="media/2023-12-28 19-18-31_4.mp4" type="video/mp4">
+            </video>
+            <div class="tagTitle">
+                <h1 class="projectTitle">Runtime</h1>
+
+                <div class="tagCanceled">
+                    <p>Canceled</p>
+                </div>
+                <div class="tagUnFin">
+                    <p>Unfinished</p>
+                </div>
+
+            </div>
+            <div class="projectNotes">
+                <p>Runtime... This project was the final project we worked on and was the culmination of all we learned.
+                    However various issues with the framework they provided lost my motivation in the project. I don't
+                    feel like listing them all, but there are many.</p>
+            </div>
+            <a class="proLink" href="/projects/runtime/">Go to Runtime</a>
+        </div>
+
+        <!--Level Edit-->
+        <div class="projectDiv">
+            <video class="autoplayed" loop autoplay muted>
+                <source class="autoplayed" src="media/2023-12-28 19-18-31_5.mp4" type="video/mp4">
+            </video>
+            <div class="tagTitle">
+                <h1 class="projectTitle">Level Edit</h1>
+
+                <div class="tagCompleted">
+                    <p>Completed</p>
+                </div>
+                <div class="tagActDev">
+                    <p>In active Development</p>
+                </div>
+                <div class="tagUpt">
+                    <p>Recently-Updated</p>
+                </div>
+
+            </div>
+            <div class="projectNotes">
+                <p>Level edit is a personal project I Origionally made to speed up development on platformer, however I now have much bigger plans for it. I learned so many things while making it. I mastered Jquery and learened way more CSS. Right now, you can export the levels you make. I plan to add level importing, moving platforms, different collectables, ice platforms, and an online level sharing server. I Have much planned for this. Try it out! </p>
+            </div>
+            <a class="proLink" href="/projects/lvledit/">Go to Lvledit</a>
+        </div>
     </div>
 </body>
 

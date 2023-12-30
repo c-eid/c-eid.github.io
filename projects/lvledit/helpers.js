@@ -5,7 +5,7 @@ let gridSize = 100
 let gridmove = 0
 let gridmoveY = 13
 let min
-let placetype = "cannon" //["platform", "collectable", "cannon"]
+let placetype = "platform" //["platform", "collectable", "cannon", "exOutput"]
 let placecolor = "rgba(255, 255, 255, 0.3)"
 let max
 let oldcol
@@ -27,6 +27,7 @@ var barSwitch = document.getElementById('dropdown')
 var platbar = jQuery('#platformBar')
 var collbar = jQuery('#collectableBar')
 var cannbar = jQuery('#cannonBar')
+var exporbar = jQuery('#exOutput')
 var gRange
 var rotatedir = "left"
 var bRange
@@ -37,7 +38,7 @@ var msvalue
 window.onload = (event) => {
   msslider = document.getElementById('ms')
   msvalue = document.getElementById('msvalue')
-  
+
   msvalue.value = msslider.value
 
   msslider.oninput = function () {
@@ -82,7 +83,13 @@ function placeTypeChange() {
     cannbar = jQuery('#cannonBar')
     cannbar.css("display", "none")
   }
-
+  if (placetype === "output") {
+    exporbar = jQuery('#exOutput')
+    exporbar.css("display", "inherit")
+  } else {
+    exporbar = jQuery('#exOutput')
+    exporbar.css("display", "none")
+  }
 }
 
 
@@ -1390,7 +1397,7 @@ function remove() {
   }
 
   for (var i = 0; i < collectables.length; i++) {
-    
+
     if (collectables[i].x <= cursorX && (
       collectables[i].x + collectableWidth - 1) > cursorX &&
       collectables[i].y <= cursorY && (
@@ -1406,7 +1413,7 @@ function remove() {
       cannons[i].y <= cursorY && (
         cannons[i].y + cannonHeight - 1) > cursorY &&
       cursorY < 740 &&
-      cannons[i].wallLocation ==="bottom") {/////////////////////////////bottomonly
+      cannons[i].wallLocation === "bottom") {/////////////////////////////bottomonly
       cannons.splice(i, 1)
     }
     else if (cannons[i].x >= cursorX && (
@@ -1414,23 +1421,23 @@ function remove() {
       cannons[i].y >= cursorY && (
         cannons[i].y - cannonHeight - 1) < cursorY &&
       cursorY < 740 &&
-      cannons[i].wallLocation ==="top") {/////////////////////////////top
-        cannons.splice(i, 1)
+      cannons[i].wallLocation === "top") {/////////////////////////////top
+      cannons.splice(i, 1)
     }
     else if (cannons[i].x >= cursorX && (
       cannons[i].x - cannonHeight - 1) < cursorX &&
       cannons[i].y <= cursorY && (
         cannons[i].y + cannonWidth - 1) > cursorY &&
-      cursorY < 740&&
-      cannons[i].wallLocation ==="left") {/////////////////////////////left
-        cannons.splice(i, 1)
+      cursorY < 740 &&
+      cannons[i].wallLocation === "left") {/////////////////////////////left
+      cannons.splice(i, 1)
     }
     else if (cannons[i].x <= cursorX && (
       cannons[i].x + cannonHeight - 1) > cursorX &&
       cannons[i].y >= cursorY && (
         cannons[i].y - cannonWidth - 1) < cursorY &&
-      cursorY < 740&&
-      cannons[i].wallLocation ==="right") {/////////////////////////////bottomonly
+      cursorY < 740 &&
+      cannons[i].wallLocation === "right") {/////////////////////////////bottomonly
       cannons.splice(i, 1)
     }
   }

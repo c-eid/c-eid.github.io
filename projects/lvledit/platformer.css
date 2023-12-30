@@ -328,7 +328,7 @@ input[type="color"] {
     background-color: #444444;
   }
   #platformBar{
-    display:none;
+    display:inherit;
     height:90%;
     border-radius: 12px;
     background-color:rgb(45, 44, 44)
@@ -340,7 +340,7 @@ input[type="color"] {
     background-color:rgb(45, 44, 44)
   }
   #cannonBar{
-    display:inherit;
+    display:none;
     height:90%;
     border-radius: 12px;
     background-color:rgb(45, 44, 44)
@@ -363,4 +363,18 @@ input[type="color"] {
   background-color: #257a38;
 
   display: block;
+}
+div.scroll {
+  margin: auto;
+  border-radius:5px;
+  padding: 4px;
+  background-color: #257a38;
+  width: 200px;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+#exOutput{
+  display: none
 }
