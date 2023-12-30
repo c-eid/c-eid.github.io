@@ -1,0 +1,365 @@
+body {
+    color: rgb(255, 255, 255);
+    font-family: monospace;
+    margin:0px;
+    height: 100vh;
+    background-image:
+    linear-gradient(180deg, #000000, rgb(50, 0, 88));
+}
+.overflow{
+    width: 100%;
+
+}
+.imgsize{
+    width:75%;
+    margin-top: 12px;
+}
+.resizeFont{
+    font-size: 1.2vw;
+}
+.resizeFont2{
+    font-size: 1vw;
+}
+
+.imgdiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.hi{
+    height: 88vh;
+}
+
+nav {
+    background: rgb(116, 0, 162);
+    margin-bottom: 10px;
+    display: flex;
+    padding: 10px;
+    font-family: monospace;
+    margin: 0px;
+}
+.card{
+    height: 60vh;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.marTitle{
+    padding-top: 12px;
+    margin: 0px;
+}
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.contain{
+    width:80vw;
+    height: 80vh;
+    display: flex;
+    outline: auto;
+    overflow-y: hidden;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    background-color: rgba(0, 0, 0, 0.418);
+}
+.contheight{
+    height: 80vh;
+    overflow-x: scroll;
+}
+.sidebar-img{
+    width: 7vh;
+    height: 7vh;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 20px;
+}
+#toptitle{
+    margin-top:auto;
+    margin-bottom:auto;
+    font-size:25px;
+}
+.sidebar-img2{
+    width: 40vh;
+    height: 40vh;
+
+    margin-right: 20px;
+}
+.wide{
+    width:100%;
+    background-color: #0000003b;
+}
+.hometitle{
+    text-align: center;
+    text-justify: center;
+    
+}
+#nav-ul {
+    list-style-image: none;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto
+}
+.nav-a{
+    color: white;
+    font-size: x-large;
+}
+.nav-li {
+    display: inline-block;
+
+} 
+#all-contents{
+    overflow-y: scroll;
+    height: 89vh;
+
+}
+
+div{
+    background: none;
+}
+html {
+    background-image:
+        linear-gradient(180deg, #000000, rgb(50, 0, 88));
+    background-color: rgb(50, 0, 88);
+    background-repeat: no-repeat;
+    background-size:auto;
+    font-family: monospace;
+    width: 100vw;
+    height: 100vh;
+}
+.autoplayed{
+    margin: auto;
+    width: 65vw;height: 80vh;
+    border-radius: 15px 15px 0px 0px
+}
+.projectDiv{
+    margin: auto;
+    border-radius: 15px 15px 15px 15px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color:black;
+    width: 65vw;
+    align-content: center;
+}
+.projectTitle{
+
+    margin-right: 12px
+}
+.tagTitle{
+    display:flex;
+    width: 60vw;
+    height: max-content;
+    margin: auto;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+.tagCompleted{
+    background-color: rgba(153, 255, 0, 0.521);
+    width: max-content;
+ 
+    text-align: center;
+    margin-right: 7px;
+    margin-left:7px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    height: min-content;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 6px;
+    border-radius: 6px;
+}
+.tagCanceled{
+    background-color: rgba(255, 0, 0, 0.521);
+    width: max-content;
+
+    text-align: center;
+    margin-right: 7px;
+    margin-left:7px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    height: min-content;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 6px;
+    border-radius: 6px;
+}
+.tagActDev{
+    background-color: rgba(255, 251, 0, 0.521);
+    width: max-content;
+
+    text-align: center;
+    margin-right: 7px;
+    margin-left:7px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    padding-right: 6px;
+    height: min-content;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 6px;
+}
+.tagFutDev{
+    background-color: rgba(0, 17, 255, 0.521);
+    height: fit-content;
+    text-align: center;
+    margin-right: 7px;
+    margin-left:7px;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 6px;
+}
+.tagUpt{
+    background-color: rgba(153, 0, 255, 0.521);
+    height: min-content;
+    text-align: center;
+    margin-right: 7px;
+    margin-left:7px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 6px;
+}
+.tagUnFin{
+    background-color: rgba(39, 39, 39, 0.521);
+    height: min-content;
+    text-align: center;
+    width: max-content;
+    margin-right: 7px;
+    margin-left:7px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 6px;
+}
+p{
+    margin: auto;
+
+}
+.projectNotes{
+    background-color: rgb(39, 39, 39);
+    margin: auto;
+    margin-top: 0px;
+    margin-bottom: 14px;
+    width: 59.5vw;
+    border-radius: 12px;
+    padding:7px;
+}
+.proLink{
+    outline: none;
+    width: 20vw;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: min-content;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(162, 0, 255);
+    margin: auto;
+    margin-bottom: 12px;
+    font-size: x-large;
+    border-radius: 12px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(29, 29, 29); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #252525; 
+  }
+
+  @media (orientation: portrait){
+
+    .autoplayed{
+        margin: auto;
+        width: 95vw;
+        border-radius: 15px 15px 0px 0px
+    }
+    .projectDiv{
+        margin: auto;
+        border-radius: 15px 15px 15px 15px;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        background-color:black;
+        width: 95vw;
+        align-content: center;
+    }
+    .tagTitle{
+        display:flex;
+        width: 90vw;
+        height: max-content;
+        margin: auto;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+    }
+    .projectNotes{
+        background-color: rgb(39, 39, 39);
+        margin: auto;
+        margin-top: 0px;
+        margin-bottom: 14px;
+        width: 89.5vw;
+        border-radius: 12px;
+        padding:7px;
+    }
+    .card{
+        width: 80vw;
+    }
+    .overflow{
+        width: 80vw;
+        flex-wrap: wrap;
+        overflow-y: scroll;
+        height: 62vh;
+    }
+    .resizeFont{
+        font-size: 3vw;
+    }
+    .resizeFont2{
+        font-size: 2vw;
+    }
+    .contheight{
+        height: 80vh;
+        overflow-y:hidden;
+    }
+
+  }
+.imgsize3{
+    margin-top: 13vh;
+}
