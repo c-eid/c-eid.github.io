@@ -341,12 +341,14 @@ p{
     }
     .card{
         width: 80vw;
+        height: max-content;
     }
+
     .overflow{
         width: 80vw;
         flex-wrap: wrap;
         overflow-y: scroll;
-        height: 62vh;
+        height: 52vh;
     }
     .resizeFont{
         font-size: 3vw;
