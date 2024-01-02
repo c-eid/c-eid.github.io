@@ -33,6 +33,7 @@ var rotatedir = "left"
 var bRange
 var rotationPoint
 var msslider
+let lvldata = ""
 
 var msvalue
 window.onload = (event) => {
