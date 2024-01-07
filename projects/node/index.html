@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Storage</title>
+</head>
+<body>
+    
+<h2>Upload String</h2>
+<label for="inputTitle">Title:</label>
+<input type="text" id="inputTitle" placeholder="Enter title">
+<label for="inputAuthor">Author:</label>
+<input type="text" id="inputAuthor" placeholder="Enter author">
+<label for="inputString">String:</label>
+<input type="text" id="inputString" placeholder="Enter a string">
+<button onclick="saveString()">Save String</button>
+
+<h2>Retrieve String by ID</h2>
+<input type="number" id="inputId" placeholder="Enter ID">
+<button onclick="getStringById()">Get String</button>
+<p id="result"></p>
+
+<script>
+    async function saveString() {
+        const inputTitle = document.getElementById('inputTitle').value;
+        const inputAuthor = document.getElementById('inputAuthor').value;
+        const inputValue = document.getElementById('inputString').value;
+
+        const response = await fetch('http://localhost:3000/saveString', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: inputTitle,
+                author: inputAuthor,
+                value: inputValue,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert(`String saved with ID: ${data.id}`);
+        } else {
+            alert('Failed to save string');
+        }
+    }
+
+    async function getStringById() {
+        const inputId = document.getElementById('inputId').value;
+
+        const response = await fetch(`http://localhost:3000/getString/${inputId}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('result').innerText = `Title: ${data.title}, Author: ${data.author}\nString: ${data.value}`;
+        } else {
+            document.getElementById('result').innerText = 'String not found';
+        }
+    }
+</script>
+</body>
+</html>
+

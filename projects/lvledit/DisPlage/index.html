@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html id="html">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>platformer</title>
+
+  <link href="platformer.css" rel="stylesheet" />
+  <script>
+    window.onerror = function (message, url, line) {
+      alert(message + ', ' + url + ', ' + line);
+    };
+  </script>
+
+</head>
+
+<body>
+  
+ 
+  <div>
+    <div class="canvas" oncontextmenu="return false;">
+      <div class="lvlcard" id="card1">
+        <canvas class="cardcanvas" id="canvas1" width="1400" height="750"></canvas>
+        <p id="id1" class="ids" onclick="handleCopy(this)" data-id="">#?</p>
+        <h1 id="Title1" class="nomargin title">Title</h1>
+        <h3 id="Author1" class="nomargin author" >author</h3>
+        
+      </div>
+      <div class="lvlcard" id="card2">
+        <p id="id2" class="ids" onclick="handleCopy(this)" data-id="">#?</p>
+        <canvas class="cardcanvas" id="canvas2" width="1400" height="750"></canvas>
+        <h1 id="Title2" class="nomargin title">Title</h1>
+        <h3 id="Author2" class="nomargin author">author</h3>
+        
+      </div>
+      <div class="lvlcard" id="card3">
+        <p id="id3" class="ids" onclick="handleCopy(this)" data-id="">#?</p>
+        <canvas class="cardcanvas" id="canvas3" width="1400" height="750"></canvas>
+        <h1 id="Title3" class="nomargin title">Title</h1>
+        <h3 id="Author3" class="nomargin author">author</h3>
+        
+      </div>
+      <div class="lvlcard" id="card4">
+        <p id="id4" class="ids" onclick="handleCopy(this)" data-id="">#?</p>
+        <canvas class="cardcanvas" id="canvas4" width="1400" height="750"></canvas>
+        <h1 id="Title4" class="nomargin title">Title</h1>
+        <h3 id="Author4" class="nomargin author">author</h3>
+        
+      </div>
+      <div class="lvlcard" id="card5">
+        <p id="id5" class="ids" onclick="handleCopy(this)" data-id="">#?</p>
+        <canvas class="cardcanvas" id="canvas5" width="1400" height="750"></canvas>
+        <h1 id="Title5" class="nomargin title">Title</h1>
+        <h3 id="Author5" class="nomargin author">author</h3>
+        
+      </div>
+      <div class="lvlcard" id="card6">
+        <p id="id6" class="ids" onclick="handleCopy(this)" data-id="">#?</p>
+        <canvas class="cardcanvas" id="canvas6" width="1400" height="750"></canvas>
+        <h1 id="Title6" class="nomargin title">Title</h1>
+        <h3 id="Author6" class="nomargin author">author</h3>
+        
+      </div>
+      <div id="previous" onclick="previous()"><</div>
+      <div id="next" onclick="nextPressed()">></div>
+
+      <img id="cannon" src="images/cannon.png" />
+      <img id="projectile" src="images/projectile.png" />
+      <img id="database" src="images/collectables/database.png" />
+      <h1 id="head1">Something Went Wrong...</h1>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="setup.js"></script>
+    <script src="helpers.js"></script>
+    <script src="platformer.js"></script>
+    <script src="OnlineDownload.js"></script>
+    
+
+</body>
+
+
+</html>

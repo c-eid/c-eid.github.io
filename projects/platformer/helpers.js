@@ -1,95 +1,161 @@
+
 ///// DO NOT CHANGE ANYTHING IN THIS FILE /////
-let platOffset = 0
-let gridmove = 0
-let gridmoveY = 13
-let min
-let max5T
+let platOffset = 0;
+let gridSize = 100;
+let gridmove = 0;
+let gridmoveY = 13;
+let min;
+let placetype = "platform"; //["platform", "collectable", "cannon", "exOutput"]
+let placecolor = "rgba(255, 255, 255, 0.3)";
+let max;
+let oldcol;
+let editMode = true;
+let gridSnap = false;
+let placemode = true;
+let cursorX;
+let cursorY;
+let SizeNum = 50;
+let SizeButton = document.getElementById('sizeButton');
+let Showsize = document.getElementById('Showsize');
+let setWidth = 100;
+let setHeight = 10;
+let setcolor;
+let rot = 1;
+let canpos = 0;
+let cannonCR = 0;
+var barSwitch = document.getElementById('dropdown');
+var platbar = jQuery('#platformBar');
+var collbar = jQuery('#collectableBar');
+var cannbar = jQuery('#cannonBar');
+var exporbar = jQuery('#exOutput');
+var gRange;
+var rotatedir = "left";
+var bRange;
+var rotationPoint;
+var msslider;
+let lvlData;
+
+var msvalue;
+
+
+
 ///////////////////////////////////////////////
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
 function registerSetup(setup) {
   setupGame = setup;
 }
-var lor
-var savedLevels = parseInt(getCookie("lvlNum"))
-var nextlvlint = savedLevels + 1
+
+
+
+
+
+var lor;
+var savedLevels = parseInt(getCookie("lvlNum"));
+var nextlvlint = savedLevels + 1;
+
+
+
 
 function main() {
   ctx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
+
 
   if (player.deadAndDeathAnimationDone) {
     deathOfPlayer();
     return;
   }
 
+  rotationPoint = 80 - gridSize / 2;
+
+
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-  if (savedLevels === 1 || savedLevels === 3) {
+  if (savedLevels === 4 || savedLevels === 3) {
     if (platforms[0].x <= min) {
-      lor = true
+      lor = true;
     }
     else if (platforms[0].x >= max) {
-      lor = false
+      lor = false;
     }
 
 
 
     if (lor === true) {
-      platforms[0].x += 1
+      platforms[0].x += 1;
     }
     else if (lor === false) {
-      platforms[0].x -= 1
+      platforms[0].x -= 1;
     }
   }
   //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-  var collected = 0
+  let collected;
 
-  if (
-    collectables[0].collected &&
-    collectables[1].collected &&
-    collectables[2].collected
-  ) {
-    collectables[2].collected = false
-    collectables[1].collected = false
-    setInterval(main, 200);
-    setCookie("lvlNum", nextlvlint)
-    window.location.reload()
+  for (var i = 0; i < collectables.length; i++) {
+    collected += 1;
+    if (collected >= collected.length) {
+      setInterval(main, 100000);
+    }
   }
+
+
+
+  // if (
+  //   collectables[0].collected &&
+  //   collectables[1].collected &&
+  //   collectables[2].collected
+  // ) {
+  //   collectables[2].collected = false
+  //   collectables[1].collected = false
+  //   setInterval(main, 200);
+  //   setCookie("lvlNum", nextlvlint)
+  //   window.location.reload()
+  // }
+  // else{
+
+  // }
+  drawGrid();
   drawPlatforms();
-  drawProjectiles();
+
+
   drawCannons();
   drawCollectables();
+  document.getElementById("demo");
+
+
+
   playerFrictionAndGravity();
-
-
-
   player.x += player.speedX;
   player.y += player.speedY;
-
   collision(); //checks if the player will collide with something in this frame
   keyboardControlActions(); //keyboard controls.
   projectileCollision(); //checks if the player is getting hit by a projectile in the next frame
   collectablesCollide(); //checks if player has touched a collectable
-
+  drawProjectiles();
   animate(); //this changes halle's picture to the next frame so it looks animated.
   //debug()                   //debugging values. Comment this out when not debugging.
   drawRobot(); //this actually displays the image of the robot.
 
 
-  while (gridmove < 13 && platforms[platOffset + 12].x < 2575) {
-    platforms[platOffset + gridmove].x *= 1.001
-    gridmove += 1
-  }
-  if (gridmove === 13) {
-    gridmove = 0
-  }
 
-  while (gridmoveY < 20 && platforms[platOffset + 16].y < 800) {
-    platforms[platOffset + gridmoveY].y *= 1.001
-    gridmoveY += 1
-  }
-  if (gridmoveY === 20) {
-    gridmoveY = 13
-  }
+
+
+
+
+  // while (gridmove < 13 && platforms[platOffset + 12].x < 2575) {
+  //   platforms[platOffset + gridmove].x *= 1.001
+  //   gridmove += 1
+  // }
+  // if (gridmove === 13) {
+  //   gridmove = 0
+  // }
+
+  // while (gridmoveY < 20 && platforms[platOffset + 16].y < 800) {
+  //   platforms[platOffset + gridmoveY].y *= 1.001
+  //   gridmoveY += 1
+  // }
+  // if (gridmoveY === 20) {
+  //   gridmoveY = 13
+  // }
 
 }
 
@@ -138,6 +204,8 @@ function JsonFunction(status, response) {
 ///////////////////////////////////////////////
 // Helper functions ///////////////////////////
 ///////////////////////////////////////////////
+
+
 
 function changeAnimationType() {
   if (currentAnimationType === animationTypes.frontDeath) {
@@ -206,6 +274,7 @@ function debug() {
     ctx.fillRect(player.x, player.y - 50, 10, 10);
   }
 }
+
 
 function animate() {
   if (
@@ -323,8 +392,8 @@ function collision() {
   }
   return result;
 }
-let lCanJump
-let rCanJump
+let lCanJump;
+let rCanJump;
 function resolveCollision(objx, objy, objw, objh) {
   //this is the return value
   let collisionDirection = "";
@@ -353,7 +422,7 @@ function resolveCollision(objx, objy, objw, objh) {
     ctx.fillStyle = "rbga(252,186,3,.3)";
     ctx.fillRect(player.x, player.y, hitBoxWidth, hitBoxHeight);
   }
-  var WJ
+  var WJ;
 
   if (originx >= originy) {
     if (dy > 0) {
@@ -368,8 +437,8 @@ function resolveCollision(objx, objy, objw, objh) {
       player.y = player.y - originy;
       player.speedY = 0;
       player.onGround = true;
-      rCanJump = true
-      lCanJump = true
+      rCanJump = true;
+      lCanJump = true;
 
     }
   } else {
@@ -385,7 +454,7 @@ function resolveCollision(objx, objy, objw, objh) {
           jumpTimer = 19; //this counts how many frames to have the jump last.
           player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
           frameIndex = 4;
-          setTimeout(offl(), 120)
+          setTimeout(offl(), 120);
         }
 
       }
@@ -401,7 +470,7 @@ function resolveCollision(objx, objy, objw, objh) {
           jumpTimer = 19; //this counts how many frames to have the jump last.
           player.onGround = false; //bug fix for jump animation, you have to change this or the jump animation doesn't work
           frameIndex = 4;
-          setTimeout(offR(), 120)
+          setTimeout(offR(), 120);
         }
 
       }
@@ -412,13 +481,14 @@ function resolveCollision(objx, objy, objw, objh) {
   return collisionDirection;
 }
 function offR() {
-  lCanJump = true
-  rCanJump = false
+  lCanJump = true;
+  rCanJump = false;
 }
 function offl() {
-  rCanJump = true
-  lCanJump = false
+  rCanJump = true;
+  lCanJump = false;
 }
+
 function projectileCollision() {
   //checking if the player is dead
   if (currentAnimationType === animationTypes.frontDeath) {
@@ -452,6 +522,9 @@ function projectileCollision() {
     }
   }
 }
+
+
+
 
 function deathOfPlayer() {
   ctx.fillStyle = "grey";
@@ -506,8 +579,11 @@ function playerFrictionAndGravity() {
   }
 }
 
+
+
 function drawPlatforms() {
   for (var i = 0; i < platforms.length; i++) {
+    ctx.fillStyle = platforms[i].color;
     ctx.fillStyle = platforms[i].color;
     ctx.fillRect(
       platforms[i].x,
@@ -515,8 +591,10 @@ function drawPlatforms() {
       platforms[i].width,
       platforms[i].height
     );
+
   }
 }
+
 
 function drawProjectiles() {
   for (var i = 0; i < projectiles.length; i++) {
@@ -586,21 +664,28 @@ function drawCollectables() {
     }
 
     //gravity
-    collectables[i].speedy = collectables[i].speedy + collectables[i].gravity;
-    collectables[i].y = collectables[i].y + collectables[i].speedy;
+    if (editMode === false) {
+      collectables[i].speedy = collectables[i].speedy + collectables[i].gravity;
+      collectables[i].y = collectables[i].y + collectables[i].speedy;
 
-    // Check for collision with platforms in order to bounce
-    for (var j = 0; j < platforms.length; j++) {
-      if (
-        collectables[i].x + collectableWidth > platforms[j].x &&
-        collectables[i].x < platforms[j].x + platforms[j].width &&
-        collectables[i].y < platforms[j].y + platforms[j].height &&
-        collectables[i].y + collectableHeight > platforms[j].y
-      ) {
-        //bottom of collectable is below top of platform
-        collectables[i].y = collectables[i].y - collectables[i].speedy;
-        collectables[i].speedy *= -collectables[i].bounce;
+      // Check for collision with platforms in order to bounce
+      for (var j = 0; j < platforms.length; j++) {
+        if (
+          collectables[i].x + collectableWidth > platforms[j].x &&
+          collectables[i].x < platforms[j].x + platforms[j].width &&
+          collectables[i].y < platforms[j].y + platforms[j].height &&
+          collectables[i].y + collectableHeight > platforms[j].y
+        ) {
+          //bottom of collectable is below top of platform
+          collectables[i].y = collectables[i].y - collectables[i].speedy;
+          collectables[i].speedy *= -collectables[i].bounce;
+        }
       }
+    }
+    else {
+      collectables[i].y = collectables[i].posY;
+      collectables[i].x = collectables[i].posX;
+      collectables[i].speedy = 0;
     }
   }
 }
@@ -621,72 +706,157 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color) {
-  if (width >= 5) {
-    platOffset += 1
+function createPlatform(x, y, width, height, color = "#FFFFFF") {
+  let savedcolor = color;
+
+  if (width < 0) {
+    x += width;
+    width *= -1;
   }
-  platforms.push({ x, y, width, height, color });
+  if (height < 0) {
+    y += height;
+    height *= -1;
+  }
+
+  platforms.push({ x, y, width, height, color, savedcolor });
 
 }
+
 
 function createCannon(
   wallLocation,
   position,
+  positionY,
   timeBetweenShots,
   width = defaultProjectileWidth,
   height = defaultProjectileHeight,
 ) {
-  if (wallLocation === "top") {
-    cannons.push({
-      x: position,
-      y: cannonHeight,
-      rotation: 180,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
-  } else if (wallLocation === "bottom") {
-    cannons.push({
-      x: position,
-      y: canvas.height - cannonHeight,
-      rotation: 0,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
-  } else if (wallLocation === "left") {
-    cannons.push({
-      x: cannonHeight,
-      y: position,
-      rotation: 90,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
-  } else if (wallLocation === "right") {
-    cannons.push({
-      width: 300,
-      height: 300,
-      x: canvas.width - cannonHeight,
-      y: position,
-      rotation: 270,
-      projectileCountdown: 0,
-      location: wallLocation,
-      timeBetweenShots: timeBetweenShots / (1000 / frameRate),
-      projectileWidth: width,
-      projectileHeight: height,
-    });
+  if (gridSnap === true) {
+    if (wallLocation === "top") {
+      cannons.push({
+        x: parseInt(position + cannonWidth / 2 + (gridSize / 2)),
+        y: parseInt(positionY + rotationPoint + (gridSize / 2)),
+        rotation: 180,
+        delay: timeBetweenShots,
+        wallLocation,
+        projectileCountdown: 0,
+        location: "top",
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].x;
+    } else if (wallLocation === "bottom") {
+      cannons.push({
+        x: parseInt(position - cannonWidth / 2 + (gridSize / 2)),
+        y: parseInt(positionY - rotationPoint + (gridSize / 2)),
+        // x: cursorX - cannonWidth / 2,
+        // y: cursorY,
+        rotation: 0,
+        wallLocation,
+        delay: timeBetweenShots,
+        projectileCountdown: 0,
+        location: "bottom",
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].x;
+    } else if (wallLocation === "left") {
+      cannons.push({
+        // x: cursorX,
+        // y: cursorY - cannonWidth / 2,
+        x: parseInt(position + cannonHeight),
+        y: parseInt(positionY - cannonWidth / 2 + (gridSize / 2)),
+        rotation: 90,
+        wallLocation,
+        delay: timeBetweenShots,
+        projectileCountdown: 0,
+        location: "left",
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].y;
+    } else if (wallLocation === "right") {
+      cannons.push({
+        // x: cursorX,
+        // y: cursorY + cannonWidth / 2,
+        x: parseInt(position - cannonHeight + gridSize),
+        y: parseInt(positionY + cannonWidth / 2 + (gridSize / 2)),
+        rotation: 270,
+        projectileCountdown: 0,
+        delay: timeBetweenShots,
+        location: "right",
+        wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height
+      });
+      canpos = cannons[0].y;
+    }
+  } else if (gridSnap === false) {
+
+    if (wallLocation === "top") {
+      cannons.push({
+        x: position + cannonWidth / 2,
+        y: positionY,
+        rotation: 180,
+        wallLocation,
+        projectileCountdown: 0,
+        location: wallLocation,
+        delay: timeBetweenShots,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    } else if (wallLocation === "bottom") {
+      cannons.push({
+        x: position - cannonWidth / 2,
+        y: positionY,
+        rotation: 0,
+        projectileCountdown: 0,
+        wallLocation,
+        delay: timeBetweenShots,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    } else if (wallLocation === "left") {
+      cannons.push({
+        x: position,
+        y: positionY - cannonWidth / 2,
+        rotation: 90,
+        projectileCountdown: 0,
+        delay: timeBetweenShots,
+        wallLocation,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    } else if (wallLocation === "right") {
+      cannons.push({
+        width: 300,
+        height: 300,
+        x: position,
+        delay: timeBetweenShots,
+        wallLocation,
+        y: positionY + cannonWidth / 2,
+        rotation: 270,
+        projectileCountdown: 0,
+        location: wallLocation,
+        timeBetweenShots: timeBetweenShots / (1000 / frameRate),
+        projectileWidth: width,
+        projectileHeight: height,
+      });
+    }
   }
 }
 
 
-function createCollectable(type, x, y, gravity = 0.1, bounce = 1) {
+function createCollectable(type, x, y, gravity = 0.1, bounce = 1, posX, posY) {
   if (type !== "") {
     var img = document.createElement("img"); // this is not necessary; we could simply make a single element for each collectable type in the HTML instead
     img.src = collectableList[type].image;
@@ -700,6 +870,8 @@ function createCollectable(type, x, y, gravity = 0.1, bounce = 1) {
       alpha: 2,
       gravity: gravity,
       bounce: bounce,
+      posX,
+      posY
     });
   }
 }
@@ -826,8 +998,8 @@ function handleKeyUp(e) {
     keyPress.space = false;
   }
   if (e.key === "r") {
-    setCookie("lvlNum", 1)
-    window.location.reload()
+    setCookie("lvlNum", 1);
+    window.location.reload();
   }
 
 }
@@ -838,7 +1010,7 @@ function loadJson() {
 
 
 function setCookie(name, value) {
-  document.cookie = `${name}=${value};`
+  document.cookie = `${name}=${value};`;
 };
 
 function getCookie(cname) {
@@ -861,5 +1033,31 @@ function checkCookie() {
   let ss = getCookie("lvlNum");
   if (ss === "") {
     setCookie("lvlNum", 1);
+  }
+}
+
+
+
+
+
+function drawGrid() {
+  for (let i = gridSize; i < canvas.width; i += gridSize) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(
+      i,
+      0,
+      1,
+      canvas.height
+    );
+
+  }
+
+  for (let i = gridSize; i < canvas.height; i += gridSize) {
+    ctx.fillRect(
+      0,
+      i,
+      canvas.width,
+      1
+    );
   }
 }

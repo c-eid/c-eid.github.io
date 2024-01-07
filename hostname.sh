@@ -1,1 +1,1 @@
-hostname -I
+hostname -I/home/admin/c-eid.github.io/projects/circularity

@@ -1,10 +1,7 @@
 function exportlvl() {
-    platbar = jQuery('#platformBar')
-    platbar.css("display", "none")
-    collbar = jQuery('#collectableBar')
-    collbar.css("display", "none")
-    cannbar = jQuery('#cannonBar')
-    cannbar.css("display", "none")
+    placetype = "output"
+    document.getElementById('dropdown').value = placetype
+    placeTypeChange()
 
     var platformsforExport = []
     var collectablesforExport = []
@@ -22,14 +19,12 @@ function exportlvl() {
     }
     for (var i = 1; i < cannons.length; i++) {
         //createCannon(rot, position, positionY, delay, width, height)
-        cannonsforExport.push("createCannons( '" + cannons[i].wallLocation + "'," + cannons[i].x + ", " + cannons[i].y + ", " + cannons[i].delay + ");")
+        cannonsforExport.push("createCannon( '" + cannons[i].wallLocation + "'," + cannons[i].x + ", " + cannons[i].y + ", " + cannons[i].delay + ");")
     }
     expor.innerHTML = (platformsforExport.join("<br>") + "<br>" + collectablesforExport.join("<br>") + "<br>" + cannonsforExport.join("<br>"))
-    lvldata = (platformsforExport + collectablesforExport + cannonsforExport)
+    lvlData = (platformsforExport.join(" ") + " " + collectablesforExport.join(" ") + " " + cannonsforExport.join(" "))
+    console.log(lvlData)
 
-
-
-
-
-    
+   
+  
 }

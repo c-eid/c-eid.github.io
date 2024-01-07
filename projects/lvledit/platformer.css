@@ -7,6 +7,7 @@ body {
   font-weight: bolder;
 }
 
+
 canvas {
   background-color: rgb(0, 0, 0);
   outline-color: rgb(28, 26, 26);
@@ -17,6 +18,7 @@ canvas {
 #html{
   background-color: black;
   color: white;
+  font-family: monospace;
 }
 #gridinput{
   width: 63px;
@@ -178,7 +180,9 @@ input:checked+.slider:before {
 #buttonwid{
   width:100%;
 }
-
+.upload{
+  height: 36px;
+}
 
 #swatch {
   background: rgba(0, 0, 0, 0.0);
@@ -248,7 +252,12 @@ input[type="color"] {
   text-align:center;
   transition: all 0.2s;
   }
+.uploadButton{
+  width: 70%;
+  margin-top: 4px;
+  margin-left: 34px;
 
+}
   .sizeButtonGS{
     display:inline-block;
     padding:0.3em 1.2em;
@@ -370,11 +379,99 @@ div.scroll {
   padding: 4px;
   background-color: #257a38;
   width: 200px;
-  height: 600px;
+  height: 570px;
   overflow-x: hidden;
   overflow-y: auto;
   white-space: nowrap;
 }
 #exOutput{
   display: none
+}
+.titlecard{
+  grid-area:T;
+  width: 27.9vw;
+  font-size: 2.5vw;
+  overflow-y:hidden;
+  height: 2.5vw;
+  margin: 0px;
+  padding: 0px;
+}
+.authorcard{
+  grid-area: A;
+  padding: 0px;
+  margin: 0px;
+  width: 13.7vw;
+  height: 2vw;
+  overflow: hidden;
+  font-size: 1.6vw;
+}
+.cardcanvas{
+  grid-area: 🖼️;
+  background-color: rgb(0, 0, 0);
+  outline-color: #1c1a1a;
+  outline-width: 4px;
+  height: 15vw;
+  border-radius: .5vw;
+  width: 27.9vw;
+}
+.idscard{
+  grid-area:I;
+  height: 4vh;
+  font-size: 2vw;
+  margin: 0px;
+  padding:0px;
+  width: 90%;
+  text-align: end;
+  color:rgb(18, 124, 4);
+  font-weight: bolder;
+}
+
+.lvlcard{
+  background-color: #919191;
+  border-radius: .5vw;
+  padding: .5vw;
+  display: grid;
+  width: 27.9vw;
+  position: absolute;
+  z-index: 4;
+  top: 12vh;
+  left: 16vw;
+  grid-template-areas: 
+  "🖼️ 🖼️"
+  "T T"
+  "A I";
+}
+.preview{
+  position: absolute;
+  z-index: 3;
+  display: none;
+  width: 60vw;
+  height: 70vh;
+  left: 20vw;
+  top: 15vh;
+  background-color: #202020a6;
+}
+.titlebar{
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.titlemargin{
+    margin-right: 10px;
+}
+.titleinputmargin{
+  margin-left: 10px;
+}
+.titlewidth{
+  width: 140px;
+}
+.uploadFinal{
+  position: absolute;
+  left: 20.5vw;
+  bottom: 3vh;
+  width: 20vw;
+  height: 7vh;
+  font-size: 2vw;
+}
+.previewtext{
+  font-size: 2.5vw;
 }

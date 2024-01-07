@@ -19,7 +19,8 @@
 </head>
 
 <body>
-  
+
+
   <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
   <div>
     <div class="canvas" oncontextmenu="return false;">
@@ -124,6 +125,10 @@
 
               <div class="wide" class="textdivision">
                 <p>Exported Level Data</p>
+                <div class="flex textdivision titlebar">
+                <p id="ShowSize titlemargin">Title:</p>
+                <input id="upttitle" maxlength=20 class="inputtxt titleinputmargin titlewidth" onblur="setTitle(this)">
+              </div>
                 <div class="scroll" id="exported"></div>
 
               </div>
@@ -132,9 +137,10 @@
 
             </div>
 
-            <div class="wide" id="smargin">
-
+            <div class="wide upload">
+              <button class="sizeButton uploadButton" id="uploadButton1" onclick="startUpload()">Upload</button>
             </div>
+
 
 
 
@@ -198,8 +204,21 @@
     <img id="projectile" src="images/projectile.png" />
     <img id="database" src="images/collectables/database.png" />
   </div>
-
+  <div class="preview" id="Preview">
+    <center>
+      <h1 class="previewtext">Preview</h1>
+    </center>
+    <div class="lvlcard" id="card1">
+      <canvas class="cardcanvas" id="canvas1" width="1400" height="750"></canvas>
+      <p id="id1" class="idscard" onclick="" data-id="">#?</p>
+      <h1 id="Title1" class="nomargin titlecard">Title</h1>
+      <h3 id="Author1" class="nomargin authorcard">author</h3>
+    </div>
+    <div class="sizeButton uploadFinal" onclick="finishUpload()">Upload Level</div>
+  </div>
   
+
+
 
 </body>
 

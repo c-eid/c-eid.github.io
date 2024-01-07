@@ -1,21 +1,43 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>platformer</title>
-    <link href="platformer.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <script src="setup.js"></script>
-    <script src="helpers.js"></script>
-    <script src="platformer.js"></script>
-  </head>
+<html id="html">
 
-  <body id="body">
-    <div>
-    <canvas id="canvas" width="1400" height="750"></canvas>
+<head>
+  <meta charset="UTF-8" />
+  <title>platformer</title>
+  <script src="jquery.min.js"></script>
+  <link href="platformer.css" rel="stylesheet" />
+  <!-- <script>
+    window.onerror = function (message, url, line) {
+      alert(message + ', ' + url + ', ' + line);
+    };
+  </script> -->
+  <script src="setup.js"></script>
+  <script src="helpers.js"></script>
+  <script src="platformer.js"></script>
+  <script src="uploadDownload.js"></script>
+</head>
+
+<body>
+  
+
+    <div class="canvas" oncontextmenu="return false;">
+
+      <canvas id="canvas" width="1400" height="750"></canvas>
+      <div class="sidebar">
+
+        
+
+  <div>
+
     <img id="cannon" src="images/cannon.png" />
     <img id="player" src="images/halle.png" />
     <img id="projectile" src="images/projectile.png" />
-    </div>
-  </body>
+    <img id="database" src="images/collectables/database.png" />
+  </div>
+
+  
+
+</body>
+
+
 </html>

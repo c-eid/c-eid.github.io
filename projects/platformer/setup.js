@@ -1,4 +1,7 @@
 // setup variables
+$(function() {
+  console.log( "ready!" );
+});
 // REMOVED FROM HTML WAS CAUSING ISSUES <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg" />
 const walkAcceleration = 2.5; // how much is added to the speed each frame
 const gravity = 0.5; // how much is subtracted from speedY each frame
@@ -60,7 +63,7 @@ let currentAnimationType = animationTypes.run;
 let frameIndex = 0;
 let jumpTimer = 0;
 let duckTimer = 0;
-let DUCK_COUNTER_IDLE_VALUE = 14;
+let DUCK_COUNTER_IDLE_VALUE = 14; 
 let debugVar = false;
 
 let spriteHeight = 0;
@@ -72,14 +75,15 @@ let offsetY = 0;
 
 // Platform, cannon, projectile, and collectable variables
 let platforms = [];
+let outlines = [0, 0, 0, 0];
 let cannons = [];
 const cannonWidth = 118;
 const cannonHeight = 80;
 let projectiles = [];
 const defaultProjectileWidth = 24;
 const defaultProjectileHeight = defaultProjectileWidth;
-const collectableWidth = 40;
-const collectableHeight = 40;
+const collectableWidth = 37;
+const collectableHeight = 50;
 let collectables = [];
 
 // canvas and context variables; must be initialized later
