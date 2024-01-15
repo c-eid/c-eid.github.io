@@ -42,7 +42,7 @@ nav {
     height: 7vh;
 }
 .card{
-    height: 60vh;
+    height: 70vh;
     margin: 10px;
     display: flex;
     flex-direction: column;
@@ -342,7 +342,7 @@ p{
     }
     .card{
         width: 80vw;
-        height: max-content;
+
     }
 
     .overflow{
@@ -364,5 +364,6 @@ p{
 
   }
 .imgsize3{
-    margin-top: 13vh;
+
+    width: 90%;
 }
