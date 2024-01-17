@@ -6,7 +6,7 @@ var currentTitle = "Title1"
 var currentId = "id1"
 var currentCard = "card1"
 
-next()
+next() 
 
 function nextPressed(){
     clearCanvas()
@@ -66,13 +66,14 @@ function nextCanvas() {
 async function getStringById() {
 
 
-    const response = await fetch(`http://localhost:3020/getString/${inputId}`);
+    const response = await fetch(`https://certifiedhoodclassics.org/getString/${inputId}`);
 
     if (response.ok) {
         document.getElementById("head1").style.display = "none"
         const data = await response.json();
         console.log(data)
         eval(data.value)
+        
         document.getElementById("head1").style.display = "none"
         document.getElementById(currentTitle).textContent = data.title
         document.getElementById(currentAuthor).textContent = data.author
@@ -108,6 +109,7 @@ async function getStringById() {
             nextCanvas()
             document.getElementById("next").style.display = "none"
             inputId++
+
             if (currentCard !== "card1") {
                 next()
             }

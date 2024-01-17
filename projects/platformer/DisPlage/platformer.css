@@ -57,7 +57,8 @@ html{
   grid-template-areas: 
   "🖼️ 🖼️"
   "T T"
-  "A I";
+  "A I"
+  "D D";
 }
 #head1{
   color:rgb(255, 72, 0);
@@ -107,4 +108,10 @@ html{
   text-align: end;
   color:rgb(18, 124, 4);
   font-weight: bolder;
+}
+.deletion{
+  grid-area: D;
+  margin: 0px 0px 0px 0px;
+  font-size: 1.4vw;
+  display: none;
 }

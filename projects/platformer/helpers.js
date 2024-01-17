@@ -9,7 +9,7 @@ let placetype = "platform"; //["platform", "collectable", "cannon", "exOutput"]
 let placecolor = "rgba(255, 255, 255, 0.3)";
 let max;
 let oldcol;
-let editMode = true;
+let editMode = false;
 let gridSnap = false;
 let placemode = true;
 let cursorX;
@@ -34,7 +34,7 @@ var bRange;
 var rotationPoint;
 var msslider;
 let lvlData;
-
+var platformAcceloration = 0
 var msvalue;
 
 
@@ -48,7 +48,7 @@ function registerSetup(setup) {
 
 
 
-
+let collected = 0;
 
 var lor;
 var savedLevels = parseInt(getCookie("lvlNum"));
@@ -70,7 +70,7 @@ function main() {
 
 
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-  if (savedLevels === 4 || savedLevels === 3) {
+  if (savedLevels === 2 || savedLevels === 3) {
     if (platforms[0].x <= min) {
       lor = true;
     }
@@ -82,20 +82,14 @@ function main() {
 
     if (lor === true) {
       platforms[0].x += 1;
+      platformAcceloration = 2
     }
     else if (lor === false) {
       platforms[0].x -= 1;
+      platformAcceloration = -2
     }
   }
   //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-  let collected;
-
-  for (var i = 0; i < collectables.length; i++) {
-    collected += 1;
-    if (collected >= collected.length) {
-      setInterval(main, 100000);
-    }
-  }
 
 
 
@@ -119,8 +113,29 @@ function main() {
 
   drawCannons();
   drawCollectables();
-  document.getElementById("demo");
 
+  if(collected >= collectables.length){
+    collected = 0
+    
+    player.x = 50;
+      player.y = 100;
+      player.speedX = 0;
+
+      player.speedY = 0;
+      player.onGround = false;
+      player.facingRight = true;
+      player.deadAndDeathAnimationDone = false;
+      ctx.clearRect(0, 0, 1800, 1800);
+      platforms = [];
+      cannons = [];
+      collectables = [];
+      
+      savedLevels += 1;
+      
+      setCookie("lvlNum", savedLevels)
+      platformAcceloration = 0
+      levelmake()
+  }
 
 
   playerFrictionAndGravity();
@@ -134,8 +149,6 @@ function main() {
   animate(); //this changes halle's picture to the next frame so it looks animated.
   //debug()                   //debugging values. Comment this out when not debugging.
   drawRobot(); //this actually displays the image of the robot.
-
-
 
 
 
@@ -439,7 +452,9 @@ function resolveCollision(objx, objy, objw, objh) {
       player.onGround = true;
       rCanJump = true;
       lCanJump = true;
-
+      if(objx === platforms[0].x){
+        player.x += platformAcceloration
+      }
     }
   } else {
     if (dx > 0) {
@@ -552,7 +567,19 @@ function deathOfPlayer() {
 
   if (keyPress.any) {
     keyPress.any = false;
-    window.location.reload();
+    for (var i = 0; i < collectables.length; i++) {
+      collectables[i].collected = false;
+    }
+    player.x = 50;
+    player.y = 100;
+    player.speedX = 0;
+    player.speedY = 0;
+    player.onGround = false;
+    player.facingRight = true;
+    player.deadAndDeathAnimationDone = false;
+    ctx.clearRect(0, 0, 1800, 1800);
+    currentAnimationType = animationTypes.run;
+    // window.location.reload();
   }
 }
 
@@ -698,10 +725,11 @@ function collectablesCollide() {
       collectables[i].y < player.y + hitBoxHeight &&
       collectables[i].y + collectableHeight > player.y
     ) {
+      
       collectables[i].collected = true;
-
-
-
+      collectables[i].x = -100
+      collectables[i].y = -100
+      collected ++
     }
   }
 }
@@ -1060,4 +1088,61 @@ function drawGrid() {
       1
     );
   }
+}
+
+
+function levelmake() {
+  var savedLevel = parseInt(getCookie("lvlNum"))
+  if (savedLevel === 1) { //level editor
+
+    createPlatform(500, 560, 700, 10); //right
+    createPlatform(500, 450, 10, 110); //right
+    createPlatform(300, 450, 200, 10);//right
+    createPlatform(300, 400, 10, 50);//right
+    createPlatform(100, 400, 200, 10); //right
+    createPlatform(100, 0, 10, 400); //right
+    createPlatform(1200, 200, 10, 370)
+    createPlatform(400, 300, 600, 10);//top
+    createPlatform(750, 0, 10, 300);//top wall
+    createCollectable('database', 850, 200, 5, 1); //collectables
+    createCollectable('database', 1280, 300, 5, 1);
+    createCollectable('database', 600, 200, 5, 1);
+  }
+  else if (savedLevel === 0){
+
+  }
+  else if (savedLevel === 2) {
+    min = 300
+    max = 1200
+    createPlatform(300, 700, 200, 15, "#FF00FF");
+    createPlatform(500, 600, 200, 15, "white");
+    createPlatform(200, 500, 200, 15);
+    createPlatform(600, 400, 900, 15);
+    
+    
+    createCollectable('database', 1280, 450, 0, 0); //collectables
+    createCollectable('database', 1280, 300, 0, 0);
+    createCollectable('database', 860, 200, 0, 0);
+  } 
+  else if (savedLevel === 3) {
+    min = 400
+    max = 600
+    createPlatform(400, 300, 200, 15, "#FF00FF");
+    createPlatform(0, 200, 200, 15, "white");
+    
+    
+    
+    createCollectable('database', 1280, 450, 0, 0); //collectables
+    createCollectable('database', 1280, 300, 0, 0);
+    createCollectable('database', 860, 200, 0, 0);
+  } 
+  else{
+    
+  }
+  createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
+    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //right
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
+    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
+    
+    
 }

@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>platformer</title>
+
   <script src="jquery.min.js"></script>
+  <script src="jquery.cookie.js"></script>
   <link href="platformer.css" rel="stylesheet" />
   <script>
     window.onerror = function (message, url, line) {
@@ -20,7 +22,7 @@
 
 <body>
 
-
+  
   <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
   <div>
     <div class="canvas" oncontextmenu="return false;">
@@ -126,9 +128,10 @@
               <div class="wide" class="textdivision">
                 <p>Exported Level Data</p>
                 <div class="flex textdivision titlebar">
-                <p id="ShowSize titlemargin">Title:</p>
-                <input id="upttitle" maxlength=20 class="inputtxt titleinputmargin titlewidth" onblur="setTitle(this)">
-              </div>
+                  <p id="ShowSize titlemargin">Title:</p>
+                  <input id="upttitle" maxlength=20 class="inputtxt titleinputmargin titlewidth"
+                    onblur="setTitle(this)">
+                </div>
                 <div class="scroll" id="exported"></div>
 
               </div>
@@ -216,7 +219,7 @@
     </div>
     <div class="sizeButton uploadFinal" onclick="finishUpload()">Upload Level</div>
   </div>
-  
+
 
 
 

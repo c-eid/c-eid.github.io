@@ -34,7 +34,7 @@ var bRange;
 var rotationPoint;
 var msslider;
 let lvlData;
-let uploadCondition1 = false
+let uploadCondition1 = false;
 
 var msvalue;
 window.onload = (event) => {
@@ -113,7 +113,7 @@ function main() {
   }
 
   rotationPoint = 80 - gridSize / 2;
- 
+
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
   if (savedLevels === 4 || savedLevels === 3) {
     if (platforms[0].x <= min) {
@@ -641,8 +641,17 @@ function deathOfPlayer() {
   );
 
   if (keyPress.any) {
-    keyPress.any = false;
-    window.location.reload();
+    snapChange2()
+    player.x = 50
+    player.y = 100
+    player.speedX = 0  
+    player.speedY = 0
+    player.onGround = false
+    player.facingRight = true
+    player.deadAndDeathAnimationDone = false
+    ctx.clearRect(0,0,1800,1800)
+    currentAnimationType = animationTypes.run;
+
   }
 }
 
@@ -1310,10 +1319,7 @@ function handleKeyUp(e) {
   if (e.key === " ") {
     keyPress.space = false;
   }
-  if (e.key === "r") {
-    setCookie("lvlNum", 1);
-    window.location.reload();
-  }
+  
 
 }
 
@@ -1323,10 +1329,12 @@ function loadJson() {
 
 
 function setCookie(name, value) {
-  document.cookie = `${name}=${value}; expires=Thu, 18 Dec 3113 12:00:00 UTC; path="/http://127.0.0.1:5500/"`;
+    document.cookie = `${name}=${value}; expires=Thu, 18 Dec 3113 12:00:00 UTC;`;
+  
 };
 
 function getCookie(cname) {
+
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(';');
@@ -1343,10 +1351,12 @@ function getCookie(cname) {
 
 }
 function checkCookie() {
-  let ss = getCookie("lvlNum");
-  if (ss === "") {
-    setCookie("lvlNum", 1);
-  }
+
+    let ss = getCookie("lvlNum");
+    if (ss === "") {
+      setCookie("lvlNum", 1);
+    }
+
 }
 
 
@@ -1464,8 +1474,8 @@ function hasKey() {
   }
 }
 var settitle;
-function setTitle(thisinput){
-  settitle = thisinput.value
+function setTitle(thisinput) {
+  settitle = thisinput.value;
 }
 
 function setWH() {

@@ -2,7 +2,7 @@ async function saveString() {
    
     const inputValue = lvlData;
 
-    const response = await fetch('http://localhost:3020/saveString', {
+    const response = await fetch('https://certifiedhoodclassics.org/saveString', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ async function saveString() {
 async function getStringById() {
     const inputId = 5;
 
-    const response = await fetch(`http://localhost:3020/getString/${inputId}`);
+    const response = await fetch(`https://certifiedhoodclassics.org/getString/${inputId}`);
 
     if (response.ok) {
         const data = await response.json();
@@ -50,7 +50,7 @@ function startUpload() {
 async function getInfo() {
     const inputId = getCookie("uniqueKey");
 
-    const response = await fetch(`http://localhost:3020/getMyInfo/${inputId}`);
+    const response = await fetch(`https://certifiedhoodclassics.org/getMyInfo/${inputId}`);
 
     if (response.ok) {
         const data = await response.json();
@@ -61,11 +61,14 @@ async function getInfo() {
 }
 
 async function makeAccount() {
+
     var makeKey = ""+(Math.random() * 100000000000000000) +""+(Math.random() * 1000000000000000)+""+(Math.random() * 1000000000000000);
-    setCookie("uniqueKey", makeKey);
+
+    
+
     publicUsername = prompt("Input a username, this CANNOT BE CHANGED");
 
-    const response = await fetch('http://localhost:3020/saveKey', {
+    const response = await fetch('https://certifiedhoodclassics.org/saveKey', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,11 +78,19 @@ async function makeAccount() {
             key:makeKey
         }),
     });
+    
 
-    alert("account created.")
+
+    if(response.ok){
+        $.cookie("uniqueKey", makeKey,{ expires: 1200000, path: '/' })
+        alert("account created.")
+    }
+   
+
 }
 
 
 function finishUpload(){
     saveString()
 }
+
