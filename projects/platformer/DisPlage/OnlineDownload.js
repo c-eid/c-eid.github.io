@@ -140,3 +140,4 @@ async function getStringById() {
         document.getElementById("canvas5").getContext("2d").clearRect(0, 0, 1400, 750);
         document.getElementById("canvas6").getContext("2d").clearRect(0, 0, 1400, 750);
     }
+    const socket = io("ws://certifiedhoodclassics.org",{ transports: ["websocket"] });
