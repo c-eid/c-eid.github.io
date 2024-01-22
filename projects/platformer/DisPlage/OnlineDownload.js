@@ -5,7 +5,7 @@ var currentCanvas = "canvas1"
 var currentTitle = "Title1"
 var currentId = "id1"
 var currentCard = "card1"
-
+const socket = io("ws://certifiedhoodclassics.org",{ transports: ["websocket"] });
 next() 
 
 function nextPressed(){
@@ -140,4 +140,4 @@ async function getStringById() {
         document.getElementById("canvas5").getContext("2d").clearRect(0, 0, 1400, 750);
         document.getElementById("canvas6").getContext("2d").clearRect(0, 0, 1400, 750);
     }
-    const socket = io("ws://certifiedhoodclassics.org",{ transports: ["websocket"] });
+    
