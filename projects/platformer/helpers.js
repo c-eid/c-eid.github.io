@@ -51,6 +51,8 @@ function registerSetup(setup) {
 let collected = 0;
 
 var lor;
+checkCookie()
+
 var savedLevels = parseInt(getCookie("lvlNum"));
 var nextlvlint = savedLevels + 1;
 
@@ -115,8 +117,9 @@ function main() {
   drawCollectables();
 
   if(collected >= collectables.length){
+    debugger;
     collected = 0
-    
+    checkCookie()
     player.x = 50;
       player.y = 100;
       player.speedX = 0;
@@ -132,7 +135,7 @@ function main() {
       
       savedLevels += 1;
       
-      setCookie("lvlNum", savedLevels)
+      setCookie("lvlNum", parseInt(savedLevels))
       platformAcceloration = 0
       levelmake()
   }
