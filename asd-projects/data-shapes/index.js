@@ -77,7 +77,7 @@ $(document).ready(function () {
   }
 
   /////////////////////////////////////////////////
-  // BUTTON HANDLERS BELOW HERE (3-b, 4-b, 5-b) ///
+  // BUTTON HANDLERS BELOW HERE i(3-b, 4-b, 5-b) ///
   /////////////////////////////////////////////////
 
   function staticDisplay() {
