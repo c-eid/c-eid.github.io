@@ -8,12 +8,13 @@ canvas {
   width: 27.9vw;
 }
 .canvas{
+  margin:0px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-content: space-around;
-  height: 98vh;
-  width: 99vw;
+  height: 100%;
+  width: 100%;
 }
 
 img {
@@ -23,6 +24,15 @@ html{
   margin: 0px;
   font-family: monospace;
   background-color: rgb(8, 8, 8);
+
+  height: 100%;
+  width: 100%;
+}
+body{
+  padding:0px;
+  height: 100%;
+  width: 100%;
+  margin:0px;
 }
 .nomargin{
   margin:0px;

@@ -3,6 +3,8 @@ $(function () {
  
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
+  canvas = document.getElementById("sprite");
+  stx = canvas.getContext("2d");
   window.addEventListener("load", loadJson);
 
   function setup() {
