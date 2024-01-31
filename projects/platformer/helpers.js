@@ -60,7 +60,7 @@ var nextlvlint = savedLevels + 1;
 
 
 function main() {
-  ctx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
+  stx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
 
 
   if (player.deadAndDeathAnimationDone) {
@@ -116,8 +116,8 @@ function main() {
   drawCannons();
   drawCollectables();
 
-  if(collected >= collectables.length){
-    debugger;
+  if(collected >= collectables.length && collectables.length !== 0){
+   
     collected = 0
     checkCookie()
     player.x = 50;
@@ -356,7 +356,7 @@ function drawRobot() {
   }
 
   if (player.facingRight) {
-    ctx.drawImage(
+    stx.drawImage(
       halleImage,
       spriteX,
       spriteY,
@@ -369,9 +369,9 @@ function drawRobot() {
     );
   } else {
     //for running to the left you mirror the image
-    ctx.save();
-    ctx.scale(-1, 1); //mirror the entire canvas
-    ctx.drawImage(
+    stx.save();
+    stx.scale(-1, 1); //mirror the entire canvas
+    stx.drawImage(
       halleImage,
       spriteX,
       spriteY,
@@ -382,7 +382,7 @@ function drawRobot() {
       player.width,
       player.height
     );
-    ctx.restore(); //put the canvas back to normal
+    stx.restore(); //put the canvas back to normal
   }
 }
 
@@ -612,7 +612,9 @@ function playerFrictionAndGravity() {
 
 
 function drawPlatforms() {
+
   for (var i = 0; i < platforms.length; i++) {
+    if(platforms[i].isStatic){
     ctx.fillStyle = platforms[i].color;
     ctx.fillStyle = platforms[i].color;
     ctx.fillRect(
@@ -621,14 +623,23 @@ function drawPlatforms() {
       platforms[i].width,
       platforms[i].height
     );
-
+    } else {
+      stx.fillStyle = platforms[i].color;
+    stx.fillStyle = platforms[i].color;
+    stx.fillRect(
+      platforms[i].x,
+      platforms[i].y,
+      platforms[i].width,
+      platforms[i].height
+    );
+    }
   }
 }
 
 
 function drawProjectiles() {
   for (var i = 0; i < projectiles.length; i++) {
-    ctx.drawImage(
+    stx.drawImage(
       projectileImage,
       projectiles[i].x,
       projectiles[i].y,
@@ -655,14 +666,14 @@ function drawCannons() {
       cannons[i].projectileCountdown = cannons[i].projectileCountdown + 1;
     }
 
-    ctx.fillStyle = "blue";
-    ctx.save(); //save the current translation of the screen.
-    ctx.translate(cannons[i].x, cannons[i].y); //you are moving the top left of the screen to the pictures location, this is because you can't rotate the image, you have to rotate the whole page
-    ctx.rotate((cannons[i].rotation * Math.PI) / 180); //then you rotate. rotation is centered on 0,0 on the canvas, which is why we moved the picture to 0,0 with translate(x,y)
-    ctx.drawImage(cannonImage, 0, 0, cannonWidth, cannonHeight); //you draw the image on the rotated canvas. as of this line, the picture is straight and the rest of the page is rotated
+    stx.fillStyle = "blue";
+    stx.save(); //save the current translation of the screen.
+    stx.translate(cannons[i].x, cannons[i].y); //you are moving the top left of the screen to the pictures location, this is because you can't rotate the image, you have to rotate the whole page
+    stx.rotate((cannons[i].rotation * Math.PI) / 180); //then you rotate. rotation is centered on 0,0 on the canvas, which is why we moved the picture to 0,0 with translate(x,y)
+    stx.drawImage(cannonImage, 0, 0, cannonWidth, cannonHeight); //you draw the image on the rotated canvas. as of this line, the picture is straight and the rest of the page is rotated
     //also the previous line uses -width / 2 so that the picture is centered. This will mean that (0,0) is at the exact center of the image
-    ctx.translate(-cannons[i].x, -cannons[i].y); //the reverse of the previous translate, this moves the page back to the correct place so that the image is no longer at (0,0)
-    ctx.restore(); //this unrotates the canvas so the canvas is straight, but now since you did that the picture looks rotated
+    stx.translate(-cannons[i].x, -cannons[i].y); //the reverse of the previous translate, this moves the page back to the correct place so that the image is no longer at (0,0)
+    stx.restore(); //this unrotates the canvas so the canvas is straight, but now since you did that the picture looks rotated
   }
 }
 
@@ -670,7 +681,7 @@ function drawCollectables() {
   for (var i = 0; i < collectables.length; i++) {
     if (collectables[i].collected !== true) {
       //draw on screen if not collected
-      ctx.drawImage(
+      stx.drawImage(
         collectables[i].image,
         collectables[i].x,
         collectables[i].y,
@@ -682,15 +693,15 @@ function drawCollectables() {
       if (collectables[i].alpha > 0.4) {
         collectables[i].alpha = collectables[i].alpha - 0.007;
       }
-      ctx.globalAlpha = collectables[i].alpha;
-      ctx.drawImage(
+      stx.globalAlpha = collectables[i].alpha;
+      stx.drawImage(
         collectables[i].image,
         200 + 100 * i,
         10,
         collectableWidth,
         collectableHeight
       );
-      ctx.globalAlpha = 1;
+      stx.globalAlpha = 1;
     }
 
     //gravity
@@ -737,7 +748,7 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color = "#FFFFFF") {
+function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true) {
   let savedcolor = color;
 
   if (width < 0) {
@@ -749,7 +760,7 @@ function createPlatform(x, y, width, height, color = "#FFFFFF") {
     height *= -1;
   }
 
-  platforms.push({ x, y, width, height, color, savedcolor });
+  platforms.push({ x, y, width, height, color, savedcolor, isStatic});
 
 }
 
@@ -1386,13 +1397,14 @@ createPlatform(1270, 450, 100, 10, '#371c06');
 createPlatform(1270, 460, 100, 10, '#371c06');
 createPlatform(1230, 460, 100, 10, '#371c06');
 createPlatform(1240, 470, 100, 10, '#371c06');
-
-
-  }
+createCollectable("database", 1300, 200, 0, 0)
+createCollectable("database", 1300, 600, 0, 0)
+createCollectable("database", 775, 300, 0, 0)
+}
   else if (savedLevel === 2) {
     min = 300
     max = 1200
-    createPlatform(300, 700, 200, 15, "#FF00FF");
+    createPlatform(300, 700, 200, 15, "#FF00FF", false);
     createPlatform(500, 600, 200, 15, "white");
     createPlatform(200, 500, 200, 15);
     createPlatform(600, 400, 900, 15);
@@ -1405,7 +1417,7 @@ createPlatform(1240, 470, 100, 10, '#371c06');
   else if (savedLevel === 3) {
     min = 400
     max = 600
-    createPlatform(400, 300, 200, 15, "#FF00FF");
+    createPlatform(400, 300, 200, 15, "#FF00FF", false);
     createPlatform(0, 200, 200, 15, "white");
     
     
