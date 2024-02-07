@@ -23,18 +23,19 @@ let setcolor;
 let rot = 1;
 let canpos = 0;
 let cannonCR = 0;
-var barSwitch = document.getElementById('dropdown');
-var platbar = jQuery('#platformBar');
-var collbar = jQuery('#collectableBar');
-var cannbar = jQuery('#cannonBar');
-var exporbar = jQuery('#exOutput');
-var gRange;
-var rotatedir = "left";
-var bRange;
-var rotationPoint;
-var msslider;
+let barSwitch = document.getElementById('dropdown');
+let platbar = jQuery('#platformBar');
+let collbar = jQuery('#collectableBar');
+let cannbar = jQuery('#cannonBar');
+let exporbar = jQuery('#exOutput');
+let gRange;
+let rotatedir = "left";
+let bRange;
+let rotationPoint;
+let msslider;
 let lvlData;
 let uploadCondition1 = false;
+let platformKills = false;
 
 var msvalue;
 window.onload = (event) => {
@@ -441,6 +442,9 @@ function collision() {
       player.y + hitBoxHeight > platforms[i].y
     ) {
       //now that we know we have collided, we figure out the direction of collision
+      if(platforms[i].kills){
+        deathOfPlayer()
+      }
       result = resolveCollision(
         platforms[i].x,
         platforms[i].y,
@@ -644,17 +648,23 @@ function deathOfPlayer() {
     snapChange2()
     player.x = 50
     player.y = 100
-    player.speedX = 0  
+    player.speedX = 0
     player.speedY = 0
     player.onGround = false
     player.facingRight = true
     player.deadAndDeathAnimationDone = false
-    ctx.clearRect(0,0,1800,1800)
+    ctx.clearRect(0, 0, 1800, 1800)
     currentAnimationType = animationTypes.run;
 
   }
 }
-
+function changeIfKills(){
+  if (platformKills){
+    platformKills = false
+  } else {
+    platformKills = true
+  }
+}
 function playerFrictionAndGravity() {
   //max speed limiter for ground
   if (player.speedX > maxSpeed) {
@@ -687,7 +697,7 @@ function place() {
         cursorX += gridSize;
         cursorY += gridSize;
       }
-      createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor);
+      createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor, true, platformKills);
     }
     else if (placetype === "collectable") {
       gRange = ((document.getElementById("gRange").value) / 100);
@@ -1028,7 +1038,7 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color = "#FFFFFF") {
+function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true, kills = false) {
   let savedcolor = color;
 
   if (width < 0) {
@@ -1040,7 +1050,7 @@ function createPlatform(x, y, width, height, color = "#FFFFFF") {
     height *= -1;
   }
 
-  platforms.push({ x, y, width, height, color, savedcolor });
+  platforms.push({ x, y, width, height, color, savedcolor, isStatic, kills});
 
 }
 
@@ -1319,7 +1329,7 @@ function handleKeyUp(e) {
   if (e.key === " ") {
     keyPress.space = false;
   }
-  
+
 
 }
 
@@ -1329,8 +1339,8 @@ function loadJson() {
 
 
 function setCookie(name, value) {
-    document.cookie = `${name}=${value}; expires=Thu, 18 Dec 3113 12:00:00 UTC;`;
-  
+  document.cookie = `${name}=${value}; expires=Thu, 18 Dec 3113 12:00:00 UTC;`;
+
 };
 
 function getCookie(cname) {
@@ -1352,10 +1362,10 @@ function getCookie(cname) {
 }
 function checkCookie() {
 
-    let ss = getCookie("lvlNum");
-    if (ss === "") {
-      setCookie("lvlNum", 1);
-    }
+  let ss = getCookie("lvlNum");
+  if (ss === "") {
+    setCookie("lvlNum", 1);
+  }
 
 }
 
@@ -1404,6 +1414,7 @@ function remove() {
   for (var i = 0; i < platforms.length; i++) {
     if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
       platforms.splice(i, 1);
+      return;
     }
   }
 
@@ -1416,6 +1427,7 @@ function remove() {
       cursorY < 740) {
 
       collectables.splice(i, 1);
+      return;
     }
   }
   for (var i = 0; i < cannons.length; i++) {
@@ -1426,6 +1438,7 @@ function remove() {
       cursorY < 740 &&
       cannons[i].wallLocation === "bottom") {/////////////////////////////bottomonly
       cannons.splice(i, 1);
+      return;
     }
     else if (cannons[i].x >= cursorX && (
       cannons[i].x - cannonWidth - 40) < cursorX &&
@@ -1434,6 +1447,8 @@ function remove() {
       cursorY < 740 &&
       cannons[i].wallLocation === "top") {/////////////////////////////top
       cannons.splice(i, 1);
+
+      return;
     }
     else if (cannons[i].x >= cursorX && (
       cannons[i].x - cannonHeight - 1) < cursorX &&
@@ -1442,6 +1457,7 @@ function remove() {
       cursorY < 740 &&
       cannons[i].wallLocation === "left") {/////////////////////////////left
       cannons.splice(i, 1);
+      return;
     }
     else if (cannons[i].x <= cursorX && (
       cannons[i].x + cannonHeight - 1) > cursorX &&
@@ -1450,6 +1466,7 @@ function remove() {
       cursorY < 740 &&
       cannons[i].wallLocation === "right") {/////////////////////////////bottomonly
       cannons.splice(i, 1);
+      return;
     }
   }
 }
@@ -1510,3 +1527,89 @@ function drawGrid() {
   }
 }
 
+function onInfo() {
+  for (var i = 0; i < platforms.length; i++) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
+
+      $("#height").val(parseInt(platforms[i].height))
+      $("#width").val(parseInt(platforms[i].width))
+      setWH()
+      createOutline(cursorX, cursorY, setWidth, setHeight);
+      $("#color").val(platforms[i].color)
+      setColor()
+    }
+  }
+
+  for (var i = 0; i < collectables.length; i++) {
+
+    if (collectables[i].x <= cursorX && (
+      collectables[i].x + collectableWidth - 1) > cursorX &&
+      collectables[i].y <= cursorY && (
+        collectables[i].y + collectableHeight - 1) > cursorY &&
+      cursorY < 740) {
+        $("#gRange").val(collectables[i].gravity)
+        $("#bRange").val(collectables[i].bounce)
+
+    }
+  }
+  for (var i = 0; i < cannons.length; i++) {
+    if (cannons[i].x <= cursorX && (
+      cannons[i].x + cannonWidth - 1) > cursorX &&
+      cannons[i].y <= cursorY && (
+        cannons[i].y + cannonHeight - 1) > cursorY &&
+      cursorY < 740 &&
+      cannons[i].wallLocation === "bottom") {/////////////////////////////bottomonly
+      
+        $("#ms").val(parseInt(cannons[i].delay))
+        $("#msvalue").val(parseInt(cannons[i].delay))
+        
+    }
+    else if (cannons[i].x >= cursorX && (
+      cannons[i].x - cannonWidth - 40) < cursorX &&
+      cannons[i].y >= cursorY && (
+        cannons[i].y - cannonHeight - 1) < cursorY &&
+      cursorY < 740 &&
+      cannons[i].wallLocation === "top") {/////////////////////////////top
+        $("#ms").val(parseInt(cannons[i].delay))
+        $("#msvalue").val(parseInt(cannons[i].delay))
+    }
+    else if (cannons[i].x >= cursorX && (
+      cannons[i].x - cannonHeight - 1) < cursorX &&
+      cannons[i].y <= cursorY && (
+        cannons[i].y + cannonWidth - 1) > cursorY &&
+      cursorY < 740 &&
+      cannons[i].wallLocation === "left") {/////////////////////////////left
+        $("#ms").val(parseInt(cannons[i].delay))
+        $("#msvalue").val(parseInt(cannons[i].delay))
+    }
+    else if (cannons[i].x <= cursorX && (
+      cannons[i].x + cannonHeight - 1) > cursorX &&
+      cannons[i].y >= cursorY && (
+        cannons[i].y - cannonWidth - 1) < cursorY &&
+      cursorY < 740 &&
+      cannons[i].wallLocation === "right") {/////////////////////////////bottomonly
+        $("#ms").val(parseInt(cannons[i].delay))
+        $("#msvalue").val(parseInt(cannons[i].delay))
+    }
+  }
+}
+
+document.addEventListener('mousedown', e => {
+  // Check if the click is the middle button
+  if (e.button === 1) {
+    // Do something when the user does middle click
+
+    onInfo()
+    // Prevent default middle click behaviour of the middle click
+    e.preventDefault()
+  }
+})
+function hex(){
+  if($("#colorHex").val()[0] !== "#"){
+    $("#colorHex").val("#"+$("#colorHex").val())
+  }
+  $("#color").val($("#colorHex").val())
+}
+function colorSelected(){
+  $("#colorHex").val($("#color").val())
+}

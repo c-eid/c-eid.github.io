@@ -280,21 +280,24 @@ input[type="color"] {
     outline-style:solid;
     outline-width: 4px;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
   .colorbg{
     background-color: rgba(34, 250, 1, 0.367);
     width: 230px;
     border-radius: 8px;
-    height: 90px;
+    height: 120px;
+    
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
   }
 
 
-    
+  #colorHex{
+    width:130px;
+  }
   
 
   
@@ -474,4 +477,13 @@ div.scroll {
 }
 .previewtext{
   font-size: 2.5vw;
+}
+
+.centeredFlexK{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width:100%;
+  padding-top: 15px;
 }

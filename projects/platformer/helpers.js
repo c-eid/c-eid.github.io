@@ -397,6 +397,9 @@ function collision() {
       player.y < platforms[i].y + platforms[i].height &&
       player.y + hitBoxHeight > platforms[i].y
     ) {
+      if(platforms[i].kills  && currentAnimationType !== animationTypes.frontDeath){
+        deathOfPlayer
+      }
       //now that we know we have collided, we figure out the direction of collision
       result = resolveCollision(
         platforms[i].x,
@@ -748,7 +751,7 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true) {
+function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true, kills = false) {
   let savedcolor = color;
 
   if (width < 0) {
@@ -760,7 +763,7 @@ function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true)
     height *= -1;
   }
 
-  platforms.push({ x, y, width, height, color, savedcolor, isStatic});
+  platforms.push({ x, y, width, height, color, savedcolor, isStatic, kills});
 
 }
 

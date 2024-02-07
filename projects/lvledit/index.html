@@ -22,7 +22,7 @@
 
 <body>
 
-  
+
   <button class="sizeButton" id="playtestbutton" onclick="snapChange2()">Playtest</button>
   <div>
     <div class="canvas" oncontextmenu="return false;">
@@ -63,9 +63,22 @@
               <button class="sizeButton" id="buttonwid" onclick="setWH()">Set Dimentions</button>
             </div>
             <div class="colorbg">
-              <input type="color" id="color" name="color" value="#00FFFF">
+              <input type="color" id="color" name="color" onblur="colorSelected()" value="#00FFFF">
+              <input id="colorHex" value="#00FFFF" class="inputtxt" onblur="hex()">
               <button class="sizeButton" onclick="setColor()">Set Color</button>
             </div>
+            <center>
+              <div class="centeredFlexK">
+
+                <label class="switch">
+                  <input id="gridSlider" type="checkbox" onclick="changeIfKills()">
+                  <span class="slider round"></span>
+                </label>
+
+                <h3>Kills</h3>
+
+              </div>
+            </center>
           </div>
 
           <div id="collectableBar">

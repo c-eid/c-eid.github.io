@@ -9,7 +9,7 @@ function exportlvl() {
     var expor = document.getElementById('exported')
     for (var i = 5; i < platforms.length; i++) {
 
-        platformsforExport.push("createPlatform(" + platforms[i].x + ", " + platforms[i].y + ", " + platforms[i].width + ", " + platforms[i].height + ", " + "'" + platforms[i].color + "'" + ");")
+        platformsforExport.push("createPlatform(" + platforms[i].x + ", " + platforms[i].y + ", " + platforms[i].width + ", " + platforms[i].height + ", " + "'" + platforms[i].color + "'" + ", " + platforms[i].isStatic + ", " + platforms[i].kills + ");")
 
     }
     for (var i = 0; i < collectables.length; i++) {
