@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery.min.js"></script>
+    <script src="jquery.cookie.js"></script>
+</head>
+
+<body>
+
+    <canvas height="100" width="100" class="canvas" id="canvas"></canvas>
+    <style>
+        :root {
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+            background: #7F00FF;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #E100FF, #7F00FF);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            /* overflow: hidden */
+        }
+
+        /* spacing- volume
+        rotation- bass
+        thinkness- treble
+        color - frequency
+         */
+        audio {}
+
+        html {
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .canvas {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+
+
+        }
+    </style>
+    <audio id="audio" controls loop></audio>
+    <script>
+
+        $(window).on("click", chromeSucks);
+        function chromeSucks() {
+
+            //have to put this in a stupid function on click because google is 'restarted'
+            const audio = document.getElementById("audio");
+            audio.src = "./944397.mp3";
+            const context = new AudioContext();
+            let audioSrc = context.createMediaElementSource(audio);
+            const analyser = context.createAnalyser();
+            audioSrc.connect(analyser);
+            analyser.connect(context.destination);
+            //start of data
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+        }
+        function draw() {
+
+            drawVisual = requestAnimationFrame(draw);
+
+            analyser.getByteFrequencyData(dataArray);
+
+        }
+        $(function () {
+            const canvas = document.getElementById("canvas");
+            var documentHeight = document.body.clientHeight;
+            var documentWidth = document.body.clientWidth;
+            const ctx = canvas.getContext("2d");
+            ctx.lineWidth = 10;
+            canvas.width = documentWidth;
+            canvas.height = documentHeight;
+
+            for (var i = 0; i < documentHeight; i += 100) {
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = "white";
+                ctx.moveTo(0, i);
+                ctx.lineTo(2560, i);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            for (var i = 0; i < documentWidth; i += 100) {
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, 1440);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        })
+    </script>
+</body>
+
+</html>
