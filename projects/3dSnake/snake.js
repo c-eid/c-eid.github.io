@@ -1,221 +1,17 @@
 
 
 
-var cubes = [
-    {
-        made: false,
-        x: 1280,
-        y: 1400,
-        offset: 100,
-        radius: 990,
-    },
-    {
-        made: false,
-        x: 400,
-        y: 400,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 45,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 135,
-    },    
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 225,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 315,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 405,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 495,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 585,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 675,
-    },
-
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 765,
-    },
-
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 855,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 945,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1035,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1125
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1215,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1305,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1395,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1485,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1575,
-    },
-    {
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1665,
-    },{
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1755,
-    },{
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1845,
-    },{
-        made: false,
-        x: 600,
-        y: 2560,
-        offset: 100,
-        radius: 45,
-        angleOffset: 0,
-        radiusOffset: 1935,
-    },
-
-];
-var ran;
-
-var clicked;
-var open;
 var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
 var angle4 = 0;
+
+
+var ran;
+
+var clicked;
+var open;
+
 var mouse = {
     x: 0,
     y: 0
@@ -244,18 +40,18 @@ ctx.lineWidth = 10;
 
 var offset = 100;
 var ang = 1;
-var down = 1.5
-var previous = 0
+var down = 1.5;
+var previous = 0;
 var backgroundRotation = 0;
 function main() {
-    
+
     if (ang > 0.1) {
         ang -= 0.001;
     }
-    renderShape();
+
 
     angle1 += ang;
-    
+
 
 
 
@@ -266,6 +62,10 @@ function main() {
     if (angle1 >= 180) {
         angle3 += ang;
     }
+    // if (angle1 >= 315){
+    //     ang=0
+    // }
+    // else
     if (angle1 >= 270) {
         angle4 += ang;
         ang = 0.1;
@@ -274,17 +74,22 @@ function main() {
         //     offset += 0.01
         // }
     }
-    if(clicked){
+
+        sort();
+    
+
+    renderShape();
+    if (clicked) {
         const dataArray = new Uint8Array(bufferLength);
         analyser.getByteFrequencyData(dataArray);
         ctx.clearRect(-10000, -10000, 20000, 20000);
-        console.log(dataArray[14])
-        backgroundRotation += 0.01 + dataArray[14]/5000
+        console.log(dataArray[14]);
+        backgroundRotation += 0.01 + dataArray[14] / 5000;
         document.getElementById("canvas").style.transform = "rotate(" + backgroundRotation + "deg" + ")";
         console.log(dataArray[3]);
-        let lWidth = dataArray[23]/15
-        
-        for (var i = 0; i < documentWidth * 2; i += 100 + (previous/10)) {
+        let lWidth = dataArray[23] / 15;
+
+        for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
             ctx.beginPath();
             ctx.lineWidth = 0 + lWidth;
             ctx.strokeStyle = "white";
@@ -299,16 +104,16 @@ function main() {
             ctx.closePath();
             ctx.stroke();
         }
-     
-        if(dataArray[3]>= 245){
-            previous += 5
+
+        if (dataArray[3] >= 245) {
+            previous += 5;
         }
-        if (previous > 0){
-        previous -= down;
+        if (previous > 0) {
+            previous -= down;
         }
     }
 
-   
+
 
 }
 
@@ -335,28 +140,45 @@ function changeColor(id) {
     $(id).css("display", "none");
 
 }
-function renderShape() {
-    for (var i = 0; i < cubes.length; i++) {
-        if (cubes[i].made === false) {
-            // for (var j = 1; j <= 8; j++) {
-            //     $("<div>").attr("id", "circle" + j + "" + i)
-            //         .addClass("circle")
-            //         .text(j + "")
-            //         .appendTo(".circlesDiv")
 
-            // }
-            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "front" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0,122)").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "3").addClass("polygon" + i);
-            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "back" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0,122)").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "3").addClass("polygon" + i);
-            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "left" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0,122)").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "3").addClass("polygon" + i);
-            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0,122)").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "3").addClass("polygon" + i);
-            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0,122)").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "3").addClass("polygon" + i);
-            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0,122)").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "3").addClass("polygon" + i);
+function sort() {
 
-            cubes[i].made = true;
+    // this creates the elements in order so that there are layer correctly
+    for (var i = 1; i < cubes.length - 1; i++) {
+        for (var I = 1; I < cubes.length - 1; I++) {
+
+            if (cubes[I].liveY >= cubes[I + 1].liveY) {
+
+
+                var temp = cubes[I];
+                cubes[I] = cubes[I + 1];
+                cubes[I + 1] = temp;
+            }
         }
+    }
+}
+function renderShape() {
 
-        $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255)").css("stroke-width", "1");
-        $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
+    for (var i = 0; i < cubes.length; i++) {
+        $(".polygon" + i).remove();
+        // for (var j = 1; j <= 8; j++) {
+        //     $("<div>").attr("id", "circle" + j + "" + i)
+        //         .addClass("circle")
+        //         .text(j + "")
+        //         .appendTo(".circlesDiv")
+
+        // }
+        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "front" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "back" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "left" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+
+
+
+        // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255)").css("stroke-width", "1");
+        // $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
 
 
         var cubesY = alongPath("#circle1" + i, angle1, cubes[i].x, cubes[i].y, cubes[i].radius);
@@ -380,6 +202,7 @@ function renderShape() {
             alongPath("#circle8" + i, angle4, cubes[i].x, cubes[i].y + cubes[i].offset, cubes[i].radius);
 
             var a1 = alongPath("#circle" + i, angle1, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            cubes[i]["liveY"] = a1.y;
             var a2 = alongPath("#circle2" + i, angle2, (cubes[i].x), cubes[i].y, cubes[i].radius);
             var a3 = alongPath("#circle3" + i, angle3, (cubes[i].x), cubes[i].y, cubes[i].radius);
             var a4 = alongPath("#circle4" + i, angle4, (cubes[i].x), cubes[i].y, cubes[i].radius);
@@ -393,7 +216,7 @@ function renderShape() {
             $("#left" + i).attr("points", a2.point + a6.point + a7.point + a3.point).css("display", "block");
             $("#right" + i).attr("points", a1.point + a5.point + a8.point + a4.point).css("display", "block");
             $("#top" + i).attr("points", a1.point + a2.point + a3.point + a4.point).css("display", "block");
-            $(".polygon" + i).css("z-index", cubesY.y)
+            $(".polygon" + i).css("z-index", cubesY.y);
             if (a1.x > a2.x) {
                 changeColor("#front" + i);
             }
@@ -409,10 +232,10 @@ function renderShape() {
             changeColor("#bottom" + i);
         }
         if (i !== 0) {
+            
+            cubes[i].x = alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubes[i].radiusOffset).x;
 
-            cubes[i].x = alongPath("#circle" + i, angle1-cubes[i].angleOffset, cubes[0].x, cubes[0].y, cubes[0].radius - cubes[i].radiusOffset).x;
-
-            cubes[i].y = (alongPath("#circle" + i, angle1-cubes[i].angleOffset, cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
+            cubes[i].y = (alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
 
         }
 
@@ -434,23 +257,23 @@ function renderShape() {
 
 $(window).on("click", chromeSucks);
 function chromeSucks() {
-if(!clicked){
-    //have to put this in a stupid function on click because google is 'restarted'
-    audio = document.getElementById("audio");
-    audio.src = "./944397.mp3";
-    audio.play();
-    context = new AudioContext();
-    audioSrc = context.createMediaElementSource(audio);
-    analyser = context.createAnalyser();
-    audioSrc.connect(analyser);
-    analyser.connect(context.destination);
+    if (!clicked) {
+        //have to put this in a stupid function on click because google is 'restarted'
+        audio = document.getElementById("audio");
+        audio.src = "./944397.mp3";
+        audio.play();
+        context = new AudioContext();
+        audioSrc = context.createMediaElementSource(audio);
+        analyser = context.createAnalyser();
+        audioSrc.connect(analyser);
+        analyser.connect(context.destination);
 
-    //start of data
-    analyser.fftSize = 256;
-    bufferLength = analyser.frequencyBinCount;
-    clicked = true
+        //start of data
+        analyser.fftSize = 256;
+        bufferLength = analyser.frequencyBinCount;
+        clicked = true;
 
-}
+    }
 }
 function draw() {
 
