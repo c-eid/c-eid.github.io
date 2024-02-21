@@ -5,8 +5,8 @@ var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
 var angle4 = 0;
-var fpsCounter = 0
-var is = 0
+var fpsCounter = 0;
+var is = 0;
 var ran;
 
 var clicked;
@@ -54,7 +54,7 @@ function main() {
 
 
 
-    fpsCounter++
+    fpsCounter++;
 
     if (angle1 >= 90) {
         angle2 += ang;
@@ -68,65 +68,33 @@ function main() {
     // else
     if (angle1 >= 270) {
         angle4 += ang;
-        ang = 0.1
+        ang = 0.1;
 
         //     if (offset <= 100) {
         //     offset += 0.01
         // }
     }
-  
-    
-
-    
 
 
-    if (clicked) {
-        const dataArray = new Uint8Array(bufferLength);
-        analyser.getByteFrequencyData(dataArray);
-        ctx.clearRect(-10000, -10000, 20000, 20000);
-       
-        backgroundRotation += 0.01 + dataArray[14] / 5000;
-        document.getElementById("canvas").style.transform = "rotate(" + backgroundRotation + "deg" + ")";
-       
-        let lWidth = dataArray[23] / 2.5;
 
-        for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
-            ctx.beginPath();
-            ctx.lineWidth = 100 - lWidth;
-            ctx.strokeStyle = "white";
-            ctx.moveTo(0, i);
-            ctx.lineTo(documentWidth * 2, i);
-            ctx.closePath();
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.lineWidth = 100 - lWidth;
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i, documentWidth * 2);
-            ctx.closePath();
-            ctx.stroke();
-        }
 
-        if (dataArray[3] >= 245) {
-            previous += 5;
-        }
-        if (previous > 0) {
-            previous -= down;
-        }
-    }
+
+
+
 
 
 
 }
-var sortInterval = setInterval(sort, (1000/240));
-var renderShape = setInterval(renderShape, (1000/240));
+var sortInterval = setInterval(sort, (1000 / 240));
+var renderShape = setInterval(renderShape, (1000 / 240));
 
 var id = setInterval(main, (1000 / 240));
-var fpsID = setInterval(fps, (1000))
+var fpsID = setInterval(fps, (1000));
 
 function fps() {
 
-    $('#fps').text(fpsCounter + "")
-    fpsCounter = 0
+    $('#fps').text(fpsCounter + "");
+    fpsCounter = 0;
 }
 
 function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius) {
@@ -134,9 +102,9 @@ function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius) {
     var X = xposLocal + (Math.cos(angle * Math.PI / 180) * radius);
     if (!id === "") {
 
-        var current = document.getElementById(id.splice(1))
-        current.style.top = Y + "px"
-        current.style.left = X + "px"
+        var current = document.getElementById(id.splice(1));
+        current.style.top = Y + "px";
+        current.style.left = X + "px";
         // $(id).css("top", Y + "px")
         //     .css("left", X + "px");
     }
@@ -150,7 +118,7 @@ function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius) {
 
 function changeColor(id) {
 
-    document.getElementById(id).style.display = "none"
+    document.getElementById(id).style.display = "none";
 
 }
 
@@ -162,7 +130,7 @@ function sort() {
 
             if (cubes[I].liveY >= cubes[I + 1].liveY) {
 
-               
+
                 var temp = cubes[I];
                 cubes[I] = cubes[I + 1];
                 cubes[I + 1] = temp;
@@ -181,10 +149,10 @@ function renderShape() {
             $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
             // $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
             $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-           
+
             // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255,0.2)").css("stroke-width", "1");
-        $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
-        cubes[i].made = true
+            $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
+            cubes[i].made = true;
         }
 
         // else {
@@ -196,59 +164,59 @@ function renderShape() {
         //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
         //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
         // }
-        
-        bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang])
-       
-       
-        
-        }
+
+        bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
+
+
+
+    }
 }
 bitCruncher.onmessage = (aDONT) => {
-            
-    var a = aDONT.data
-    
+
+    var a = aDONT.data;
+
     cubes[a[9]]["liveY"] = a[1].y;
-    const idTop = document.getElementById(`top${a[9]}`)
-    idTop.setAttribute("points", a[1].point + a[2].point + a[3].point + a[4].point + "")
-    idTop.style.display = "block"
+    const idTop = document.getElementById(`top${a[9]}`);
+    idTop.setAttribute("points", a[1].point + a[2].point + a[3].point + a[4].point + "");
+    idTop.style.display = "block";
 
     if (a[1].x > a[2].x) {
         changeColor("front" + a[9]);
-    } else {        
-    const idFront = document.getElementById(`front${a[9]}`)
-        idFront.setAttribute("points", a[1].point + a[5].point + a[6].point + a[2].point + "")
-        idFront.style.display = "block"
+    } else {
+        const idFront = document.getElementById(`front${a[9]}`);
+        idFront.setAttribute("points", a[1].point + a[5].point + a[6].point + a[2].point + "");
+        idFront.style.display = "block";
     }
     if (a[4].x < a[3].x) {
         changeColor("back" + a[9]);
     } else {
-        const idBack = document.getElementById(`back${a[9]}`)
-        idBack.setAttribute("points", a[4].point + a[8].point + a[7].point + a[3].point + "")
-        idBack.style.display = "block"
+        const idBack = document.getElementById(`back${a[9]}`);
+        idBack.setAttribute("points", a[4].point + a[8].point + a[7].point + a[3].point + "");
+        idBack.style.display = "block";
     }
     if (a[2].x > a[3].x) {
         changeColor("left" + a[9]);
     } else {
-        const idLeft = document.getElementById(`left${a[9]}`)
-        idLeft.setAttribute("points", a[2].point + a[6].point + a[7].point + a[3].point + "")
-        idLeft.style.display = "block"
+        const idLeft = document.getElementById(`left${a[9]}`);
+        idLeft.setAttribute("points", a[2].point + a[6].point + a[7].point + a[3].point + "");
+        idLeft.style.display = "block";
     }
     if (a[1].x < a[4].x) {
         changeColor("right" + a[9]);
     } else {
-    const idRight = document.getElementById(`right${a[9]}`)
-        idRight.setAttribute("points", a[1].point + a[5].point + a[8].point + a[4].point + "")
-        idRight.style.display = "block"
+        const idRight = document.getElementById(`right${a[9]}`);
+        idRight.setAttribute("points", a[1].point + a[5].point + a[8].point + a[4].point + "");
+        idRight.style.display = "block";
     }
     if (a[9] !== 0) {
 
         cubes[a[9]].x = alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubes[a[9]].radiusOffset).x;
-    
+
         cubes[a[9]].y = (alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[a[9]].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[a[9]].offset - 1);
-    
+
     }
-    
-}
+
+};
 // $(document).on("click", place);
 
 // function place() {
@@ -278,7 +246,7 @@ function chromeSucks() {
         analyser.fftSize = 256;
         bufferLength = analyser.frequencyBinCount;
         clicked = true;
-
+        setInterval(animateBackground, (1000 / 60));
     }
 }
 function draw() {
@@ -292,4 +260,39 @@ function draw() {
 
 function changeAngle() {
 
+}
+function animateBackground() {
+    if (clicked) {
+        const dataArray = new Uint8Array(bufferLength);
+        analyser.getByteFrequencyData(dataArray);
+        ctx.clearRect(-10000, -10000, 20000, 20000);
+
+        backgroundRotation += 0.01 + dataArray[14] / 5000;
+        document.getElementById("canvas").style.transform = "rotate(" + backgroundRotation + "deg" + ")";
+
+        let lWidth = dataArray[23] / 2.5;
+
+        for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
+            ctx.beginPath();
+            ctx.lineWidth = 100 - lWidth;
+            ctx.strokeStyle = "white";
+            ctx.moveTo(0, i);
+            ctx.lineTo(documentWidth * 2, i);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.lineWidth = 100 - lWidth;
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i, documentWidth * 2);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        if (dataArray[3] >= 245) {
+            previous += 5;
+        }
+        if (previous > 0) {
+            previous -= down;
+        }
+    }
 }
