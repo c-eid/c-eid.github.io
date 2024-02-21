@@ -5,8 +5,8 @@ var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
 var angle4 = 0;
-
-
+var fpsCounter = 0
+var is = 0
 var ran;
 
 var clicked;
@@ -54,7 +54,7 @@ function main() {
 
 
 
-
+    fpsCounter++
 
     if (angle1 >= 90) {
         angle2 += ang;
@@ -62,21 +62,21 @@ function main() {
     if (angle1 >= 180) {
         angle3 += ang;
     }
-    // if (angle1 >= 315){
-    //     ang=0
+    // if (angle1 >= 315) {
+    //     ang = 0
     // }
     // else
     if (angle1 >= 270) {
         angle4 += ang;
-        ang = 0.1;
+        ang = 0.1
 
         //     if (offset <= 100) {
         //     offset += 0.01
         // }
     }
 
-        sort();
-    
+    sort();
+
 
     renderShape();
     if (clicked) {
@@ -87,18 +87,18 @@ function main() {
         backgroundRotation += 0.01 + dataArray[14] / 5000;
         document.getElementById("canvas").style.transform = "rotate(" + backgroundRotation + "deg" + ")";
         console.log(dataArray[3]);
-        let lWidth = dataArray[23] / 15;
+        let lWidth = dataArray[23] / 2.5;
 
         for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
             ctx.beginPath();
-            ctx.lineWidth = 0 + lWidth;
+            ctx.lineWidth = 100 - lWidth;
             ctx.strokeStyle = "white";
             ctx.moveTo(0, i);
             ctx.lineTo(documentWidth * 2, i);
             ctx.closePath();
             ctx.stroke();
             ctx.beginPath();
-            ctx.lineWidth = 0 + lWidth;
+            ctx.lineWidth = 100 - lWidth;
             ctx.moveTo(i, 0);
             ctx.lineTo(i, documentWidth * 2);
             ctx.closePath();
@@ -118,16 +118,25 @@ function main() {
 }
 
 var id = setInterval(main, (1000 / 240));
+var fpsID = setInterval(fps, (1000))
 
+function fps() {
 
+    $('#fps').text(fpsCounter + "")
+    fpsCounter = 0
+}
 
 function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius) {
     var Y = yposLocal / 2 + ((Math.sin(angle * Math.PI / 180) * radius)) / (1 + (offset / 100));
     var X = xposLocal + (Math.cos(angle * Math.PI / 180) * radius);
+    if (!id === "") {
 
-    $(id).css("top", Y + "px")
-        .css("left", X + "px");
-
+        var current = document.getElementById(id.splice(1))
+        current.style.top = Y + "px"
+        current.style.left = X + "px"
+        // $(id).css("top", Y + "px")
+        //     .css("left", X + "px");
+    }
     return {
         point: " " + X + "," + Y + " ",
         x: X,
@@ -137,7 +146,8 @@ function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius) {
 
 
 function changeColor(id) {
-    $(id).css("display", "none");
+
+    document.getElementById(id).style.display = "none"
 
 }
 
@@ -149,7 +159,7 @@ function sort() {
 
             if (cubes[I].liveY >= cubes[I + 1].liveY) {
 
-
+               
                 var temp = cubes[I];
                 cubes[I] = cubes[I + 1];
                 cubes[I + 1] = temp;
@@ -159,26 +169,31 @@ function sort() {
 }
 function renderShape() {
 
-    for (var i = 0; i < cubes.length; i++) {
-        $(".polygon" + i).remove();
-        // for (var j = 1; j <= 8; j++) {
-        //     $("<div>").attr("id", "circle" + j + "" + i)
-        //         .addClass("circle")
-        //         .text(j + "")
-        //         .appendTo(".circlesDiv")
+    for (let i = 0; i < cubes.length; i++) {
 
+        if (cubes[i].made === false) {
+            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "front" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "back" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "left" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+            // $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+            $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+            cubes[i].made = true
+        }
+
+        // else {
+        //     $(".polygon" + i).remove();
+        //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "front" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "back" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "left" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
+        //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
         // }
-        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "front" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "back" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "left" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-        $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(122,0," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
 
 
-
-        // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255)").css("stroke-width", "1");
-        // $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
+        // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255,0.2)").css("stroke-width", "1");
+        $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
 
 
         var cubesY = alongPath("#circle1" + i, angle1, cubes[i].x, cubes[i].y, cubes[i].radius);
@@ -203,36 +218,59 @@ function renderShape() {
 
             var a1 = alongPath("#circle" + i, angle1, (cubes[i].x), cubes[i].y, cubes[i].radius);
             cubes[i]["liveY"] = a1.y;
-            var a2 = alongPath("#circle2" + i, angle2, (cubes[i].x), cubes[i].y, cubes[i].radius);
-            var a3 = alongPath("#circle3" + i, angle3, (cubes[i].x), cubes[i].y, cubes[i].radius);
-            var a4 = alongPath("#circle4" + i, angle4, (cubes[i].x), cubes[i].y, cubes[i].radius);
-            var a5 = alongPath("#circle5" + i, angle1, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
-            var a6 = alongPath("#circle6" + i, angle2, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
-            var a7 = alongPath("#circle7" + i, angle3, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
-            var a8 = alongPath("#circle8" + i, angle4, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
-            $("#back" + i).attr("points", a4.point + a8.point + a7.point + a3.point).css("display", "block");
-            $("#front" + i).attr("points", a1.point + a5.point + a6.point + a2.point).css("display", "block");
-            $("#bottom" + i).attr("points", a5.point + a6.point + a7.point + a8.point).css("display", "block");
-            $("#left" + i).attr("points", a2.point + a6.point + a7.point + a3.point).css("display", "block");
-            $("#right" + i).attr("points", a1.point + a5.point + a8.point + a4.point).css("display", "block");
-            $("#top" + i).attr("points", a1.point + a2.point + a3.point + a4.point).css("display", "block");
+            var a2 = alongPath("", angle2, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            var a3 = alongPath("", angle3, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            var a4 = alongPath("", angle4, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            var a5 = alongPath("", angle1, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+            var a6 = alongPath("", angle2, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+            var a7 = alongPath("", angle3, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+            var a8 = alongPath("", angle4, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+
+
+            const idTop = document.getElementById(`top${i}`)
+            idTop.setAttribute("points", a1.point + a2.point + a3.point + a4.point + "")
+            idTop.style.display = "block"
+
+            // $("#back" + i).attr("points", a4.point + a8.point + a7.point + a3.point).css("display", "block");
+            // $("#front" + i).attr("points", a1.point + a5.point + a6.point + a2.point).css("display", "block");
+            // $("#bottom" + i).attr("points", a5.point + a6.point + a7.point + a8.point).css("display", "block");
+            // $("#left" + i).attr("points", a2.point + a6.point + a7.point + a3.point).css("display", "block");
+            // $("#right" + i).attr("points", a1.point + a5.point + a8.point + a4.point).css("display", "block");
+            // $("#top" + i).attr("points", a1.point + a2.point + a3.point + a4.point).css("display", "block");
+
             $(".polygon" + i).css("z-index", cubesY.y);
             if (a1.x > a2.x) {
-                changeColor("#front" + i);
+                changeColor("front" + i);
+            } else {        
+            const idFront = document.getElementById(`front${i}`)
+                idFront.setAttribute("points", a1.point + a5.point + a6.point + a2.point + "")
+                idFront.style.display = "block"
             }
             if (a4.x < a3.x) {
-                changeColor("#back" + i);
+                changeColor("back" + i);
+            } else {
+                const idBack = document.getElementById(`back${i}`)
+                idBack.setAttribute("points", a4.point + a8.point + a7.point + a3.point + "")
+                idBack.style.display = "block"
             }
             if (a2.x > a3.x) {
-                changeColor("#left" + i);
+                changeColor("left" + i);
+            } else {
+                const idLeft = document.getElementById(`left${i}`)
+                idLeft.setAttribute("points", a2.point + a6.point + a7.point + a3.point + "")
+                idLeft.style.display = "block"
             }
             if (a1.x < a4.x) {
-                changeColor("#right" + i);
+                changeColor("right" + i);
+            } else {
+            const idRight = document.getElementById(`right${i}`)
+                idRight.setAttribute("points", a1.point + a5.point + a8.point + a4.point + "")
+                idRight.style.display = "block"
             }
-            changeColor("#bottom" + i);
+
         }
         if (i !== 0) {
-            
+
             cubes[i].x = alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubes[i].radiusOffset).x;
 
             cubes[i].y = (alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
@@ -284,3 +322,6 @@ function draw() {
 }
 
 
+function changeAngle() {
+
+}
