@@ -11,7 +11,7 @@ var ang = 1;
 var down = 1.5;
 var previous = 0;
 var backgroundRotation = 0;
-var cubes = [
+var plateau = [
     {
         made: false,
         x: 1280,
@@ -30,9 +30,7 @@ onmessage = (s) => {
     angle3= s.data[3]
     angle4= s.data[4]
     let cubeC1 =s.data[5]
-    if(i===0){
-        sort()
-    }
+    
     var cubesY = alongPathCore2("#circle1" + i, angle1, cubeC1.x, cubeC1.y, cubeC1.radius);
     alongPathCore2("#circle5" + i, angle1, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
     if (angle1 >= 90) {
@@ -67,9 +65,9 @@ onmessage = (s) => {
     }
     // if (i !== 0) {
 
-    //     cubeC1.x = alongPathCore2("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubeC1.radiusOffset).x;
+    //     cubeC1.x = alongPathCore2("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), plateau.x, plateau.y, plateau.radius - cubeC1.radiusOffset).x;
 
-    //     cubeC1.y = (alongPathCore2("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubeC1.radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubeC1.offset - 1);
+    //     cubeC1.y = (alongPathCore2("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), plateau.x, plateau.y, (plateau.radius - cubeC1.radiusOffset) * 2).y) + ((plateau.y / 2) - cubeC1.offset - 1);
 
     // }
     
@@ -93,7 +91,6 @@ function alongPathCore2(id, angle, xposLocal = 400, yposLocal = 400, radius) {
         y: Y
     };
 }
-
 
 
 

@@ -76,7 +76,7 @@ function main() {
     }
   
     
-     renderShape();
+
     
 
 
@@ -117,6 +117,8 @@ function main() {
 
 
 }
+var sortInterval = setInterval(sort, (1000/240));
+var renderShape = setInterval(renderShape, (1000/240));
 
 var id = setInterval(main, (1000 / 240));
 var fpsID = setInterval(fps, (1000))
@@ -204,7 +206,7 @@ function renderShape() {
 bitCruncher.onmessage = (aDONT) => {
             
     var a = aDONT.data
-
+    
     cubes[a[9]]["liveY"] = a[1].y;
     const idTop = document.getElementById(`top${a[9]}`)
     idTop.setAttribute("points", a[1].point + a[2].point + a[3].point + a[4].point + "")
