@@ -1,6 +1,6 @@
 
 
-const bitCruncher = new Worker("PointMath.js");
+
 var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
@@ -83,10 +83,10 @@ function main() {
         const dataArray = new Uint8Array(bufferLength);
         analyser.getByteFrequencyData(dataArray);
         ctx.clearRect(-10000, -10000, 20000, 20000);
-       
+        console.log(dataArray[14]);
         backgroundRotation += 0.01 + dataArray[14] / 5000;
         document.getElementById("canvas").style.transform = "rotate(" + backgroundRotation + "deg" + ")";
-       
+        console.log(dataArray[3]);
         let lWidth = dataArray[23] / 2.5;
 
         for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
@@ -178,10 +178,7 @@ function renderShape() {
             $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "top" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
             // $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
             $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
-           
-            // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255,0.2)").css("stroke-width", "1");
-        $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
-        cubes[i].made = true
+            cubes[i].made = true
         }
 
         // else {
@@ -194,54 +191,96 @@ function renderShape() {
         //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
         // }
 
-        bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, Object.create(cubes[i]), ang])
-        onmessage = (a) => {
-            console.log(a[0])
+
+        // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255,0.2)").css("stroke-width", "1");
+        $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
+
+
+        var cubesY = alongPath("#circle1" + i, angle1, cubes[i].x, cubes[i].y, cubes[i].radius);
+        alongPath("#circle5" + i, angle1, cubes[i].x, cubes[i].y + cubes[i].offset, cubes[i].radius);
+        if (angle1 >= 90) {
+
+            alongPath("#circle2" + i, angle2, cubes[i].x, cubes[i].y, cubes[i].radius);
+            alongPath("#circle6" + i, angle2, cubes[i].x, cubes[i].y + cubes[i].offset, cubes[i].radius);
+        }
+        if (angle1 >= 180) {
+
+            alongPath("#circle3" + i, angle3, cubes[i].x, cubes[i].y, cubes[i].radius);
+            alongPath("#circle7" + i, angle3, cubes[i].x, cubes[i].y + cubes[i].offset, cubes[i].radius);
+        }
+        if (angle1 >= 270) {
+
+
+
+
+            alongPath("#circle4" + i, angle4, cubes[i].x, cubes[i].y, cubes[i].radius);
+            alongPath("#circle8" + i, angle4, cubes[i].x, cubes[i].y + cubes[i].offset, cubes[i].radius);
+
+            var a1 = alongPath("#circle" + i, angle1, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            cubes[i]["liveY"] = a1.y;
+            var a2 = alongPath("", angle2, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            var a3 = alongPath("", angle3, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            var a4 = alongPath("", angle4, (cubes[i].x), cubes[i].y, cubes[i].radius);
+            var a5 = alongPath("", angle1, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+            var a6 = alongPath("", angle2, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+            var a7 = alongPath("", angle3, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+            var a8 = alongPath("", angle4, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+
+
             const idTop = document.getElementById(`top${i}`)
-            idTop.setAttribute("points", a[1].point + a[2].point + a[3].point + a[4].point + "")
+            idTop.setAttribute("points", a1.point + a2.point + a3.point + a4.point + "")
             idTop.style.display = "block"
-        
-            if (a[1].x > a[2].x) {
+
+            // $("#back" + i).attr("points", a4.point + a8.point + a7.point + a3.point).css("display", "block");
+            // $("#front" + i).attr("points", a1.point + a5.point + a6.point + a2.point).css("display", "block");
+            // $("#bottom" + i).attr("points", a5.point + a6.point + a7.point + a8.point).css("display", "block");
+            // $("#left" + i).attr("points", a2.point + a6.point + a7.point + a3.point).css("display", "block");
+            // $("#right" + i).attr("points", a1.point + a5.point + a8.point + a4.point).css("display", "block");
+            // $("#top" + i).attr("points", a1.point + a2.point + a3.point + a4.point).css("display", "block");
+
+            $(".polygon" + i).css("z-index", cubesY.y);
+            if (a1.x > a2.x) {
                 changeColor("front" + i);
             } else {        
             const idFront = document.getElementById(`front${i}`)
-                idFront.setAttribute("points", a[1].point + a[5].point + a[6].point + a[2].point + "")
+                idFront.setAttribute("points", a1.point + a5.point + a6.point + a2.point + "")
                 idFront.style.display = "block"
             }
-            if (a[4].x < a[3].x) {
+            if (a4.x < a3.x) {
                 changeColor("back" + i);
             } else {
                 const idBack = document.getElementById(`back${i}`)
-                idBack.setAttribute("points", a[4].point + a[8].point + a[7].point + a[3].point + "")
+                idBack.setAttribute("points", a4.point + a8.point + a7.point + a3.point + "")
                 idBack.style.display = "block"
             }
-            if (a[2].x > a[3].x) {
+            if (a2.x > a3.x) {
                 changeColor("left" + i);
             } else {
                 const idLeft = document.getElementById(`left${i}`)
-                idLeft.setAttribute("points", a[2].point + a[6].point + a[7].point + a[3].point + "")
+                idLeft.setAttribute("points", a2.point + a6.point + a7.point + a3.point + "")
                 idLeft.style.display = "block"
             }
-            if (a[1].x < a[4].x) {
+            if (a1.x < a4.x) {
                 changeColor("right" + i);
             } else {
             const idRight = document.getElementById(`right${i}`)
-                idRight.setAttribute("points", a[1].point + a[5].point + a[8].point + a[4].point + "")
+                idRight.setAttribute("points", a1.point + a5.point + a8.point + a4.point + "")
                 idRight.style.display = "block"
             }
-        
+
         }
         if (i !== 0) {
-        
-            cubes[i].x = alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubes[i].radiusOffset).x;
-        
-            cubes[i].y = (alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
-        
-        }
-        
-        }
-}
 
+            cubes[i].x = alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubes[i].radiusOffset).x;
+
+            cubes[i].y = (alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
+
+        }
+
+    }
+
+
+}
 // $(document).on("click", place);
 
 // function place() {
