@@ -23,58 +23,60 @@ var cubes = [
 ]
 
 onmessage = (s) => {
-
+    
     let i = s.data[0]
     angle1 = s.data[1]
     angle2= s.data[2]
     angle3= s.data[3]
     angle4= s.data[4]
     let cubeC1 =s.data[5]
-  
-    var cubesY = alongPath("#circle1" + i, angle1, cubeC1.x, cubeC1.y, cubeC1.radius);
-    alongPath("#circle5" + i, angle1, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
+    if(i===0){
+        sort()
+    }
+    var cubesY = alongPathCore2("#circle1" + i, angle1, cubeC1.x, cubeC1.y, cubeC1.radius);
+    alongPathCore2("#circle5" + i, angle1, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
     if (angle1 >= 90) {
 
-        alongPath("#circle2" + i, angle2, cubeC1.x, cubeC1.y, cubeC1.radius);
-        alongPath("#circle6" + i, angle2, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
+        alongPathCore2("#circle2" + i, angle2, cubeC1.x, cubeC1.y, cubeC1.radius);
+        alongPathCore2("#circle6" + i, angle2, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
     }
     if (angle1 >= 180) {
 
-        alongPath("#circle3" + i, angle3, cubeC1.x, cubeC1.y, cubeC1.radius);
-        alongPath("#circle7" + i, angle3, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
+        alongPathCore2("#circle3" + i, angle3, cubeC1.x, cubeC1.y, cubeC1.radius);
+        alongPathCore2("#circle7" + i, angle3, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
     }
     if (angle1 >= 270) {
 
 
         
 
-        alongPath("#circle4" + i, angle4, cubeC1.x, cubeC1.y, cubeC1.radius);
-        alongPath("#circle8" + i, angle4, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
+        alongPathCore2("#circle4" + i, angle4, cubeC1.x, cubeC1.y, cubeC1.radius);
+        alongPathCore2("#circle8" + i, angle4, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
 
-        var a1 = alongPath("#circle" + i, angle1, (cubeC1.x), cubeC1.y, cubeC1.radius);
-        var a2 = alongPath("", angle2, (cubeC1.x), cubeC1.y, cubeC1.radius);
-        var a3 = alongPath("", angle3, (cubeC1.x), cubeC1.y, cubeC1.radius);
-        var a4 = alongPath("", angle4, (cubeC1.x), cubeC1.y, cubeC1.radius);
-        var a5 = alongPath("", angle1, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
-        var a6 = alongPath("", angle2, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
-        var a7 = alongPath("", angle3, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
-        var a8 = alongPath("", angle4, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
+        var a1 = alongPathCore2("#circle" + i, angle1, (cubeC1.x), cubeC1.y, cubeC1.radius);
+        var a2 = alongPathCore2("", angle2, (cubeC1.x), cubeC1.y, cubeC1.radius);
+        var a3 = alongPathCore2("", angle3, (cubeC1.x), cubeC1.y, cubeC1.radius);
+        var a4 = alongPathCore2("", angle4, (cubeC1.x), cubeC1.y, cubeC1.radius);
+        var a5 = alongPathCore2("", angle1, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
+        var a6 = alongPathCore2("", angle2, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
+        var a7 = alongPathCore2("", angle3, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
+        var a8 = alongPathCore2("", angle4, (cubeC1.x), cubeC1.y + cubeC1.offset, cubeC1.radius);
 
         postMessage([true,a1,a2,a3,a4,a5,a6,a7,a8,i])
 
     }
     // if (i !== 0) {
 
-    //     cubeC1.x = alongPath("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubeC1.radiusOffset).x;
+    //     cubeC1.x = alongPathCore2("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubeC1.radiusOffset).x;
 
-    //     cubeC1.y = (alongPath("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubeC1.radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubeC1.offset - 1);
+    //     cubeC1.y = (alongPathCore2("#circle" + i, ((window["angle" + cubeC1.angleRefrence]) - cubeC1.angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubeC1.radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubeC1.offset - 1);
 
     // }
     
 }
 
 
-function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius) {
+function alongPathCore2(id, angle, xposLocal = 400, yposLocal = 400, radius) {
     var Y = yposLocal / 2 + ((Math.sin(angle * Math.PI / 180) * radius)) / (1 + (offset / 100));
     var X = xposLocal + (Math.cos(angle * Math.PI / 180) * radius);
     if (!id === "") {
