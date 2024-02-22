@@ -136,7 +136,7 @@ function renderShape() {
         } else if (b.radius === 990){
             return 0
         }
-        return Math.ceil(a.liveY)- Math.ceil(b.liveY)})
+        return a.liveY- b.liveY})
     }
 
     for (let i = 0; i < cubes.length; i++) {
@@ -171,7 +171,7 @@ function renderShape() {
             } else if (b.radius === 990){
                 return 0
             }
-            return Math.ceil(a.liveY)- Math.ceil(b.liveY)})
+            return a.liveY-b.liveY})
         }
         //move to worker when possible
         bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
