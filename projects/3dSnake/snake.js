@@ -8,7 +8,7 @@ var angle4 = 0;
 var fpsCounter = 0;
 var is = 0;
 var ran;
-
+var lazySorting = false
 var clicked;
 var open;
 
@@ -129,7 +129,7 @@ function changeColor(id) {
 
 function renderShape() {
     fpsCounter++;
-
+    if(lazySorting === true){
     cubes = cubes.sort(function(a,b){
         if(a.radius === 990){
            return 0 
@@ -137,6 +137,7 @@ function renderShape() {
             return 0
         }
         return Math.ceil(a.liveY)- Math.ceil(b.liveY)})
+    }
 
     for (let i = 0; i < cubes.length; i++) {
 
@@ -162,7 +163,17 @@ function renderShape() {
         //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
         //     $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,255," + i + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
         // }
-
+        
+        if(lazySorting === false){
+        cubes = cubes.sort(function(a,b){
+            if(a.radius === 990){
+               return 0 
+            } else if (b.radius === 990){
+                return 0
+            }
+            return Math.ceil(a.liveY)- Math.ceil(b.liveY)})
+        }
+        //move to worker when possible
         bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
 
 
@@ -170,7 +181,7 @@ function renderShape() {
     }
 }
 bitCruncher.onmessage = (aDONT) => {
-
+  
     var a = aDONT.data;
 
     cubes[a[9]]["liveY"] = a[1].y;
