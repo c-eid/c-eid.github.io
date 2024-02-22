@@ -54,7 +54,7 @@ function main() {
 
 
 
-    fpsCounter++;
+   
 
     if (angle1 >= 90) {
         angle2 += ang;
@@ -85,7 +85,7 @@ function main() {
 
 
 }
-var sortInterval = setInterval(sort, (1000 / 240));
+
 var renderShape = setInterval(renderShape, (1000 / 240));
 
 var id = setInterval(main, (1000 / 240));
@@ -139,7 +139,8 @@ function sort() {
     }
 }
 function renderShape() {
-
+    fpsCounter++;
+    sort()
     for (let i = 0; i < cubes.length; i++) {
 
         if (cubes[i].made === false) {
@@ -168,7 +169,7 @@ function renderShape() {
         bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
 
 
-
+         
     }
 }
 bitCruncher.onmessage = (aDONT) => {
@@ -176,6 +177,7 @@ bitCruncher.onmessage = (aDONT) => {
     var a = aDONT.data;
 
     cubes[a[9]]["liveY"] = a[1].y;
+
     const idTop = document.getElementById(`top${a[9]}`);
     idTop.setAttribute("points", a[1].point + a[2].point + a[3].point + a[4].point + "");
     idTop.style.display = "block";
