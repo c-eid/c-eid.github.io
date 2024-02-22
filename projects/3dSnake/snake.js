@@ -69,13 +69,17 @@ function main() {
     if (angle1 >= 270) {
         angle4 += ang;
         ang = 0.1;
-
+     
         //     if (offset <= 100) {
         //     offset += 0.01
         // }
     }
 
-
+    if(angle1 >= 360){
+        
+  
+  
+    }
 
 
 
@@ -122,25 +126,18 @@ function changeColor(id) {
 
 }
 
-function sort() {
 
-    // this creates the elements in order so that there are layer correctly
-    for (var i = 1; i < cubes.length - 1; i++) {
-        for (var I = 1; I < cubes.length - 1; I++) {
-
-            if (cubes[I].liveY >= cubes[I + 1].liveY) {
-
-
-                var temp = cubes[I];
-                cubes[I] = cubes[I + 1];
-                cubes[I + 1] = temp;
-            }
-        }
-    }
-}
 function renderShape() {
     fpsCounter++;
-    sort()
+
+    cubes = cubes.sort(function(a,b){
+        if(a.radius === 990){
+           return 0 
+        } else if (b.radius === 990){
+            return 0
+        }
+        return Math.ceil(a.liveY)- Math.ceil(b.liveY)})
+
     for (let i = 0; i < cubes.length; i++) {
 
         if (cubes[i].made === false) {

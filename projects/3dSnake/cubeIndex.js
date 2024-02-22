@@ -1,5 +1,5 @@
 
-const cubes = [
+var cubes = [
     {
         made: false,
         x: 1280,
