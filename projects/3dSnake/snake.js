@@ -284,14 +284,14 @@ function animateBackground() {
 
         for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
             ctx.beginPath();
-            ctx.lineWidth = 100 - lWidth;
+            ctx.lineWidth =100+ (previous / 10) - lWidth;
             ctx.strokeStyle = "white";
             ctx.moveTo(0, i);
             ctx.lineTo(documentWidth * 2, i);
             ctx.closePath();
             ctx.stroke();
             ctx.beginPath();
-            ctx.lineWidth = 100 - lWidth;
+            ctx.lineWidth = 100+(previous / 10) - lWidth;
             ctx.moveTo(i, 0);
             ctx.lineTo(i, documentWidth * 2);
             ctx.closePath();

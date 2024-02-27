@@ -1001,7 +1001,7 @@ var cubes = [
         angleOffset: 272.9 - 270,
         radiusOffset: 1891,
         row: 22,
-        col: 12,
+        col: 2,
         angleRefrence: 1,
         visible: false
     }, 
@@ -1014,8 +1014,8 @@ var cubes = [
         radius: 45,
         angleOffset: 273.2 - 270,
         radiusOffset: 1801,
-        row: 13,
-        col: 11,
+        row: 21,
+        col: 3,
         angleRefrence: 1,
         visible: false
     },
@@ -1027,8 +1027,8 @@ var cubes = [
         radius: 45,
         angleOffset: 273.6 - 270,
         radiusOffset: 1711,
-        row: 14,
-        col: 10,
+        row: 20,
+        col: 4,
         angleRefrence: 1,
         visible: false
     }, {
@@ -1039,8 +1039,8 @@ var cubes = [
         radius: 45,
         angleOffset: 274.1 - 270,
         radiusOffset: 1621,
-        row: 15,
-        col: 9,
+        row: 19,
+        col: 5,
         angleRefrence: 1,
         visible: false
     }, {
@@ -1051,8 +1051,8 @@ var cubes = [
         radius: 45,
         angleOffset: 274 - 270,
         radiusOffset: 1621,
-        row: 16,
-        col: 8,
+        row: 18,
+        col: 6,
         angleRefrence: 1,
         visible: false
     }, {
@@ -1075,8 +1075,8 @@ var cubes = [
         radius: 45,
         angleOffset: 275.7 - 270,
         radiusOffset: 1441,
-        row: 18,
-        col: 6,
+        row: 16,
+        col: 8,
         angleRefrence: 1,
         visible: false
     },
@@ -1088,8 +1088,8 @@ var cubes = [
         radius: 45,
         angleOffset: 276.9 - 270,
         radiusOffset: 1351,
-        row: 19,
-        col: 5,
+        row: 15,
+        col: 9,
         angleRefrence: 1,
         visible: false
     }, {
@@ -1100,8 +1100,8 @@ var cubes = [
         radius: 45,
         angleOffset: 279.4 - 270,
         radiusOffset: 1264,
-        row: 20,
-        col: 4,
+        row: 14,
+        col: 10,
         angleRefrence: 1,
         visible: false
     }, 
@@ -1113,8 +1113,8 @@ var cubes = [
         radius: 45,
         angleOffset: 284 - 270,
         radiusOffset: 1176,
-        row: 21,
-        col: 3,
+        row: 13,
+        col: 11,
         angleRefrence: 1,
         visible: false
      }, 
@@ -1126,8 +1126,8 @@ var cubes = [
             radius: 45,
             angleOffset: 296 - 270,
             radiusOffset: 1091,
-            row: 22,
-            col: 2,
+            row: 12,
+            col: 12,
             angleRefrence: 1,
             visible: false
         },
@@ -1139,11 +1139,12 @@ var cubes = [
         radius: 45,
         angleOffset: (272.9 - 270) * -1,
         radiusOffset: 1891,
-        row: 2,
+        row: 21,
         col: 1,
         angleRefrence: 1,
         visible: false
-    }, {
+    },
+     {
         made: false,
         x: 600,
         y: 2560,
@@ -1151,7 +1152,7 @@ var cubes = [
         radius: 45,
         angleOffset: (273.2 - 270) * -1,
         radiusOffset: 1801,
-        row: 3,
+        row: 20,
         col: 2,
         angleRefrence: 1,
         visible: false
@@ -1163,7 +1164,7 @@ var cubes = [
         radius: 45,
         angleOffset: (273.6 - 270) * -1,
         radiusOffset: 1711,
-        row: 4,
+        row: 19,
         col: 3,
         angleRefrence: 1,
         visible: false
@@ -1175,7 +1176,7 @@ var cubes = [
         radius: 45,
         angleOffset: (274.1 - 270) * -1,
         radiusOffset: 1621,
-        row: 5,
+        row: 18,
         col: 4,
         angleRefrence: 1,
         visible: false
@@ -1187,7 +1188,7 @@ var cubes = [
         radius: 45,
         angleOffset: (274 - 270) * -1,
         radiusOffset: 1621,
-        row: 6,
+        row: 17,
         col: 5,
         angleRefrence: 1,
         visible: false
@@ -1199,7 +1200,7 @@ var cubes = [
         radius: 45,
         angleOffset: (274.8 - 270) * -1,
         radiusOffset: 1531,
-        row: 7,
+        row: 16,
         col: 6,
         angleRefrence: 1,
         visible: false
@@ -1211,7 +1212,7 @@ var cubes = [
         radius: 45,
         angleOffset: (275.7 - 270) * -1,
         radiusOffset: 1441,
-        row: 8,
+        row: 15,
         col: 7,
         angleRefrence: 1,
         visible: false
@@ -1223,7 +1224,7 @@ var cubes = [
         radius: 45,
         angleOffset: (276.9 - 270) * -1,
         radiusOffset: 1351,
-        row: 9,
+        row: 14,
         col: 8,
         angleRefrence: 1,
         visible: false
@@ -1235,7 +1236,7 @@ var cubes = [
         radius: 45,
         angleOffset: (279.4 - 270) * -1,
         radiusOffset: 1264,
-        row: 10,
+        row: 13,
         col: 9,
         angleRefrence: 1,
         visible: false
@@ -1247,11 +1248,12 @@ var cubes = [
         radius: 45,
         angleOffset: (284 - 270) * -1,
         radiusOffset: 1176,
-        row: 11,
+        row: 12,
         col: 10,
         angleRefrence: 1,
         visible: false
-    }, {
+     },
+     {
         made: false,
         x: 600,
         y: 2560,
@@ -1259,7 +1261,7 @@ var cubes = [
         radius: 45,
         angleOffset: (296 - 270) * -1,
         radiusOffset: 1091,
-        row: 12,
+        row: 13,
         col: 11,
         angleRefrence: 1,
         visible: false
