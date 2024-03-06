@@ -36,7 +36,7 @@ let msslider;
 let lvlData;
 let uploadCondition1 = false;
 let platformKills = false;
-
+let platformCollides = true;
 var msvalue;
 window.onload = (event) => {
   msslider = document.getElementById('ms');
@@ -93,6 +93,13 @@ function placeTypeChange() {
     exporbar = jQuery('#exOutput');
     exporbar.css("display", "none");
   }
+  if (placetype === "import"){
+    imporbar = jQuery('#importBar');
+    imporbar.css("display", "inherit");
+  } else {
+    imporbar = jQuery('#importBar');
+    imporbar.css("display", "none");
+  }
 }
 
 
@@ -105,8 +112,8 @@ var nextlvlint = savedLevels + 1;
 
 
 function main() {
-  ctx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
-
+  ctx.clearRect(0, 0, 1400, 760); //erase the screen so you can draw everything in it's most current position
+ 
 
   if (player.deadAndDeathAnimationDone) {
     deathOfPlayer();
@@ -435,22 +442,25 @@ function collision() {
   var result = undefined;
   for (var i = 0; i < platforms.length; i++) {
     // Check for collision
-    if (
+     if (
       player.x + hitBoxWidth > platforms[i].x &&
       player.x < platforms[i].x + platforms[i].width &&
       player.y < platforms[i].y + platforms[i].height &&
       player.y + hitBoxHeight > platforms[i].y
     ) {
       //now that we know we have collided, we figure out the direction of collision
-      if(platforms[i].kills){
-        deathOfPlayer()
+      if(platforms[i].kills && currentAnimationType !== animationTypes.frontDeath){
+        frameIndex = 60;
+        currentAnimationType = animationTypes.frontDeath;
       }
+      if(platforms[i].collides){
       result = resolveCollision(
         platforms[i].x,
         platforms[i].y,
         platforms[i].width,
         platforms[i].height
       );
+      }
     }
   }
   return result;
@@ -665,6 +675,13 @@ function changeIfKills(){
     platformKills = true
   }
 }
+function changeIfCollides(){
+  if (platformCollides){
+    platformCollides = false
+  } else {
+    platformCollides = true
+  }
+}
 function playerFrictionAndGravity() {
   //max speed limiter for ground
   if (player.speedX > maxSpeed) {
@@ -697,7 +714,7 @@ function place() {
         cursorX += gridSize;
         cursorY += gridSize;
       }
-      createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor, true, platformKills);
+      createPlatform(cursorX, cursorY, setWidth, setHeight, setcolor, true, platformKills, platformCollides);
     }
     else if (placetype === "collectable") {
       gRange = ((document.getElementById("gRange").value) / 100);
@@ -930,6 +947,7 @@ function drawCannons() {
   }
 }
 function rotate() {
+
   if (placetype === "platform") {
     if (rot <= 1) {
       let tempW = setWidth;
@@ -1002,6 +1020,7 @@ function drawCollectables() {
 
       // Check for collision with platforms in order to bounce
       for (var j = 0; j < platforms.length; j++) {
+        
         if (
           collectables[i].x + collectableWidth > platforms[j].x &&
           collectables[i].x < platforms[j].x + platforms[j].width &&
@@ -1038,7 +1057,7 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true, kills = false) {
+function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true, kills = false, collides = true) {
   let savedcolor = color;
 
   if (width < 0) {
@@ -1050,7 +1069,7 @@ function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true,
     height *= -1;
   }
 
-  platforms.push({ x, y, width, height, color, savedcolor, isStatic, kills});
+  platforms.push({ x, y, width, height, color, savedcolor, isStatic, kills, collides});
 
 }
 
@@ -1188,7 +1207,7 @@ function createCannon(
 }
 
 
-function createCollectable(type, x, y, gravity = 0.1, bounce = 1, posX, posY) {
+function createCollectable(type, x, y, gravity = 0.1, bounce = 1, posX = x, posY = y) {
   if (type !== "") {
     var img = document.createElement("img"); // this is not necessary; we could simply make a single element for each collectable type in the HTML instead
     img.src = collectableList[type].image;
@@ -1379,7 +1398,7 @@ function showCoords(event) {
   if (gridSnap === false) {
     cursorX = x;
     cursorY = y;
-    if (x < 1400 && y < 750 && placemode) {
+    if (x < 1410 && y < 760 && placemode) {
       createOutline(x, y, setWidth, setHeight);
     }
     else {
@@ -1392,7 +1411,7 @@ function showCoords(event) {
     y = Math.floor(y / gridSize) * gridSize;
     cursorX = x;
     cursorY = y;
-    if (x < 1400 && y < 750 && placemode) {
+    if (x < 1400 && y < 760 && placemode) {
       if (setWidth < 0 && setHeight < 0) {
         x += gridSize;
         y += gridSize;
@@ -1411,8 +1430,8 @@ function showCoords(event) {
 
 function remove() {
 
-  for (var i = 0; i < platforms.length; i++) {
-    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
+  for (var i = platforms.length-1; i >= 0; i--) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY) {
       platforms.splice(i, 1);
       return;
     }
@@ -1424,7 +1443,7 @@ function remove() {
       collectables[i].x + collectableWidth - 1) > cursorX &&
       collectables[i].y <= cursorY && (
         collectables[i].y + collectableHeight - 1) > cursorY &&
-      cursorY < 740) {
+      cursorY < 760) {
 
       collectables.splice(i, 1);
       return;
@@ -1435,7 +1454,7 @@ function remove() {
       cannons[i].x + cannonWidth - 1) > cursorX &&
       cannons[i].y <= cursorY && (
         cannons[i].y + cannonHeight - 1) > cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "bottom") {/////////////////////////////bottomonly
       cannons.splice(i, 1);
       return;
@@ -1444,7 +1463,7 @@ function remove() {
       cannons[i].x - cannonWidth - 40) < cursorX &&
       cannons[i].y >= cursorY && (
         cannons[i].y - cannonHeight - 1) < cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "top") {/////////////////////////////top
       cannons.splice(i, 1);
 
@@ -1454,7 +1473,7 @@ function remove() {
       cannons[i].x - cannonHeight - 1) < cursorX &&
       cannons[i].y <= cursorY && (
         cannons[i].y + cannonWidth - 1) > cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "left") {/////////////////////////////left
       cannons.splice(i, 1);
       return;
@@ -1463,7 +1482,7 @@ function remove() {
       cannons[i].x + cannonHeight - 1) > cursorX &&
       cannons[i].y >= cursorY && (
         cannons[i].y - cannonWidth - 1) < cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "right") {/////////////////////////////bottomonly
       cannons.splice(i, 1);
       return;
@@ -1472,7 +1491,7 @@ function remove() {
 }
 function removeHi() {
   for (var i = 0; i < platforms.length; i++) {
-    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 760) {
 
       platforms[i].color = "rgba(255, 0, 0, 0.5)";
 
@@ -1529,7 +1548,7 @@ function drawGrid() {
 
 function onInfo() {
   for (var i = 0; i < platforms.length; i++) {
-    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 740) {
+    if (platforms[i].x <= cursorX && (platforms[i].x + platforms[i].width - 1) > cursorX && platforms[i].y <= cursorY && (platforms[i].y + platforms[i].height - 1) > cursorY && cursorY < 760) {
 
       $("#height").val(parseInt(platforms[i].height))
       $("#width").val(parseInt(platforms[i].width))
@@ -1546,7 +1565,7 @@ function onInfo() {
       collectables[i].x + collectableWidth - 1) > cursorX &&
       collectables[i].y <= cursorY && (
         collectables[i].y + collectableHeight - 1) > cursorY &&
-      cursorY < 740) {
+      cursorY < 760) {
         $("#gRange").val(collectables[i].gravity)
         $("#bRange").val(collectables[i].bounce)
 
@@ -1557,7 +1576,7 @@ function onInfo() {
       cannons[i].x + cannonWidth - 1) > cursorX &&
       cannons[i].y <= cursorY && (
         cannons[i].y + cannonHeight - 1) > cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "bottom") {/////////////////////////////bottomonly
       
         $("#ms").val(parseInt(cannons[i].delay))
@@ -1568,7 +1587,7 @@ function onInfo() {
       cannons[i].x - cannonWidth - 40) < cursorX &&
       cannons[i].y >= cursorY && (
         cannons[i].y - cannonHeight - 1) < cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "top") {/////////////////////////////top
         $("#ms").val(parseInt(cannons[i].delay))
         $("#msvalue").val(parseInt(cannons[i].delay))
@@ -1577,7 +1596,7 @@ function onInfo() {
       cannons[i].x - cannonHeight - 1) < cursorX &&
       cannons[i].y <= cursorY && (
         cannons[i].y + cannonWidth - 1) > cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "left") {/////////////////////////////left
         $("#ms").val(parseInt(cannons[i].delay))
         $("#msvalue").val(parseInt(cannons[i].delay))
@@ -1586,7 +1605,7 @@ function onInfo() {
       cannons[i].x + cannonHeight - 1) > cursorX &&
       cannons[i].y >= cursorY && (
         cannons[i].y - cannonWidth - 1) < cursorY &&
-      cursorY < 740 &&
+      cursorY < 760 &&
       cannons[i].wallLocation === "right") {/////////////////////////////bottomonly
         $("#ms").val(parseInt(cannons[i].delay))
         $("#msvalue").val(parseInt(cannons[i].delay))

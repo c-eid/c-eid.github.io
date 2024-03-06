@@ -487,3 +487,42 @@ div.scroll {
   width:100%;
   padding-top: 15px;
 }
+.bigInput{
+  margin: auto;
+  border-radius:5px;
+  padding: 4px;
+  background-color: #257a38;
+  width: 200px;
+  
+  height: 570px;
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+  color: white;
+  resize: none;
+}
+#importBar{
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(29, 29, 29); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #252525; 
+}

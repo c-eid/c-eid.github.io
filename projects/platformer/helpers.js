@@ -57,7 +57,7 @@ var savedLevels = parseInt(getCookie("lvlNum"));
 var nextlvlint = savedLevels + 1;
 
 
-
+drawPlatforms()
 
 function main() {
   stx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
@@ -72,7 +72,7 @@ function main() {
 
 
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-  if (savedLevels === 2 || savedLevels === 3) {
+  if (savedLevels === 3) {
     if (platforms[0].x <= min) {
       lor = true;
     }
@@ -110,7 +110,7 @@ function main() {
 
   // }
   drawGrid();
-  drawPlatforms();
+  drawNonStaticPlatforms();
 
 
   drawCannons();
@@ -391,15 +391,18 @@ function collision() {
   var result = undefined;
   for (var i = 0; i < platforms.length; i++) {
     // Check for collision
+   
     if (
       player.x + hitBoxWidth > platforms[i].x &&
       player.x < platforms[i].x + platforms[i].width &&
       player.y < platforms[i].y + platforms[i].height &&
       player.y + hitBoxHeight > platforms[i].y
     ) {
-      if(platforms[i].kills  && currentAnimationType !== animationTypes.frontDeath){
-        deathOfPlayer
+      if(platforms[i].kills && currentAnimationType !== animationTypes.frontDeath){
+        currentAnimationType = animationTypes.frontDeath;
+        frameIndex = 0;
       }
+      if(platforms[i].collides){
       //now that we know we have collided, we figure out the direction of collision
       result = resolveCollision(
         platforms[i].x,
@@ -407,6 +410,7 @@ function collision() {
         platforms[i].width,
         platforms[i].height
       );
+      }
     }
   }
   return result;
@@ -548,7 +552,9 @@ function projectileCollision() {
 
 
 function deathOfPlayer() {
+drawPlatforms()
   ctx.fillStyle = "grey";
+  
   ctx.fillRect(
     canvas.width / 4,
     canvas.height / 6,
@@ -557,6 +563,7 @@ function deathOfPlayer() {
   );
   ctx.fillStyle = "black";
   ctx.font = "800% serif";
+  
   ctx.fillText(
     "You are dead",
     canvas.width / 4,
@@ -572,10 +579,13 @@ function deathOfPlayer() {
   );
 
   if (keyPress.any) {
+    debugger
     keyPress.any = false;
+
     for (var i = 0; i < collectables.length; i++) {
       collectables[i].collected = false;
     }
+    
     player.x = 50;
     player.y = 100;
     player.speedX = 0;
@@ -584,6 +594,7 @@ function deathOfPlayer() {
     player.facingRight = true;
     player.deadAndDeathAnimationDone = false;
     ctx.clearRect(0, 0, 1800, 1800);
+
     currentAnimationType = animationTypes.run;
     // window.location.reload();
   }
@@ -612,10 +623,7 @@ function playerFrictionAndGravity() {
   }
 }
 
-
-
-function drawPlatforms() {
-
+function drawPlatforms(){
   for (var i = 0; i < platforms.length; i++) {
     if(platforms[i].isStatic){
     ctx.fillStyle = platforms[i].color;
@@ -626,7 +634,14 @@ function drawPlatforms() {
       platforms[i].width,
       platforms[i].height
     );
-    } else {
+    }
+}}
+
+function drawNonStaticPlatforms() {
+
+  for (var i = 0; i < platforms.length; i++) {
+
+
       stx.fillStyle = platforms[i].color;
     stx.fillStyle = platforms[i].color;
     stx.fillRect(
@@ -637,7 +652,7 @@ function drawPlatforms() {
     );
     }
   }
-}
+
 
 
 function drawProjectiles() {
@@ -751,7 +766,8 @@ function collectablesCollide() {
   }
 }
 
-function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true, kills = false) {
+function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true, kills = false, collides = true) {
+
   let savedcolor = color;
 
   if (width < 0) {
@@ -763,8 +779,8 @@ function createPlatform(x, y, width, height, color = "#FFFFFF", isStatic = true,
     height *= -1;
   }
 
-  platforms.push({ x, y, width, height, color, savedcolor, isStatic, kills});
-
+  platforms.push({ x, y, width, height, color, savedcolor, isStatic, kills, collides});
+  
 }
 
 
@@ -1111,19 +1127,343 @@ function drawGrid() {
 function levelmake() {
   var savedLevel = parseInt(getCookie("lvlNum"))
   if (savedLevel === 1) { //level editor
-
-    createPlatform(500, 560, 700, 10); //right
-    createPlatform(500, 450, 10, 110); //right
-    createPlatform(300, 450, 200, 10);//right
-    createPlatform(300, 400, 10, 50);//right
-    createPlatform(100, 400, 200, 10); //right
-    createPlatform(100, 0, 10, 400); //right
-    createPlatform(1200, 200, 10, 370)
-    createPlatform(400, 300, 600, 10);//top
-    createPlatform(750, 0, 10, 300);//top wall
-    createCollectable('database', 850, 200, 5, 1); //collectables
-    createCollectable('database', 1280, 300, 5, 1);
-    createCollectable('database', 600, 200, 5, 1);
+    createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
+    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
+    createPlatform(100, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(100, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(0, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(100, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(500, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(400, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(400, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(500, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(500, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(400, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(900, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(900, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(900, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(800, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(800, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1300, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1300, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1300, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1200, 700, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1200, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1300, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1300, 500, 100, 10, '#262626', true, false);
+    createPlatform(1200, 600, 10, 100, '#262626', true, false);
+    createPlatform(1200, 700, 10, 100, '#262626', true, false);
+    createPlatform(800, 700, 10, 100, '#262626', true, false);
+    createPlatform(800, 600, 10, 100, '#262626', true, false);
+    createPlatform(800, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(800, 500, 10, 100, '#262626', true, false);
+    createPlatform(800, 500, 100, 10, '#262626', true, false);
+    createPlatform(900, 500, 100, 10, '#262626', true, false);
+    createPlatform(990, 500, 10, 100, '#262626', true, false);
+    createPlatform(990, 600, 10, 100, '#262626', true, false);
+    createPlatform(990, 700, 10, 100, '#262626', true, false);
+    createPlatform(590, 500, 10, 100, '#262626', true, false);
+    createPlatform(590, 600, 10, 100, '#262626', true, false);
+    createPlatform(590, 700, 10, 100, '#262626', true, false);
+    createPlatform(500, 500, 100, 10, '#262626', true, false);
+    createPlatform(400, 500, 100, 10, '#262626', true, false);
+    createPlatform(400, 500, 10, 100, '#262626', true, false);
+    createPlatform(400, 600, 10, 100, '#262626', true, false);
+    createPlatform(400, 700, 10, 100, '#262626', true, false);
+    createPlatform(100, 500, 100, 10, '#262626', true, false);
+    createPlatform(190, 500, 10, 100, '#262626', true, false);
+    createPlatform(190, 700, 10, 100, '#262626', true, false);
+    createPlatform(190, 600, 10, 100, '#262626', true, false);
+    createPlatform(420, 510, 10, 10, '#262626', true, false);
+    createPlatform(410, 520, 10, 10, '#262626', true, false);
+    createPlatform(410, 530, 10, 10, '#262626', true, false);
+    createPlatform(420, 520, 10, 10, '#262626', true, false);
+    createPlatform(440, 510, 10, 10, '#262626', true, false);
+    createPlatform(430, 510, 10, 10, '#262626', true, false);
+    createPlatform(410, 540, 10, 10, '#262626', true, false);
+    createPlatform(410, 510, 10, 10, '#262626', true, false);
+    createPlatform(580, 510, 10, 10, '#262626', true, false);
+    createPlatform(570, 510, 10, 10, '#262626', true, false);
+    createPlatform(560, 510, 10, 10, '#262626', true, false);
+    createPlatform(580, 520, 10, 10, '#262626', true, false);
+    createPlatform(580, 530, 10, 10, '#262626', true, false);
+    createPlatform(570, 520, 10, 10, '#262626', true, false);
+    createPlatform(580, 540, 10, 10, '#262626', true, false);
+    createPlatform(550, 510, 10, 10, '#262626', true, false);
+    createPlatform(810, 510, 10, 10, '#262626', true, false);
+    createPlatform(810, 520, 10, 10, '#262626', true, false);
+    createPlatform(810, 530, 10, 10, '#262626', true, false);
+    createPlatform(810, 540, 10, 10, '#262626', true, false);
+    createPlatform(820, 520, 10, 10, '#262626', true, false);
+    createPlatform(820, 510, 10, 10, '#262626', true, false);
+    createPlatform(830, 510, 10, 10, '#262626', true, false);
+    createPlatform(840, 510, 10, 10, '#262626', true, false);
+    createPlatform(950, 510, 10, 10, '#262626', true, false);
+    createPlatform(960, 510, 10, 10, '#262626', true, false);
+    createPlatform(970, 510, 10, 10, '#262626', true, false);
+    createPlatform(980, 510, 10, 10, '#262626', true, false);
+    createPlatform(970, 520, 10, 10, '#262626', true, false);
+    createPlatform(980, 520, 10, 10, '#262626', true, false);
+    createPlatform(980, 530, 10, 10, '#262626', true, false);
+    createPlatform(980, 540, 10, 10, '#262626', true, false);
+    createPlatform(1200, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(1200, 500, 100, 10, '#262626', true, false);
+    createPlatform(1200, 500, 10, 100, '#262626', true, false);
+    createPlatform(1210, 510, 10, 10, '#262626', true, false);
+    createPlatform(1210, 530, 10, 10, '#262626', true, false);
+    createPlatform(1210, 520, 10, 10, '#262626', true, false);
+    createPlatform(1210, 540, 10, 10, '#262626', true, false);
+    createPlatform(1220, 510, 10, 10, '#262626', true, false);
+    createPlatform(1240, 510, 10, 10, '#262626', true, false);
+    createPlatform(1230, 510, 10, 10, '#262626', true, false);
+    createPlatform(1220, 520, 10, 10, '#262626', true, false);
+    createPlatform(150, 510, 10, 10, '#262626', true, false);
+    createPlatform(160, 510, 10, 10, '#262626', true, false);
+    createPlatform(170, 510, 10, 10, '#262626', true, false);
+    createPlatform(180, 510, 10, 10, '#262626', true, false);
+    createPlatform(170, 520, 10, 10, '#262626', true, false);
+    createPlatform(180, 520, 10, 10, '#262626', true, false);
+    createPlatform(180, 530, 10, 10, '#262626', true, false);
+    createPlatform(180, 540, 10, 10, '#262626', true, false);
+    createPlatform(200, 620, 200, 10, '#fdc93b', true, false);
+    createPlatform(600, 590, 200, 10, '#fdc93b', true, false);
+    createPlatform(1000, 600, 200, 10, '#fdc93b', true, false);
+    createPlatform(220, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(230, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(290, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(320, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(310, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(350, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(370, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(380, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(390, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(600, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(610, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(620, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(640, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(630, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(780, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(790, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(1000, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1010, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1020, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1060, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1070, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1090, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1080, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1110, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1100, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1100, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(1090, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(1080, 580, 10, 10, '#fdc93b', true, false);
+    createPlatform(1140, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1160, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1150, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1180, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(1190, 590, 10, 10, '#fdc93b', true, false);
+    createPlatform(200, 620, 10, 10, '#fdc93b', true, false);
+    createPlatform(250, 620, 10, 10, '#fdc93b', true, false);
+    createPlatform(260, 620, 10, 10, '#fdc93b', true, false);
+    createPlatform(270, 620, 10, 10, '#fdc93b', true, false);
+    createPlatform(290, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(310, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(320, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(350, 610, 10, 10, '#fdc93b', true, false);
+    createPlatform(200, 620, 10, 10, '#fdc93b', true, true);
+    createPlatform(210, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(240, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(290, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(260, 620, 10, 10, '#fdc93b', true, true);
+    createPlatform(300, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(310, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(320, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(360, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(370, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(200, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(220, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(220, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(230, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(250, 610, 10, 10, '#fdc93b', true, true);
+    createPlatform(310, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(310, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(300, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(370, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(380, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(390, 600, 10, 10, '#fdc93b', true, true);
+    createPlatform(790, 570, 10, 10, '#fdc93b', true, true);
+    createPlatform(750, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(740, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(730, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(720, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(650, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(630, 570, 10, 10, '#fdc93b', true, true);
+    createPlatform(620, 570, 10, 10, '#fdc93b', true, true);
+    createPlatform(610, 570, 10, 10, '#fdc93b', true, true);
+    createPlatform(690, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(770, 580, 10, 10, '#fdc93b', true, true);
+    createPlatform(0, 600, 100, 100, '#3b3b3b', true, false);
+    createPlatform(0, 500, 100, 100, '#3b3b3b', true, false);
+    createPlatform(0, 500, 100, 10, '#262626', true, false);
+    createPlatform(200, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(220, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(250, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(280, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(290, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(310, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(360, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(350, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(340, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(370, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(370, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(210, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(200, 630, 30, 10, '#ee8824', true, true);
+    createPlatform(610, 590, 30, 10, '#ee8824', true, true);
+    createPlatform(600, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(600, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(640, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(630, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(670, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(700, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(730, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(770, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(770, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(770, 590, 30, 10, '#ee8824', true, true);
+    createPlatform(750, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(700, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(670, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(220, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(260, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(320, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(290, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(250, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(200, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(360, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(350, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(370, 640, 30, 10, '#ee8824', true, true);
+    createPlatform(630, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(650, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(730, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(750, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1000, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1020, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1050, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1070, 600, 30, 10, '#ee8824', true, true);
+    createPlatform(1080, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1100, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1120, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1150, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1170, 610, 30, 10, '#ee8824', true, true);
+    createPlatform(1000, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1030, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1060, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1090, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1110, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1130, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1160, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(1170, 620, 30, 10, '#ee8824', true, true);
+    createPlatform(200, 650, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 620, 200, 10, '#ce532e', true, true);
+    createPlatform(1000, 630, 200, 10, '#ce532e', true, true);
+    createPlatform(1020, 630, 10, 10, '#ce532e', true, true);
+    createPlatform(1020, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(1070, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(1080, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(1130, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(1140, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(1160, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(1150, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(610, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(620, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(630, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(690, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(640, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(650, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(700, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(740, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(770, 620, 10, 10, '#ce532e', true, true);
+    createPlatform(770, 610, 10, 10, '#ce532e', true, true);
+    createPlatform(210, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(200, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(240, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(290, 630, 10, 10, '#ce532e', true, true);
+    createPlatform(310, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(300, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(290, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(370, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(350, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(360, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(280, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(270, 640, 10, 10, '#ce532e', true, true);
+    createPlatform(290, 630, 10, 10, '#ce532e', true, true);
+    createPlatform(280, 630, 10, 10, '#ce532e', true, true);
+    createPlatform(1000, 640, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 630, 200, 10, '#ce532e', true, true);
+    createPlatform(200, 660, 200, 10, '#ce532e', true, true);
+    createPlatform(200, 670, 200, 10, '#ce532e', true, true);
+    createPlatform(200, 680, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 640, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 650, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 660, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 680, 200, 10, '#ce532e', true, true);
+    createPlatform(600, 670, 200, 10, '#ce532e', true, true);
+    createPlatform(1000, 650, 200, 10, '#ce532e', true, true);
+    createPlatform(1000, 660, 200, 10, '#ce532e', true, true);
+    createPlatform(1000, 670, 200, 10, '#ce532e', true, true);
+    createPlatform(1000, 680, 200, 10, '#af3f27', true, true);
+    createPlatform(1000, 690, 200, 10, '#af3f27', true, true);
+    createPlatform(1000, 700, 200, 10, '#af3f27', true, true);
+    createPlatform(1000, 710, 200, 10, '#af3f27', true, true);
+    createPlatform(1000, 720, 200, 10, '#af3f27', true, true);
+    createPlatform(1000, 730, 200, 10, '#af3f27', true, true);
+    createPlatform(600, 690, 200, 10, '#af3f27', true, true);
+    createPlatform(600, 710, 200, 10, '#af3f27', true, true);
+    createPlatform(600, 700, 200, 10, '#af3f27', true, true);
+    createPlatform(600, 720, 200, 10, '#af3f27', true, true);
+    createPlatform(600, 730, 200, 10, '#af3f27', true, true);
+    createPlatform(200, 690, 200, 10, '#af3f27', true, true);
+    createPlatform(200, 710, 200, 10, '#af3f27', true, true);
+    createPlatform(200, 720, 200, 10, '#af3f27', true, true);
+    createPlatform(200, 730, 200, 10, '#af3f27', true, true);
+    createPlatform(200, 700, 200, 10, '#af3f27', true, true);
+    createPlatform(600, 680, 200, 10, '#af3f27', true, true);
+    createPlatform(1010, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(1070, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(1090, 660, 30, 10, '#af3f27', true, true);
+    createPlatform(1100, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(1160, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(610, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(640, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(640, 660, 30, 10, '#af3f27', true, true);
+    createPlatform(680, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(670, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(760, 660, 30, 10, '#af3f27', true, true);
+    createPlatform(750, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(770, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(200, 680, 30, 10, '#af3f27', true, true);
+    createPlatform(260, 690, 30, 10, '#af3f27', true, true);
+    createPlatform(260, 680, 30, 10, '#af3f27', true, true);
+    createPlatform(280, 670, 30, 10, '#af3f27', true, true);
+    createPlatform(290, 680, 30, 10, '#af3f27', true, true);
+    createPlatform(350, 680, 30, 10, '#af3f27', true, true);
+    createPlatform(340, 680, 30, 10, '#af3f27', true, true);
+    createPlatform(380, 680, 30, 10, '#af3f27', true, true);
+    createPlatform(400, 610, 10, 100, '#262626', true, true);
+    createCollectable('database',276.5, 360, 0, 0);
+    createCollectable('database',686.5, 350, 0, 0);
+    createCollectable('database',1086.5, 340, 0, 0);
+    // createPlatform(500, 560, 700, 10); //right
+    // createPlatform(500, 450, 10, 110); //right
+    // createPlatform(300, 450, 200, 10);//right
+    // createPlatform(300, 400, 10, 50);//right
+    // createPlatform(100, 400, 200, 10); //right
+    // createPlatform(100, 0, 10, 400); //right
+    // createPlatform(1200, 200, 10, 370)
+    // createPlatform(400, 300, 600, 10);//top
+    // createPlatform(750, 0, 10, 300);//top wall
+    // createCollectable('database', 850, 200, 5, 1); //collectables
+    // createCollectable('database', 1280, 300, 5, 1);
+    // createCollectable('database', 600, 200, 5, 1);
   }
   else if (savedLevel === 4){
     createPlatform(0, 12.5, 10, 100, '#078d1d');
@@ -1403,19 +1743,513 @@ createPlatform(1240, 470, 100, 10, '#371c06');
 createCollectable("database", 1300, 200, 0, 0)
 createCollectable("database", 1300, 600, 0, 0)
 createCollectable("database", 775, 300, 0, 0)
+createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
+    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //right
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
+    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
 }
   else if (savedLevel === 2) {
-    min = 300
-    max = 1200
-    createPlatform(300, 700, 200, 15, "#FF00FF", false);
-    createPlatform(500, 600, 200, 15, "white");
-    createPlatform(200, 500, 200, 15);
-    createPlatform(600, 400, 900, 15);
+    createPlatform(-50, -50, 1500, 50, 'white', true, false, true);
+    createPlatform(-50, -50, 50, 1250, 'rgb(28, 26, 26', true, false, true);
+    createPlatform(1400, -50, 50, 850, 'rgb(28, 26, 26', true, false, true);
+    createPlatform(10000, 1, 100, 10, '#FFFFFF', true, false, true);
+    createPlatform(-50, -50, 1500, 50, 'white', true, false, true);
+    createPlatform(-50, -50, 50, 1250, 'rgb(28, 26, 26', true, false, true);
+    createPlatform(1400, -50, 50, 850, 'rgb(28, 26, 26', true, false, true);
+    createPlatform(10000, 1, 100, 10, '#FFFFFF', true, false, true);
+    createPlatform(-50, -50, 1500, 50, 'white', true, false, true);
+    createPlatform(-50, -50, 50, 1250, 'rgb(28, 26, 26', true, false, true);
+    createPlatform(1400, -50, 50, 850, 'rgba(255, 0, 0, 0.5)', true, false, true);
+    createPlatform(10000, 1, 100, 10, '#FFFFFF', true, false, true);
+    createPlatform(-50, -50, 1500, 50, 'white', true, false, true);
+    createPlatform(-50, -50, 50, 1250, 'rgb(28, 26, 26', true, false, true);
+    createPlatform(1400, -50, 50, 850, 'rgba(255, 0, 0, 0.5)', true, false, true);
+    createPlatform(10000, 1, 100, 10, '#FFFFFF', true, false, true);
+    createPlatform(0, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(0, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(0, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(100, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(100, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(100, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(400, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(400, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(400, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(500, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(500, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(500, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(500, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(800, 300, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1100, 200, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1100, 300, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1100, 400, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1100, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1100, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1200, 200, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 200, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 400, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1200, 300, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 300, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1200, 400, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1200, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1200, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1200, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 700, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 600, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 500, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(1300, 200, 100, 10, '#262626', true, false, true);
+    createPlatform(1200, 200, 100, 10, '#262626', true, false, true);
+    createPlatform(1100, 200, 100, 10, '#262626', true, false, true);
+    createPlatform(1100, 200, 10, 100, '#262626', true, false, true);
+    createPlatform(1100, 300, 10, 100, '#262626', true, false, true);
+    createPlatform(1100, 400, 10, 100, '#262626', true, false, true);
+    createPlatform(1100, 500, 10, 100, '#262626', true, false, true);
+    createPlatform(1100, 700, 10, 100, '#262626', true, false, true);
+    createPlatform(800, 390, 100, 10, '#262626', true, false, true);
+    createPlatform(890, 300, 10, 100, '#262626', true, false, true);
+    createPlatform(800, 300, 100, 10, '#262626', true, false, true);
+    createPlatform(400, 500, 100, 10, '#262626', true, false, true);
+    createPlatform(500, 500, 100, 10, '#262626', true, false, true);
+    createPlatform(400, 500, 10, 100, '#262626', true, false, true);
+    createPlatform(400, 700, 10, 100, '#262626', true, false, true);
+    createPlatform(400, 600, 10, 100, '#262626', true, false, true);
+    createPlatform(590, 500, 10, 100, '#262626', true, false, true);
+    createPlatform(590, 600, 10, 100, '#262626', true, false, true);
+    createPlatform(590, 700, 10, 100, '#262626', true, false, true);
+    createPlatform(190, 700, 10, 100, '#262626', true, false, true);
+    createPlatform(190, 600, 10, 100, '#262626', true, false, true);
+    createPlatform(190, 500, 10, 100, '#262626', true, false, true);
+    createPlatform(100, 500, 100, 10, '#262626', true, false, true);
+    createPlatform(0, 500, 100, 10, '#262626', true, false, true);
+    createPlatform(700, 300, 100, 100, '#3d3d3d', true, false, true);
+    createPlatform(700, 300, 100, 10, '#262626', true, false, true);
+    createPlatform(700, 300, 10, 100, '#262626', true, false, true);
+    createPlatform(700, 390, 100, 10, '#262626', true, false, true);
+    createPlatform(810, 320, 10, 10, '#3d3d3d', true, false, true);
+    createPlatform(720, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 320, 10, 10, '#262626', true, false, true);
+    createPlatform(720, 320, 10, 10, '#262626', true, false, true);
+    createPlatform(730, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 330, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 340, 10, 10, '#262626', true, false, true);
+    createPlatform(740, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 350, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 360, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 370, 10, 10, '#262626', true, false, true);
+    createPlatform(710, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(720, 370, 10, 10, '#262626', true, false, true);
+    createPlatform(720, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(730, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(740, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(870, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(860, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(850, 380, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 370, 10, 10, '#262626', true, false, true);
+    createPlatform(870, 370, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 350, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 360, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 330, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 330, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 320, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(870, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(860, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(870, 320, 10, 10, '#262626', true, false, true);
+    createPlatform(890, 340, 10, 10, '#262626', true, false, true);
+    createPlatform(880, 340, 10, 10, '#262626', true, false, true);
+    createPlatform(860, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(850, 310, 10, 10, '#262626', true, false, true);
+    createPlatform(1110, 210, 10, 10, '#262626', true, false, true);
+    createPlatform(1110, 220, 10, 10, '#262626', true, false, true);
+    createPlatform(1110, 230, 10, 10, '#262626', true, false, true);
+    createPlatform(1110, 240, 10, 10, '#262626', true, false, true);
+    createPlatform(1120, 220, 10, 10, '#262626', true, false, true);
+    createPlatform(1120, 210, 10, 10, '#262626', true, false, true);
+    createPlatform(1140, 210, 10, 10, '#262626', true, false, true);
+    createPlatform(1130, 210, 10, 10, '#262626', true, false, true);
+    createPlatform(580, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(570, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(560, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(560, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(550, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(580, 520, 10, 10, '#262626', true, false, true);
+    createPlatform(580, 530, 10, 10, '#262626', true, false, true);
+    createPlatform(580, 540, 10, 10, '#262626', true, false, true);
+    createPlatform(570, 520, 10, 10, '#262626', true, false, true);
+    createPlatform(410, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(420, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(430, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(440, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(410, 520, 10, 10, '#262626', true, false, true);
+    createPlatform(410, 530, 10, 10, '#262626', true, false, true);
+    createPlatform(410, 540, 10, 10, '#262626', true, false, true);
+    createPlatform(420, 520, 10, 10, '#262626', true, false, true);
+    createPlatform(180, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(170, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(160, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(150, 510, 10, 10, '#262626', true, false, true);
+    createPlatform(180, 520, 10, 10, '#262626', true, false, true);
+    createPlatform(180, 530, 10, 10, '#262626', true, false, true);
+    createPlatform(180, 540, 10, 10, '#262626', true, false, true);
+    createPlatform(170, 520, 10, 10, '#262626', true, false, true);
+    createPlatform(600, 600, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(900, 600, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(1000, 600, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(300, 600, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(200, 600, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(700, 610, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(800, 610, 100, 10, '#fdc93b', true, true, false);
+    createPlatform(930, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(940, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(950, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(940, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(970, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(970, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(960, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(950, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1040, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1030, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1020, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1070, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1080, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1090, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(1090, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(850, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(870, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(860, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(860, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(850, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(840, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(830, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(740, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(730, 600, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(610, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(630, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(650, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(640, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(610, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(620, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(200, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(210, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(220, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(240, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(230, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(200, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(200, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(210, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(360, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(350, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(350, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(340, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(320, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(330, 590, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(340, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(350, 580, 10, 10, '#fdc93b', true, true, false);
+    createPlatform(660, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(650, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(600, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(610, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(640, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(620, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(600, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(680, 630, 40, 10, '#ee8824', true, true, false);
+    createPlatform(680, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(750, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(720, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(800, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(790, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(840, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(850, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(890, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(900, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(950, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(950, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(910, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(910, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(900, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(1000, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(1010, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(990, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(990, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(1050, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(1060, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(1060, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(1040, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(830, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(920, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(200, 600, 40, 10, '#ee8824', true, true, false);
+    createPlatform(200, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(250, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(240, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(290, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(340, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(330, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(360, 610, 40, 10, '#ee8824', true, true, false);
+    createPlatform(360, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(310, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(280, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(340, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(230, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(240, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(200, 620, 40, 10, '#ee8824', true, true, false);
+    createPlatform(340, 600, 10, 10, '#ee8824', true, true, false);
+    createPlatform(350, 600, 10, 10, '#ee8824', true, true, false);
+    createPlatform(200, 590, 10, 10, '#ee8824', true, true, false);
+    createPlatform(950, 600, 10, 10, '#ee8824', true, true, false);
+    createPlatform(940, 600, 10, 10, '#ee8824', true, true, false);
+    createPlatform(200, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(240, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(250, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(280, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(310, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(330, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(320, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(360, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(200, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(210, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(600, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(630, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(600, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(660, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(710, 640, 40, 10, '#ce532e', true, true, false);
+    createPlatform(730, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(680, 640, 40, 10, '#ce532e', true, true, false);
+    createPlatform(720, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(770, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(810, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(780, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(850, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(890, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(920, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(930, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(970, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(1000, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(1000, 620, 40, 10, '#ce532e', true, true, false);
+    createPlatform(1040, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(1060, 630, 40, 10, '#ce532e', true, true, false);
+    createPlatform(200, 640, 200, 10, '#ce532e', true, true, false);
+    createPlatform(600, 640, 200, 10, '#ce532e', true, true, false);
+    createPlatform(800, 640, 200, 10, '#ce532e', true, true, false);
+    createPlatform(900, 640, 200, 10, '#ce532e', true, true, false);
+    createPlatform(200, 650, 200, 10, '#ce532e', true, true, false);
+    createPlatform(600, 650, 200, 10, '#ce532e', true, true, false);
+    createPlatform(800, 650, 200, 10, '#ce532e', true, true, false);
+    createPlatform(900, 650, 200, 10, '#ce532e', true, true, false);
+    createPlatform(200, 660, 200, 10, '#ce532e', true, true, false);
+    createPlatform(600, 660, 200, 10, '#ce532e', true, true, false);
+    createPlatform(800, 660, 200, 10, '#ce532e', true, true, false);
+    createPlatform(890, 660, 200, 10, '#ce532e', true, true, false);
+    createPlatform(900, 650, 200, 10, '#ce532e', true, true, false);
+    createPlatform(900, 660, 200, 10, '#ce532e', true, true, false);
+    createPlatform(200, 670, 200, 10, '#ce532e', true, true, false);
+    createPlatform(600, 670, 200, 10, '#ce532e', true, true, false);
+    createPlatform(800, 680, 200, 10, '#ce532e', true, true, false);
+    createPlatform(800, 680, 200, 10, '#ce532e', true, true, false);
+    createPlatform(800, 670, 200, 10, '#ce532e', true, true, false);
+    createPlatform(900, 670, 200, 10, '#ce532e', true, true, false);
+    createPlatform(900, 680, 200, 10, '#ce532e', true, true, false);
+    createPlatform(600, 700, 200, 10, '#af3f27', true, true, false);
+    createPlatform(600, 710, 200, 10, '#af3f27', true, true, false);
+    createPlatform(600, 730, 200, 10, '#af3f27', true, true, false);
+    createPlatform(600, 720, 200, 10, '#af3f27', true, true, false);
+    createPlatform(800, 700, 200, 50, '#af3f27', true, true, false);
+    createPlatform(900, 700, 200, 50, '#af3f27', true, true, false);
+    createPlatform(600, 710, 200, 50, '#af3f27', true, true, false);
+    createPlatform(200, 700, 200, 50, '#af3f27', true, true, false);
+    createPlatform(200, 680, 200, 50, '#af3f27', true, true, false);
+    createPlatform(600, 680, 200, 50, '#af3f27', true, true, false);
+    createPlatform(800, 690, 200, 50, '#af3f27', true, true, false);
+    createPlatform(890, 690, 200, 50, '#af3f27', true, true, false);
+    createPlatform(900, 690, 200, 50, '#af3f27', true, true, false);
+    createPlatform(640, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(630, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(620, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(650, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(640, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(660, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(650, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(700, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(720, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(710, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(750, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(760, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(800, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(800, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(850, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(870, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(860, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(840, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(860, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(870, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(890, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(890, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(880, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(900, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(900, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(910, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(910, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(920, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(920, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(910, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(920, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(930, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(940, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(960, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(950, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(960, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(950, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(940, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(930, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(970, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(980, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1010, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1040, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1030, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1030, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1030, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1080, 680, 10, 10, '#af3f27', true, true, false);
+    createPlatform(1100, 600, 100, 100, '#3d3d3d', true, true, false);
+    createPlatform(1100, 600, 10, 100, '#262626', true, true, false);
+    createPlatform(200, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(220, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(210, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(210, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(250, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(240, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(230, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(360, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(380, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(370, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(390, 670, 10, 10, '#af3f27', true, true, false);
+    createPlatform(390, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(380, 660, 10, 10, '#af3f27', true, true, false);
+    createPlatform(880, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(840, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 280, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 280, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 280, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 270, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 260, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 250, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 240, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 240, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 240, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 220, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 230, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 210, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 210, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 220, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 230, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 190, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 180, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 170, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 160, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 160, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 160, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 150, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 140, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 130, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 120, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 120, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 120, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 140, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 150, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 130, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 100, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 110, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 90, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 80, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 80, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 70, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 80, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 60, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 50, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 40, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 40, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 40, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 50, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 60, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 70, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 10, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 20, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 30, 10, 10, '#808080', false, false, false);
+    createPlatform(850, 0, 10, 10, '#808080', false, false, false);
+    createPlatform(860, 0, 10, 10, '#808080', false, false, false);
+    createPlatform(870, 0, 10, 10, '#808080', false, false, false);
+    createPlatform(710, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(750, 290, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 280, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 280, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 280, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 270, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 260, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 250, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 240, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 240, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 240, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 230, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 220, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 210, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 200, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 210, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 220, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 230, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 170, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 180, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 190, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 150, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 160, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 160, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 160, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 150, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 140, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 130, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 120, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 120, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 120, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 130, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 140, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 80, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 90, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 100, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 110, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 80, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 80, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 60, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 70, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 50, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 40, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 40, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 40, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 50, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 70, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 60, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 10, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 20, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 30, 10, 10, '#808080', false, false, false);
+    createPlatform(720, 0, 10, 10, '#808080', false, false, false);
+    createPlatform(730, 0, 10, 10, '#808080', false, false, false);
+    createPlatform(740, 0, 10, 10, '#808080', false, false, false);
+    createCollectable('database',1028, 479, 0, 0);
+    createCollectable('database',932, 326, 0, 0);
+    createCollectable('database',281, 344, 0, 0);
+    createCollectable('database',1335, 57, 0, 0);
     
     
-    createCollectable('database', 1280, 450, 0, 0); //collectables
-    createCollectable('database', 1280, 300, 0, 0);
-    createCollectable('database', 860, 200, 0, 0);
+
   } 
   else if (savedLevel === 3) {
     min = 400
@@ -1423,7 +2257,10 @@ createCollectable("database", 775, 300, 0, 0)
     createPlatform(400, 300, 200, 15, "#FF00FF", false);
     createPlatform(0, 200, 200, 15, "white");
     
-    
+    createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
+    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //right
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
+    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
     
     createCollectable('database', 1280, 450, 0, 0); //collectables
  
@@ -1431,10 +2268,7 @@ createCollectable("database", 775, 300, 0, 0)
   else{
     
   }
-  createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
-    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //right
-    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
-    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
+  
     
     
 }

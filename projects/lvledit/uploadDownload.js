@@ -35,7 +35,6 @@ async function getStringById() {
     }
 }
 
-
 function startUpload() {
     var canUpload = hasKey();
     if (canUpload) {

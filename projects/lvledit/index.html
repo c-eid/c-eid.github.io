@@ -36,6 +36,7 @@
             <option value="cannon">Cannons</option>
             <option value="collectable">Collectables</option>
             <option value="output">Export Output</option>
+            <option value="import">Import Level</option>
           </select>
           <div id="platformBar">
             <div class="textdivision">
@@ -71,11 +72,23 @@
               <div class="centeredFlexK">
 
                 <label class="switch">
-                  <input id="gridSlider" type="checkbox" onclick="changeIfKills()">
+                  <input id="" type="checkbox" onclick="changeIfKills()">
                   <span class="slider round"></span>
                 </label>
 
                 <h3>Kills</h3>
+
+              </div>
+            </center>
+            <center>
+              <div class="centeredFlexK">
+
+                <label class="switch">
+                  <input id="" type="checkbox" checked="true" onclick="changeIfCollides()">
+                  <span class="slider round"></span>
+                </label>
+
+                <h3>Collision</h3>
 
               </div>
             </center>
@@ -145,7 +158,7 @@
                   <input id="upttitle" maxlength=20 class="inputtxt titleinputmargin titlewidth"
                     onblur="setTitle(this)">
                 </div>
-                <div class="scroll" id="exported"></div>
+                <textarea class="bigInput" id="exported"  spellcheck=false autocapitalize="false"></textarea>
 
               </div>
 
@@ -155,6 +168,28 @@
 
             <div class="wide upload">
               <button class="sizeButton uploadButton" id="uploadButton1" onclick="startUpload()">Upload</button>
+            </div>
+
+
+
+
+          </div>
+          <div id="importBar">
+            <div class="textdivision">
+
+              <div class="wide" class="textdivision">
+                <h2 class="ShowSize">Import Level Data</h2>
+
+                <textarea type="textArea" class="bigInput" id="imported" spellcheck=false autocapitalize="false"></textarea>
+
+              </div>
+
+
+
+            </div>
+
+            <div class="wide upload">
+              <button class="sizeButton uploadButton" onclick="startImport()">Import</button>
             </div>
 
 

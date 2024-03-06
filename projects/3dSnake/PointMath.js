@@ -23,7 +23,7 @@ var plateau = [
 ]
 
 onmessage = (s) => {
-    
+    //gets message from core 1 and calculates then sends it back
     let i = s.data[0]
     angle1 = s.data[1]
     angle2= s.data[2]
@@ -79,9 +79,6 @@ function alongPathCore2(id, angle, xposLocal = 400, yposLocal = 400, radius) {
     var X = xposLocal + (Math.cos(angle * Math.PI / 180) * radius);
     if (!id === "") {
 
-        var current = document.getElementById(id.splice(1))
-        current.style.top = Y + "px"
-        current.style.left = X + "px"
         // $(id).css("top", Y + "px")
         //     .css("left", X + "px");
     }

@@ -16,7 +16,11 @@ $(function () {
       firstTimeSetup = false;
       checkCookie()
       var savedLevel = parseInt(getCookie("lvlNum"))
-      
+      createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
+    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //bottom
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
+    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
+
       //start game
       levelmake();
       
@@ -24,11 +28,7 @@ $(function () {
 
   
     //create walls
-    createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
-    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //right
-    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
-    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
-
+    
     /**
      * Uncomment the loops below to add a "grid" to your platformer game's screen
      * The grid will place both horizontal and vertical platforms incremented 100 pixels apart
