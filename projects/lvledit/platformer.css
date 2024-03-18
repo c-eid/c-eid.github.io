@@ -526,3 +526,12 @@ div.scroll {
 ::-webkit-scrollbar-thumb:hover {
   background: #252525; 
 }
+#settingsGear{
+  background-image: url(images/settingsGear.png);
+  background-repeat:no-repeat;
+  background-size: 80px;
+  border-radius: 20px;
+  width:80px;
+  height:80px;
+  outline: #4ef171 2px solid;
+}

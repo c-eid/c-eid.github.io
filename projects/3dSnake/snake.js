@@ -63,10 +63,10 @@ function main() {
     if (angle1 >= 180) {
         angle3 += ang;
     }
-    // if (angle1 >= 315) {
-    //     ang = 0
-    // }
-    // else
+    if (angle1 >= 315) {
+        ang = 0
+    }
+    else
     if (angle1 >= 270) {
         angle4 += ang;
         ang = 0.1;

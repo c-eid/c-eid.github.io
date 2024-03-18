@@ -43,10 +43,11 @@ console.log(walker.width)
   by calling this function and executing the code inside.
   */
   function newFrame() {
-   
     repositionGameItem(walker)
-    redrawGameItem(walker)
     wallCollision(walker)
+
+    redrawGameItem(walker)
+
   }
   
   /* 
@@ -114,6 +115,7 @@ console.log(walker.width)
     $(`#${item.id}`).css('left', item.x).css('top', item.y)
   }
   function wallCollision(item){
+    //checks player position and changes the speed based on the side it has hit
     if(item.x < 0){
      item.x -= item.speedX
     } 
