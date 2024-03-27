@@ -5,7 +5,8 @@ const SQUARE_SIZE = 20;
 const RED = 0;
 const GREEN = 1;
 const BLUE = 2;
-
+let globalR = 0
+let globalC = 0
 // the image data
 const image = [
     ["rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)", "rgb(150, 150, 150)"],
@@ -55,6 +56,7 @@ function render(element, image){
 
 // this function converts an RGB string into an array for easy manipulation
 function rgbStringToArray(rgbStr) {
+  if(rgbStr !== undefined){
   var rgbArr = rgbStr
         .substring(4, rgbStr.length-1) // remove "rgb(" and ")"
         .replace(/ /g, '') // replace ' ' with ''
@@ -65,6 +67,7 @@ function rgbStringToArray(rgbStr) {
   rgbArr[BLUE] = Number(rgbArr[BLUE]);
 
   return rgbArr;
+  }else return [0,0,0]
 }
 
 // this function converts an array into an RGB string
