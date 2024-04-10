@@ -533,5 +533,7 @@ div.scroll {
   border-radius: 20px;
   width:80px;
   height:80px;
-  outline: #4ef171 2px solid;
+  font-size: 54px;
+  color:  #4ef171;
+  /* outline: #4ef171 2px solid; */
 }

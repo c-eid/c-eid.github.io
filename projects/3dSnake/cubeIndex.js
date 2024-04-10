@@ -14,11 +14,23 @@ var cubes = [
         offset: 100,
         radius: 45,
         angleOffset: 0,
-        radiusOffset: 0,
+        radiusOffset: 45,
         row: 1,
         col: 22,
         angleRefrence: 1,
         visible: false
     },
-
+    {
+        made: false,
+        x: 400,
+        y: 400,
+        offset: 100,
+        radius: 45,
+        angleOffset: 2.9,
+        radiusOffset: 89,
+        row: 1,
+        col: 22,
+        angleRefrence: 1,
+        visible: false
+    },
 ]

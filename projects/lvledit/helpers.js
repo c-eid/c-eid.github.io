@@ -705,7 +705,7 @@ function playerFrictionAndGravity() {
   }
 }
 function setColor() {
-  setcolor = document.getElementById("color").value;
+  setcolor = document.getElementById("colorHex").value;
 }
 function place() {
   if (placemode) {

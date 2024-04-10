@@ -20,7 +20,7 @@ function resetAndRender() {
 // all of your apply functions
 function applyAndRender() {
   // Multiple TODOs: Call your apply function(s) here
-  applyFilter(smudge)
+  applyFilter(reddify)
 
 
   // do not change the below line of code
@@ -34,18 +34,19 @@ function applyAndRender() {
 // TODO 1, 2 & 4: Create the applyFilter function here
 function applyFilter(filterFunction) {
   //Iterates over image and applies a filter to each 'pixel' or rgb value of image
-  for (var R = 0; i < image.length; i++) {
-    for (var C = 0; j < image[i].length; j++) {
-      globalR = R
-      globalC = C
-      let rgbString = image[i][j]
-      let rgbNumbers
-      rgbNumbers = rgbStringToArray(rgbString)
-      filterFunction(rgbNumbers)
-      rgbString = rgbArrayToString(rgbNumbers)
-      image[i][j] = rgbString
+
+    for (var i = 0; i < image.length; i++) {
+      for (var j = 0; j < image[i].length; j++) {
+        let rgbString = image[i][j]
+
+          let rgbNumbers = rgbStringToArray(rgbString)
+          filterFunction(rgbNumbers)
+          rgbString = rgbArrayToString(rgbNumbers)
+          image[i][j] = rgbString
+        
+      }
     }
-  }
+  
 }
 
 function smudge(smudging){
