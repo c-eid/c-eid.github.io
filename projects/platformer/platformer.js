@@ -3,33 +3,39 @@ $(function () {
  
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
-  canvas = document.getElementById("sprite");
-  stx = canvas.getContext("2d");
+  canvasprite = document.getElementById("sprite");
+  stx = canvasprite.getContext("2d");
   window.addEventListener("load", loadJson);
 
   function setup() {
     if (firstTimeSetup) {
       
-      halleImage = document.getElementById("player");
+      // halleImage = document.getElementById("player");
+      halleR = document.getElementById("halleR");
+      halleG = document.getElementById("halleG");
+      halleB = document.getElementById("halleB");
       projectileImage = document.getElementById("projectile");
       cannonImage = document.getElementById("cannon");
       $(document).on("keydown", handleKeyDown);
       $(document).on("keyup", handleKeyUp);
       firstTimeSetup = false;
       checkCookie()
-      
+      var savedLevel = parseInt(getCookie("lvlNum"))
+      createPlatform(-50, -50, canvas.width + 100, 50, "white"); //top
+    createPlatform(-50, canvas.height - 10, canvas.width + 100, 200, "rgb(28, 26, 26"); //bottom
+    createPlatform(-50, -50, 50, canvas.height + 500, "rgb(28, 26, 26");
+    createPlatform(canvas.width, -50, 50, canvas.height + 100, "rgb(28, 26, 26");
 
-      
-      
       //start game
-      levelmake();
+      if(!editMode){
+        levelmake()
+      }
       setInterval(main, (1000/frameRate))
     }
 
   
     //create walls
     
-
     /**
      * Uncomment the loops below to add a "grid" to your platformer game's screen
      * The grid will place both horizontal and vertical platforms incremented 100 pixels apart
@@ -50,7 +56,6 @@ $(function () {
    
 
 
-    
 
     
     // TODO 2
@@ -76,14 +81,14 @@ $(function () {
     
     //    make cannon in html DONE
 
-    ////////EXPORTING
-    // moving platforms
+    ////////EXPORTING done
+    // moving platforms 
     // breakable platforms
     // semisolid platforms
     // slow and fast movement for halle (ice)platforms
 
 
-   
+    
     /////////////////////////////////////////////////
     //////////ONLY CHANGE ABOVE THIS POINT///////////
     /////////////////////////////////////////////////

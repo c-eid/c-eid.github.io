@@ -8,7 +8,7 @@ body {
 }
 
 
-canvas {
+#canvas {
   background-color: rgb(0, 0, 0);
   outline-color: rgb(28, 26, 26);
   outline-style: solid;
@@ -32,6 +32,16 @@ canvas {
 img {
   display: none;
 }
+
+#sprite{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  background-color: rgba(0, 0, 0, 0);
+  z-index:2;
+}
+
 div {
   /* outline-color: deeppink;
   outline-style: solid;

@@ -14,8 +14,18 @@ The CSS ids you will work with are:
 ///////////////////////////////////////////////////////////////////////
 
 // TODO 2: Implement bubbleSort
-
-
+async function bubbleSort(array){
+    for(var i = 0; i < array.length-1; i++){
+        for(var j = array.length; j <= i + 1; j--){
+            if(array[j] < array[j-1]){
+                console.log(j)
+                swap(array, j, j -1)
+                updateCounter(bubbleCounter);
+                await sleep();
+            }
+        }
+    }
+}
 // TODO 3: Implement quickSort
 
 
@@ -50,4 +60,9 @@ function drawSwap(array, i, j){
 // This function updates the specified counter
 function updateCounter(counter){
     $(counter).text("Move Count: " + (parseFloat($(counter).text().replace(/^\D+/g, '')) + 1));
+}
+
+//This funciton swaps two values in an arrays
+function swap(array, i, j){
+    [array[i], array[j]] = [array[j], array[i]]
 }

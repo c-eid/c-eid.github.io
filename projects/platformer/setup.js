@@ -1,6 +1,6 @@
 // setup variables
-$(function() {
-  console.log( "ready!" );
+$(function () {
+  console.log("ready!");
 });
 // REMOVED FROM HTML WAS CAUSING ISSUES <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg" />
 const walkAcceleration = 2.5; // how much is added to the speed each frame
@@ -9,43 +9,6 @@ const friction = 1.5; // how much the player is slowed each frame
 const maxSpeed = 8; // maximum horizontal speed, not vertical
 const playerJumpStrength = 12; // this is subtracted from the speedY each jump
 const projectileSpeed = 8; // the speed of projectiles
-
-/////////////////////////////////////////////////
-//////////ONLY CHANGE ABOVE THIS POINT///////////
-/////////////////////////////////////////////////
-
-// Base game variables
-const frameRate = 60;
-const playerScale = 0.8; //makes the player just a bit smaller. Doesn't affect the hitbox, just the image
-
-// Player variables
-const player = {
-  x: 50,
-  y: 100,
-  speedX: 0,
-  speedY: 0,
-  width: undefined,
-  height: undefined,
-  onGround: false,
-  facingRight: true,
-  deadAndDeathAnimationDone: false,
-};
-
-let hitDx;
-let hitDy;
-let hitBoxWidth = 50 * playerScale;
-let hitBoxHeight = 105 * playerScale;
-let firstTimeSetup = true;
-
-const keyPress = {
-  any: false,
-  up: false,
-  left: false,
-  down: false,
-  right: false,
-  space: false,
-};
-
 // Player animation variables
 const animationTypes = {
   duck: "duck",
@@ -59,11 +22,95 @@ const animationTypes = {
   walk: "walk",
   shoot: "shoot",
 };
-let currentAnimationType = animationTypes.run;
-let frameIndex = 0;
-let jumpTimer = 0;
-let duckTimer = 0;
-let DUCK_COUNTER_IDLE_VALUE = 14; 
+/////////////////////////////////////////////////
+//////////ONLY CHANGE ABOVE THIS POINT///////////
+/////////////////////////////////////////////////
+
+// Base game variables
+const frameRate = 60;
+const playerScale = 0.8; //makes the player just a bit smaller. Doesn't affect the hitbox, just the image
+
+// Player variables
+var hallies = [{
+  x: 50,
+  y: 100,
+  speedX: 0,
+  speedY: 0,
+  width: undefined,
+  height: undefined,
+  onGround: false,
+  facingRight: true,
+  deadAndDeathAnimationDone: false,
+  currentAnimationType: animationTypes.run,
+  frameIndex: 0,
+  jumpTimer: 0,
+  duckTimer: 0,
+  DUCK_COUNTER_IDLE_VALUE: 14,
+  rCanJump: true,
+  lCanJump: true,
+  keyPress: {
+    any: false,
+    up:false,
+    down:false,
+    left:false,
+    right:false,
+    space: false,
+  },
+  key: {
+    up: "w",
+    left: "a",
+    down: "s",
+    right: "d",
+  },
+  r:1,
+  g:1,
+  b:1
+},{
+  x: 50,
+  y: 100,
+  speedX: 0,
+  speedY: 0,
+  width: undefined,
+  height: undefined,
+  onGround: false,
+  facingRight: true,
+  deadAndDeathAnimationDone: false,
+  currentAnimationType: animationTypes.run,
+  frameIndex: 0,
+  jumpTimer: 0,
+  duckTimer: 0,
+  DUCK_COUNTER_IDLE_VALUE: 14,
+  rCanJump: true,
+  lCanJump: true,
+  keyPress: {
+    any: false,
+    up:false,
+    down:false,
+    left:false,
+    right:false,
+    space: false,
+  },
+  key: {
+    up: "ArrowUp",
+    left: "ArrowLeft",
+    down: "ArrowDown",
+    right: "ArrowRight",
+  },
+  r:1,
+  g:.50,
+  b:.50
+},
+]
+
+let hitDx;
+let hitDy;
+let hitBoxWidth = 50 * playerScale;
+let hitBoxHeight = 105 * playerScale;
+let firstTimeSetup = true;
+
+
+
+var anyKeyPressed = false
 let debugVar = false;
 
 let spriteHeight = 0;
