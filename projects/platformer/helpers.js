@@ -1,49 +1,23 @@
-
-///// DO NOT CHANGE ANYTHING IN THIS FILE /////
-let platOffset = 0;
+let platOffset = 0
 let gridSize = 100;
 let gridmove = 0;
 let gridmoveY = 13;
 let min;
-let placetype = "platform"; //["platform", "collectable", "cannon", "exOutput"]
-let placecolor = "rgba(255, 255, 255, 0.3)";
 let max;
-let oldcol;
 let collected = 0;
-let gridSnap = false;
-let placemode = true;
-let cursorX;
-let cursorY;
 let SizeNum = 50;
+var lor;
+var savedLevels = parseInt(getCookie("lvlNum"));
+var nextlvlint = savedLevels + 1;
 
-let setWidth = 100;
-let setHeight = 10;
-let setcolor;
-let rot = 1;
-let canpos = 0;
-let cannonCR = 0;
-if (editMode) {
-  let barSwitch = document.getElementById('dropdown');
-  let platbar = jQuery('#platformBar');
-  let collbar = jQuery('#collectableBar');
-  let cannbar = jQuery('#cannonBar');
-  let exporbar = jQuery('#exOutput');
-  let SizeButton = document.getElementById('sizeButton');
-  let Showsize = document.getElementById('Showsize');
-}
-let gRange;
-let rotatedir = "left";
-let bRange;
-let rotationPoint;
-let msslider;
-let lvlData;
-let uploadCondition1 = false;
-let platformKills = false;
-let platformCollides = true;
-var msvalue;
+
+
 window.onload = () => {
   if (editMode) {
-    setColor()
+    //finds the value of the cannon delay slider and sets the manual input to that.
+
+    setColor()// sets defualt color
+    
     msslider = document.getElementById('ms');
     msvalue = document.getElementById('msvalue');
 
@@ -63,12 +37,14 @@ window.onload = () => {
 // Core functionality /////////////////////////
 ///////////////////////////////////////////////
 function registerSetup(setup) {
+  //setup stuff
   setupGame = setup;
 }
 
 
 function placeTypeChange() {
   placetype = document.getElementById('dropdown').value;
+  //changes sidebar based on the dropdown value.
   if (placetype === "platform") {
     platbar = jQuery('#platformBar');
 
@@ -109,10 +85,6 @@ function placeTypeChange() {
 }
 
 
-
-var lor;
-var savedLevels = parseInt(getCookie("lvlNum"));
-var nextlvlint = savedLevels + 1;
 
 
 

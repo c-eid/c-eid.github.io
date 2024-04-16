@@ -33,4 +33,17 @@ var cubes = [
         angleRefrence: 1,
         visible: false
     },
+    {
+        made: false,
+        x: 400,
+        y: 400,
+        offset: 100,
+        radius: 45,
+        angleOffset:45,
+        radiusOffset:334.964286625,
+        row: 1,
+        col: 22,
+        angleRefrence: 1,
+        visible: false
+    },
 ]

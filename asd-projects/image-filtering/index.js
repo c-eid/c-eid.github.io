@@ -57,7 +57,20 @@ function smudge(smudging){
   smudging[BLUE] = imgBlueArr
 }
 // TODO 7: Create the applyFilterNoBackground function
-
+function applyFilterNoBackground(filterFunction) {
+  //Applys the filter to any pixel that is not equal to the top left
+  for (var i = 0; i < image.length; i++) {
+    for (var j = 0; j < image[i].length; j++) {
+      let rgbString = image[i][j]
+      if (rgbString !== image[0][0]) {
+        let rgbNumbers = rgbStringToArray(rgbString)
+        filterFunction(rgbNumbers)
+        rgbString = rgbArrayToString(rgbNumbers)
+        image[i][j] = rgbString
+      }
+    }
+  }
+}
 
 // TODO 5: Create the keepInBounds function
 function keepInBounds(bounded) {
@@ -80,19 +93,6 @@ function increaseGreenByBlue(underIncrease) {
     //Adds the blue value to green value 
   underIncrease[GREEN] = keepInBounds(underIncrease[BLUE] + underIncrease[GREEN])
 }
-function applyFilterNoBackground(filterFunction) {
-  //Applys the filter to any pixel that is not equal to the top left
-  for (var i = 0; i < image.length; i++) {
-    for (var j = 0; j < image[i].length; j++) {
-      let rgbString = image[i][j]
-      if (rgbString !== image[0][0]) {
-        let rgbNumbers = rgbStringToArray(rgbString)
-        filterFunction(rgbNumbers)
-        rgbString = rgbArrayToString(rgbNumbers)
-        image[i][j] = rgbString
-      }
-    }
-  }
-}
+
 // CHALLENGE code goes below here
 

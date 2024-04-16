@@ -1,4 +1,5 @@
 function exportlvl() {
+    //exports the level made in the level editor, 
     placetype = "output"
     document.getElementById('dropdown').value = placetype
     placeTypeChange()
@@ -29,6 +30,7 @@ function exportlvl() {
   
 }
 function startImport(){
+    //inports the level into the import section
     platforms = []
     collectables = []
     cannons = []

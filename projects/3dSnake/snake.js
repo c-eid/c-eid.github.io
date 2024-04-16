@@ -63,10 +63,10 @@ function main() {
     if (angle1 >= 180) {
         angle3 += ang;
     }
-    if (angle1 >= 315) {
-        ang = 0
-    }
-    else
+    // if (angle1 >= 315) {
+    //     ang = 0
+    // }
+    // else
     if (angle1 >= 270) {
         angle4 += ang;
         ang = 0.1;
@@ -142,8 +142,8 @@ function renderShape() {
             // $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "bottom" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
             $(document.createElementNS('http://www.w3.org/2000/svg', 'polygon')).attr("id", "right" + i).attr("points", "1,1 1,1 1,1 1,1").appendTo("svg").css("fill", "rgb(255,0," + i * 2 + ")").css("stroke", "rgba(0, 0, 0)").css("stroke-width", "1").addClass("polygon" + i);
 
-            // $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255,0.2)").css("stroke-width", "1");
-            $(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
+             $(".polygon" + i).css("stroke", "rgb(0,0,0)").css("fill", "rgb(0,255,255,0.2)").css("stroke-width", "1");
+            //$(".polygon" + 0).css("stroke", "rgb(0,0,0)").css("fill", "rgb(255,255,255)").css("stroke-width", "1");
             cubes[i].made = true;
         }
 
