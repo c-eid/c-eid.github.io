@@ -15,9 +15,12 @@ The CSS ids you will work with are:
 
 // TODO 2: Implement bubbleSort
 async function bubbleSort(array){
+  
     for(var i = 0; i < array.length-1; i++){
-        for(var j = array.length; j <= i + 1; j--){
-            if(array[j] < array[j-1]){
+        
+        for(var j = array.length-1; j >= i + 1; j--){
+        
+            if(array[j].value < array[j-1].value){
                 console.log(j)
                 swap(array, j, j -1)
                 updateCounter(bubbleCounter);
@@ -29,11 +32,20 @@ async function bubbleSort(array){
 // TODO 3: Implement quickSort
 
 
+
 // TODOs 4 & 5: Implement partition
+
 
 
 // TODO 1: Implement swap
 
+//This funciton swaps two values in an arrays
+function swap(array, i, j){
+    var temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+    drawSwap(array, i, j)
+}
 
 ///////////////////////////////////////////////////////////////////////
 /////////////////////// YOUR WORK GOES ABOVE HERE /////////////////////
@@ -62,7 +74,3 @@ function updateCounter(counter){
     $(counter).text("Move Count: " + (parseFloat($(counter).text().replace(/^\D+/g, '')) + 1));
 }
 
-//This funciton swaps two values in an arrays
-function swap(array, i, j){
-    [array[i], array[j]] = [array[j], array[i]]
-}

@@ -111,7 +111,7 @@ function placeTypeChange() {
 
 
 var lor;
-var savedLevels = parseInt(getCookie("lvlNum"));y
+var savedLevels = parseInt(getCookie("lvlNum"));
 var nextlvlint = savedLevels + 1;
 
 
@@ -200,6 +200,12 @@ function main() {
         hallies[j].onGround = false;
         hallies[j].facingRight = true;
         hallies[j].deadAndDeathAnimationDone = false;
+        hallies[j].currentAnimationType = animationTypes.run;
+        hallies[j].keyPress.up = false;
+        hallies[j].keyPress.left = false;
+        hallies[j].keyPress.right = false;
+        hallies[j].keyPress.down = false;
+
       }
       ctx.clearRect(0, 0, 1800, 1800);
       platforms = [];

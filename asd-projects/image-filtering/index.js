@@ -50,6 +50,7 @@ function applyFilter(filterFunction) {
 }
 
 function smudge(smudging){
+  //not working but is supposed to move the red and blue values over by one
   var imgRedArr = rgbStringToArray(og[globalR][globalC+1])[RED]
   var imgBlueArr = rgbStringToArray(og[globalR][globalC-1])[BLUE]
   smudging[RED] = imgRedArr
@@ -60,22 +61,27 @@ function smudge(smudging){
 
 // TODO 5: Create the keepInBounds function
 function keepInBounds(bounded) {
+  //Keeps a value passed in under 255 and over 0
   return (bounded < 0) ? 0 : (bounded > 255) ? 255 : bounded
 }
 
 // TODO 3: Create reddify function
 function reddify(underReddification) {
+  //Adds red to image when filtered
   underReddification[RED] = 200
 }
 
 // TODO 6: Create more filter functions
 function decreaseBlue(unblue) {
+    //removes blue from image when filtered
   unblue[BLUE] = keepInBounds(unblue[BLUE] - 50)
 }
 function increaseGreenByBlue(underIncrease) {
+    //Adds the blue value to green value 
   underIncrease[GREEN] = keepInBounds(underIncrease[BLUE] + underIncrease[GREEN])
 }
 function applyFilterNoBackground(filterFunction) {
+  //Applys the filter to any pixel that is not equal to the top left
   for (var i = 0; i < image.length; i++) {
     for (var j = 0; j < image[i].length; j++) {
       let rgbString = image[i][j]
