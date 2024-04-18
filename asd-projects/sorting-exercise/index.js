@@ -15,27 +15,52 @@ The CSS ids you will work with are:
 
 // TODO 2: Implement bubbleSort
 async function bubbleSort(array){
-  
+    //uses the algorithm bubble sort to sort array
     for(var i = 0; i < array.length-1; i++){
         
         for(var j = array.length-1; j >= i + 1; j--){
-        
+      
             if(array[j].value < array[j-1].value){
-                console.log(j)
+                tone((((1212-120)/array.length)*array[j].value)) //This generates a tone based on the value of J
+                await sleep()  // We must sleep twice so each tone has enough time to play
+                tone((((1212-120)/array.length)*array[j-1].value)) // This generates a tone based on the value of J-1 
+                await sleep();// Second sleep to allow it to play.
+                //console.log(j)
                 swap(array, j, j -1)
                 updateCounter(bubbleCounter);
-                await sleep();
+                
+                
             }
         }
     }
 }
 // TODO 3: Implement quickSort
-
+    // async function quickSort(array, left, right){
+    //     if(right-left >= 0){
+    //         let index = await partition(array, left, right)
+    //         if(left < index-1){
+    //             await quickSort(array, left, index-1)
+    //         }
+    //         if(right > index){
+    //             await quickSort(array, index, right)
+    //         }
+    //     }
+    // }
 
 
 // TODOs 4 & 5: Implement partition
 
+async function partition(array, left, right){
+    let pivot = array[Math.floor((right + left)/2)].value;
+    while(array[left].value < array[right].value){
+        while(array[left].value < pivot){
 
+        }
+
+    }
+return left+1
+
+}
 
 // TODO 1: Implement swap
 
@@ -45,6 +70,7 @@ function swap(array, i, j){
     array[i] = array[j]
     array[j] = temp
     drawSwap(array, i, j)
+
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -54,6 +80,22 @@ function swap(array, i, j){
 //////////////////////////// HELPER FUNCTIONS /////////////////////////
 
 // this function makes the program pause by SLEEP_AMOUNT milliseconds whenever it is called
+function tone(hz){
+    
+    //console.log(hz)
+    let osc = AudCon.createOscillator()
+    let gain = AudCon.createGain()
+    osc.type = "triangle"
+    osc.connect(gain)
+    gain.connect(AudCon.destination)
+    let frequency = hz+120
+    osc.frequency.value = frequency
+    osc.start(0)
+    gain.gain.exponentialRampToValueAtTime(
+        0.00001, AudCon.currentTime + 0.1
+      )
+    
+}
 function sleep(){
     return new Promise(resolve => setTimeout(resolve, SLEEP_AMOUNT));
 }

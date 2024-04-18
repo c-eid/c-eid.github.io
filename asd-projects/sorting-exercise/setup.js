@@ -6,17 +6,19 @@
 // THE CONSTANTS BELOW MAY BE ALTERED FOR EXPERIMENTATION PURPOSES
 
 // set the delay between each sort step
-const SLEEP_AMOUNT = 500;
+const SLEEP_AMOUNT = 30;
 
 // set the max number of squares
-const MAX_SQUARES = 16;
+const MAX_SQUARES = 40;
 
 // set constants for pseudo-random number generation
 const SEED = 2;
 const FACTOR = 1774339;
 const INCREASE = 7181930;
-
-
+let AudCon
+let osc
+let gain
+var toneTimeout 
 /////////////////////////////////////////////////
 // ALL CONSTANTS BELOW HERE SHOULD NOT BE ALTERED
 

@@ -215,6 +215,7 @@ bitCruncher.onmessage = (aDONT) => {
     if (a[9] !== 0) {
         cubes[a[9]].x = alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, cubes[0].radius - cubes[a[9]].radiusOffset).x;
         cubes[a[9]].y = (alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, (cubes[0].radius - cubes[a[9]].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[a[9]].offset - 1);
+        //When the square is positioned at the corner, the distance from the center to the desired location is different from when it is positioned at a different point. Since it is at a corner, there is a slope with a length of 45, when it gets to the middle it is closer.
     }
 
 };
