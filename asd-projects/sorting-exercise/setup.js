@@ -6,10 +6,10 @@
 // THE CONSTANTS BELOW MAY BE ALTERED FOR EXPERIMENTATION PURPOSES
 
 // set the delay between each sort step
-const SLEEP_AMOUNT = 30;
+const SLEEP_AMOUNT = 20;
 
 // set the max number of squares
-const MAX_SQUARES = 40;
+const MAX_SQUARES = 500;
 
 // set constants for pseudo-random number generation
 const SEED = 2;

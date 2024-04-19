@@ -21,9 +21,9 @@ async function bubbleSort(array){
         for(var j = array.length-1; j >= i + 1; j--){
       
             if(array[j].value < array[j-1].value){
-                tone((((1212-120)/array.length)*array[j].value)) //This generates a tone based on the value of J
+                //tone((((1212-120)/array.length)*array[j].value)) //This generates a tone based on the value of J
                 await sleep()  // We must sleep twice so each tone has enough time to play
-                tone((((1212-120)/array.length)*array[j-1].value)) // This generates a tone based on the value of J-1 
+                //tone((((1212-120)/array.length)*array[j-1].value)) // This generates a tone based on the value of J-1 
                 await sleep();// Second sleep to allow it to play.
                 //console.log(j)
                 swap(array, j, j -1)
@@ -35,28 +35,38 @@ async function bubbleSort(array){
     }
 }
 // TODO 3: Implement quickSort
-    // async function quickSort(array, left, right){
-    //     if(right-left >= 0){
-    //         let index = await partition(array, left, right)
-    //         if(left < index-1){
-    //             await quickSort(array, left, index-1)
-    //         }
-    //         if(right > index){
-    //             await quickSort(array, index, right)
-    //         }
-    //     }
-    // }
+    async function quickSort(array, left, right){
+        if(right-left > 0){
+            let index = await partition(array, left, right)
+            if(left < index-1){
+                await quickSort(array, left, index-1)
+            }
+            if(index < right){
+                await quickSort(array, index, right)
+            }
+        }
+    }
 
 
 // TODOs 4 & 5: Implement partition
 
 async function partition(array, left, right){
+    
     let pivot = array[Math.floor((right + left)/2)].value;
-    while(array[left].value < array[right].value){
-        while(array[left].value < pivot){
-
+    while(left < right){
+        while(array[left].value < pivot) left++
+        
+        while(array[right].value > pivot) right--
+        
+        
+        if(left < right){
+            swap(array, left, right)
+            tone((((1212-120)/array.length)*array[left].value))
+            updateCounter(quickCounter)
+            await sleep()
+            tone((((1212-120)/array.length)*array[right].value))
+            await sleep()
         }
-
     }
 return left+1
 
@@ -81,8 +91,8 @@ function swap(array, i, j){
 
 // this function makes the program pause by SLEEP_AMOUNT milliseconds whenever it is called
 function tone(hz){
-    
-    //console.log(hz)
+    //creates tone based of of the tone given.
+    console.log(hz)
     let osc = AudCon.createOscillator()
     let gain = AudCon.createGain()
     osc.type = "triangle"
@@ -94,6 +104,7 @@ function tone(hz){
     gain.gain.exponentialRampToValueAtTime(
         0.00001, AudCon.currentTime + 0.1
       )
+    osc.stop(AudCon.currentTime + 0.1)
     
 }
 function sleep(){
