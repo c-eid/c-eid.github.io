@@ -175,10 +175,14 @@ function renderShape() {
     }
 }
 bitCruncher.onmessage = (aDONT) => {
- //This has to be done on main core unfortualy, only main core can edit html  
+ //This has to be done on main core unfortunatly, only main core can edit html  
     var a = aDONT.data;
 
     cubes[a[9]]["liveY"] = a[1].y;
+
+    var bottomMidX = (a[6].x+a[7].x)/2
+
+    var bottomMidY = (a[6].y+a[7].y)/2
 
     const idTop = document.getElementById(`top${a[9]}`);
     idTop.setAttribute("points", a[1].point + a[2].point + a[3].point + a[4].point + "");
