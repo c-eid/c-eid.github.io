@@ -1,18 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Title</title>
-    <!-- Load CSS files -->
-    <link rel="stylesheet" type="text/css" href="index.css">
+
+<head>
+  <title>Title</title>
+  <!-- Load CSS files -->
+  <link rel="stylesheet" type="text/css" href="index.css">
+
+  <!-- Load JavaScript files -->
+  <script src="jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="prompt">
+    <p class="doThis"> Press the key that you want to be</p>
     
-    <!-- Load JavaScript files -->
-    <script src="jquery.min.js"></script>
-    <script src="index.js"></script>
-  </head>
-  
-  <body>
-    <div id='board'>
-      <div id='gameItem'></div>
+    <center><h1 class="that">RIGHT</h1></center>
+    <center><h1 class="playerActivePrompt">(Player 1)</h1></center>
+  </div>
+  <div class="topBar">
+    <div class="titleDiv">
+      <h1>Pong</h1>
     </div>
-  </body>
+
+    
+    <div class="scoreBoard">
+      <div class="redAlliance">
+          <h1>0</h1>
+      </div>
+      <div class="goal">
+          <div class="goalIcon">
+            <p class="icon">⌚</p>
+          </div>
+          <div class="goalNumber">
+            2:12
+          </div>
+      </div>
+      <div class="blueAlliance">
+          <h1>0</h1>
+      </div>
+  </div>
+
+  <div id="dropdownDiv">
+    <!-- <select id="dropdown">
+      <option value="bubbleSort">Bubble Sort</option>
+      <option value="quickSort">Quick Sort</option>
+
+    </select> -->
+  </div>
+  
+  </div>
+  <svg viewBox="0 0 2560 1035" id="board">
+    <rect x="0" y="0" width="2560" height="1035" stroke="gray" stroke-width="9" fill="black" />
+  </svg>
+
+  <script src="index.js"></script>
+  
+</body>
+
 </html>
