@@ -74,8 +74,8 @@ onmessage = (s) => {
 }
 
 
-function alongPathCore2(id, angle, xposLocal = 400, yposLocal = 400, radius) {
-    var Y = yposLocal / 2 + ((Math.sin(angle * Math.PI / 180) * radius)) / (1 + (offset / 100));
+function alongPathCore2(id, angle, xposLocal = 400, yposLocal = 400, radius, radius2=radius) {
+    var Y = yposLocal / 2 + ((Math.sin(angle * Math.PI / 180) * radius2)) / (1 + (offset / 100));
     var X = xposLocal + (Math.cos(angle * Math.PI / 180) * radius);
     if (!id === "") {
 

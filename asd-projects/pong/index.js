@@ -11,7 +11,7 @@ async function runProgram() {
   let gameGoal
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
-
+  var debug = true
   // Game Item Objects
 
   const BOARD = {
@@ -30,15 +30,15 @@ async function runProgram() {
   // one-time setup
 
   gamePieces.push(makeGamePiece(20))
-  gamePieces.push(makeGamePiece(20, 7, 0, BOARD.width / 2, BOARD.height / 2))
-  gamePieces.push(makeGamePiece(20, 1, 5, 20, 70))
+  gamePieces.push(makeGamePiece(20, 30, 0, BOARD.width / 2, BOARD.height / 2))
+  gamePieces.push(makeGamePiece(20, 30, 25, 20, 70))
 
   paddles.push(await makePaddles(100, BOARD.height / 2, "rgb(255,0,0)"))
   paddles.push(await makePaddles(BOARD.width - 100 - 10, BOARD.height / 2, "rgb(0,0,255)"))
   $(document).on('keydown', setKeyTrue);                           // change 'eventType' to the type of event you want to handle
 
   $(document).on('keyup', setKeyFalse);
-  newTimer(230)
+  newTimer(1000)
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);
 
   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -53,10 +53,11 @@ async function runProgram() {
   by calling this function and executing the code inside.
   */
   function newFrame() {
+    movement()
+    paddleCollision()
     drawGamePieces()
     wallCollision()
-    ballHitPaddle()
-    movement()
+
   }
 
 
@@ -94,40 +95,34 @@ async function runProgram() {
 
   function movement() {
     for (var i = 0; i < paddles.length; i++) {
+      paddles[i].speedX = 0
+      paddles[i].speedY = 0
       for (bind in paddles[i].keys) {
         if (paddles[i].keys[bind].pressed === true) {
 
           if (bind === "up") {
-            console.log(bind)
-            if (paddles[i].speedY < 40) {
-              paddles[i].speedY += 1
-            }
-            paddles[i].y -= paddles[i].speedY
-            document.getElementById(paddles[i].id).setAttribute("y", paddles[i].y)
+
+            paddles[i].speedY = -5
+            
           }
           if (bind === "down") {
-            if (paddles[i].speedY < 40) {
-              paddles[i].speedY += 1
-            }
-            paddles[i].y += paddles[i].speedY
-            document.getElementById(paddles[i].id).setAttribute("y", paddles[i].y)
+            paddles[i].speedY = 5
+
+        
           }
           if (bind === "left") {
-            if (paddles[i].speedX < 40) {
-              paddles[i].speedX += 1
-            }
-            paddles[i].x -= paddles[i].speedX
-            document.getElementById(paddles[i].id).setAttribute("x", paddles[i].x)
+            paddles[i].speedX = -5
           }
           if (bind === "right") {
-            if (paddles[i].speedX < 40) {
-              paddles[i].speedX += 1
-            }
-            paddles[i].x += paddles[i].speedX
-            document.getElementById(paddles[i].id).setAttribute("x", paddles[i].x)
+            paddles[i].speedX = 5
+  
           }
-        } 
+        }
       }
+      paddles[i].y += paddles[i].speedY
+      document.getElementById(paddles[i].id).setAttribute("y", paddles[i].y)
+      paddles[i].x += paddles[i].speedX
+      document.getElementById(paddles[i].id).setAttribute("x", paddles[i].x)
     }
   }
 
@@ -143,34 +138,86 @@ async function runProgram() {
       gamePieces[i].cx += gamePieces[i].speedX
       gamePieces[i].cy += gamePieces[i].speedY
       $(gamePieces[i].id).attr("cx", gamePieces[i].cx).attr("cy", gamePieces[i].cy)
+      if (debug) {
+
+        $(gamePieces[i].id + "D").attr("cx", gamePieces[i].cx + gamePieces[i].speedX).attr("cy", gamePieces[i].cy + gamePieces[i].speedY)
+        $(gamePieces[i].id + "L").attr("points", `${gamePieces[i].cx},${gamePieces[i].cy} ${gamePieces[i].cx + gamePieces[i].speedX},${gamePieces[i].cy + gamePieces[i].speedY}`)
+      }
     }
   }
 
   function wallCollision() {
     for (var i = 0; i < gamePieces.length; i++) {
-      if (gamePieces[i].cy + gamePieces[i].radius >= BOARD.height || gamePieces[i].cy - gamePieces[i].radius <= BOARD.y) {
+      if (gamePieces[i].cy + gamePieces[i].radius >= BOARD.height) {
         gamePieces[i].speedY *= -1
+        
       }
-      if (gamePieces[i].cx + gamePieces[i].radius >= BOARD.width || gamePieces[i].cx - gamePieces[i].radius <= BOARD.x) {
+      if( gamePieces[i].cy - gamePieces[i].radius <= BOARD.y){
+        gamePieces[i].speedY *= -1
+        gamePieces[i].cx = BOARD.y + gamePieces[i].radius
+      }
+      if (gamePieces[i].cx + gamePieces[i].radius >= BOARD.width) {
         gamePieces[i].speedX *= -1
+        gamePieces[i].cx = BOARD.width - gamePieces[i].radius
+      }
+      if( gamePieces[i].cx - gamePieces[i].radius <= BOARD.x){
+        gamePieces[i].speedX *= -1
+        gamePieces[i].cx = BOARD.x + gamePieces[i].radius
       }
     }
   }
 
-  function ballHitPaddle() {
+  function paddleCollision() {
     for (var i = 0; i < paddles.length; i++) {
       for (var j = 0; j < gamePieces.length; j++) {
-        //right direction handler
-        if (gamePieces[j].cx - gamePieces[j].radius - gamePieces[j].speedX >= paddles[i].x && //right collision
-          gamePieces[j].cy + gamePieces[j].radius >= paddles[i].y && //top collision
-          gamePieces[j].cy - gamePieces[j].radius <= paddles[i].y /*bottom collision*/) {
+        if (
+          gamePieces[j].cx - gamePieces[j].radius + gamePieces[j].speedX <= paddles[i].x + paddles[i].width + paddles[i].speedX && //right collision
+          gamePieces[j].cy + gamePieces[j].radius + gamePieces[j].speedY >= paddles[i].y + paddles[i].speedY && //bottom collision
+          gamePieces[j].cy - gamePieces[j].radius + gamePieces[j].speedY <= paddles[i].y + paddles[i].height+ paddles[i].speedY /*bottom collision*/ &&
+          gamePieces[j].cx + gamePieces[j].radius + gamePieces[j].speedX >= paddles[i].x + paddles[i].speedX  //Left collision
+        ) {
+
           gamePieces[j].speedX *= -1
+          console.log("dcollided")
+          gamePieces[j].speedX += paddles[i].speedX
         }
+        else if (lineSegmentsIntersect(
+          gamePieces[j].cx, gamePieces[j].cy,
+          gamePieces[j].cx + gamePieces[j].speedX, gamePieces[j].cy + gamePieces[j].speedY,
+          paddles[i].x, paddles[i].y,
+          paddles[i].x, paddles[i].y + paddles[i].height) && !((lineSegmentsIntersect(
+            gamePieces[j].cx, gamePieces[j].cy,
+            gamePieces[j].cx + gamePieces[j].speedX, gamePieces[j].cy + gamePieces[j].speedY,
+            paddles[i].x, paddles[i].y,
+            paddles[i].x + paddles[i].width, paddles[i].y)) && (
+              lineSegmentsIntersect(
+                gamePieces[j].cx, gamePieces[j].cy,
+                gamePieces[j].cx + gamePieces[j].speedX, gamePieces[j].cy + gamePieces[j].speedY,
+                paddles[i].x, paddles[i].y + paddles[i].height,
+                paddles[i].x + paddles[i].width, paddles[i].y + paddles[i].height)
+            ))) {
+          gamePieces[j].speedX *= -1
+          console.log("collided")
+        }
+
 
 
       }
 
     }
+  }
+  function lineSegmentsIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+    var a_dx = x2 - x1;
+    var a_dy = y2 - y1;
+    var b_dx = x4 - x3;
+    var b_dy = y4 - y3;
+    var s = (-a_dy * (x1 - x3) + a_dx * (y1 - y3)) / (-b_dx * a_dy + a_dx * b_dy);
+    var t = (+b_dx * (y1 - y3) - b_dy * (x1 - x3)) / (-b_dx * a_dy + a_dx * b_dy);
+    return (s >= 0 && s <= 1 && t >= 0 && t <= 1);
+  }
+
+  function rayCast(i, j) {
+
   }
 
   function newTimer(startTime) {
@@ -224,9 +271,29 @@ async function runProgram() {
     gamePiece.speedX = speedX
     gamePiece.speedY = speedY
     gamePiece.color = color
+
+    if (debug) {
+      $(document.createElementNS('http://www.w3.org/2000/svg', 'circle'))
+        .appendTo("svg")
+        .css("fill", "rgba(255,255,255,0.4)")
+        .attr("cx", cx)
+        .attr("cy", cy)
+        .attr("r", radius)
+        .attr("class", "gamePiece")
+        .attr("id", `piece${gamePieces.length - 1}D`)
+
+      $(document.createElementNS('http://www.w3.org/2000/svg', 'polyline'))
+        .appendTo("svg")
+        .css("stroke", "red")
+        .css("stroke-width", "7")
+        .attr("points", `${cx},${cy} 0,0`)
+        .attr("id", `piece${gamePieces.length - 1}L`)
+
+    }
+
     return gamePiece
   }
-  async function makePaddles(x, y, color, width = 20, height = 150) {
+  async function makePaddles(x, y, color, width = 150, height = 150) {
     let paddle = {}
     $(document.createElementNS('http://www.w3.org/2000/svg', 'rect'))
       .appendTo("svg")
@@ -252,6 +319,8 @@ async function runProgram() {
     $(".that").text("ITEM")
     paddle.keys.item = { key: (await assignKeys()).key, pressed: false }
     $(".prompt").css("display", 'none')
+
+
 
     paddle.height = height
     paddle.width = width
