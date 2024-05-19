@@ -125,7 +125,6 @@ function main() {
 
   drawGrid();
   drawPlatforms();
-  drawOutlines();
 
   drawCannons();
   drawCollectables();
@@ -156,6 +155,7 @@ function main() {
     }
   } else {
     document.getElementById("demo");
+
   }
 
   if (!isEditor) {
@@ -190,6 +190,9 @@ function main() {
       platformAcceloration = 0
       levelmake()
     }
+
+  }else{
+    drawOutlines();
 
   }
 

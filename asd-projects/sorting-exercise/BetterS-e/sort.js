@@ -7,6 +7,7 @@ var BOARD = {
 }
 var list = []
 var hasConfimedOverload = false
+var sorted = false
 var MAX_SQUARES = 2000
 var SEED = 2
 const FACTOR = 1734339;
@@ -73,6 +74,7 @@ function chooseIndex(startIndex, array) {
 // TODO 2: Implement bubbleSort
 async function bubbleSort(array) {
     //uses the algorithm bubble sort to sort array
+    console.log("bubblesort.begin()")
     for (var i = 0; i < array.length - 1; i++) {
 
         for (var j = array.length - 1; j >= i + 1; j--) {
@@ -89,6 +91,8 @@ async function bubbleSort(array) {
             }
         }
     }
+    started = false
+    sorted = true
 }
 // TODO 3: Implement quickSort
 async function quickSort(array, left = 0, right = list.length - 1) {
@@ -101,6 +105,9 @@ async function quickSort(array, left = 0, right = list.length - 1) {
             await quickSort(array, index, right)
         }
     }
+    started = false
+    sorted = true
+
 }
 
 
@@ -179,19 +186,38 @@ function drawSwap(array, i, j) {
 function updateCounter(counter) {
     $(counter).text("Move Count: " + (parseFloat($(counter).text().replace(/^\D+/g, '')) + 1));
 }
-function swapSort(to) {
-    currentSort = to
+function swapSort(value) {
+ if(value === "bubbleSort"){
+    currentSort = bubbleSort
+}
+ if(value === "quickSort"){ 
+    currentSort = quickSort
+}
 }
 
 
-$("#bubbleSort").on('click', swapSort(bubbleSort))
-$("#quickSort").on('click', swapSort(quickSort))
+$("#dropdown").on('click', ()=>{swapSort(document.getElementById('dropdown').value)})
+
 $("#startButton").on('click', () => { 
     AudCon = new AudioContext(); 
-    if(!started || hasConfirmed2x){
+    if(sorted && !started){
+        MAX_SQUARES = parseFloat(document.getElementById('number').value);
+
+        for (var i = 0; i <= list.length; i++) {
+            $("#bar" + i).remove()
+        }
+        list = []
+        generateList()
         started = true
+        sorted = false
         currentSort(list);
         $(moveCounter).text("Move Count: " + 0);
+    }
+    else if(!started ){
+        started = true
+        currentSort(list);
+    }else if(hasConfirmed2x){
+        currentSort(list);
     }else{
         $('#prompt').text("This will run two concurrent sorting algorithims. This can cause unexpected and buggy behaviour. Continue?")
         $('#flLayer').css('display', "block")
