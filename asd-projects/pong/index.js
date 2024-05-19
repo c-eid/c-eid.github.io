@@ -123,7 +123,7 @@ async function runProgram() {
           if (bind === "up") {
 
             paddles[i].speedY = -10
-
+            
           }
           if (bind === "down") {
             paddles[i].speedY = 10
@@ -316,7 +316,7 @@ async function runProgram() {
         gameGoal = "0" + gameGoal
       } else if (parseFloat(gameGoal[2] + gameGoal[1]) === 0) {
         gameGoal = parseFloat(gameGoal)
-        gameGoal -= 40
+        gameGoal -= 41
         gameGoal = gameGoal + ""
       } else if (gameGoal <= 10) {
         gameGoal--
@@ -336,7 +336,7 @@ async function runProgram() {
   ////////////////////////// FACTORY FUNCTIONS ///////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
-  function makeGamePiece(radius = 10, speedX = 1, speedY = 1, cx = 100, cy = 100, color = `rgb(255,255,255)`) {
+  function makeGamePiece(radius = 10, speedX = 1, speedY = 1, cx = 100, cy = 100, pow="", color = `rgb(255,255,255)`) {
     let gamePiece = {}
     $(document.createElementNS('http://www.w3.org/2000/svg', 'circle'))
       .appendTo("svg")
@@ -353,7 +353,7 @@ async function runProgram() {
     gamePiece.speedX = speedX
     gamePiece.speedY = speedY
     gamePiece.color = color
-
+    gamePiece.power = pow
     if (debug) {
       $(document.createElementNS('http://www.w3.org/2000/svg', 'circle'))
         .appendTo("svg")

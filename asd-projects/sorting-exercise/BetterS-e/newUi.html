@@ -2,23 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <link href='https://fonts.googleapis.com/css?family=Anta' rel='stylesheet'>
     <script src="jquery-4.0.0-beta.slim.min.js"></script>
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+
+
+  <div id="flLayer">
+    <h1 id="prompt">Over 4000 items can cause crashes, slowdowns, or freezes on underpowered hardware. Continue?</h1>
+    <div id="break"></div>
+    <div id="buttonDiv">
+      <div id="cancel">Cancel</div>
+      <div id="confirm">Confirm</div>
+    </div>
+  </div>
+
+
+    <h2 id="moveCount">Move Count: 0</h2>
     <div class="topBar">
         <h1>Sorting-Exercise</h1>
+        <div id="speedDiv">
+          <div id="speedTop">
+          <h1 id="items">Delay(ms)</h1>
+          <input type="text" id="speed" value="100">
+         </div>
+          <input type="range" id="range" min="0" max="100" value="300">
+        </div>
+        <div id="numberDiv">
+          <h1 id="items">Items</h1>
+          <input type="text" id="number" value="2000">
+        </div>
         <div id="dropdownDiv">
-        <select id="dropdown">
-            <option value="bubbleSort">Bubble Sort</option>
-            <option value="quickSort">Quick Sort</option>
+        <select id="dropdown" placeholder="Algorithm">
+            <option value="bubbleSort" id="bubbleSort">Bubble Sort</option>
+            <option value="quickSort" id="quickSort">Quick Sort</option>
           
           </select>
         </div>
-        
+        <div id="startButton">
+          <p id="start">Start</p>
+        </div>
     </div>
     <svg viewBox="0 0 2560 1050" class="display">
         <rect x="0" y="0" width="2560" height="1050" stroke="gray" stroke-width="9" fill="black" />

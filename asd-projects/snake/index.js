@@ -8,6 +8,7 @@
 var board = $("#board");
 var scoreElement = $("#score");
 var highScoreElement = $("#highScore");
+var score = 0
 
 // TODO 4a: Create the snake, apple and score variables
 // Game Variables
@@ -340,9 +341,9 @@ function repositionSquare(square) {
 
   var buffer = 20;
 
-  // position the square on the screen according to the row and column
-  squareElement.css("left", column * SQUARE_SIZE + buffer);
-  squareElement.css("top", row * SQUARE_SIZE + buffer);
+    // position the square on the screen according to the row and column
+  squareElement.css("left", column * SQUARE_SIZE + buffer + board.position().left );
+  squareElement.css("top", row * SQUARE_SIZE + buffer + board.position().top);
 }
 
 /* Returns a (row,column) Object that is not occupied by another game component

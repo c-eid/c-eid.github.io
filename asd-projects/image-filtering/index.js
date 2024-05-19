@@ -18,10 +18,10 @@ function resetAndRender() {
 
 // this function applies the filters to the image and is where you should call
 // all of your apply functions
-function applyAndRender() {
+function applyAndRender(fun) {
   // Multiple TODOs: Call your apply function(s) here
   //applyFilter(reddify)
-  applyFilterNoBackground(decreaseBlue)
+  applyFilterNoBackground(fun)
   //applyFilterNoBackground(increaseGreenByBlue)
 
   // do not change the below line of code

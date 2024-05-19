@@ -1,62 +1,211 @@
+h1 {
+  margin: 0px 0px 0px 0px;
+  font-size: 3vw;
+  color: white;
+}
 
-h1{
-    margin: 0px 0px 0px 0px;
-    font-size: 3vw;
-    color:white;
+html {
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-html{
-    margin: 0px 0px 0px 0px;
-    height:100%;
-    background-color: rgb(0, 0, 0);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-body{
-    margin: 0px 0px 0px 0px;
-    height:100%;
-    width:100%;
-    overflow:hidden
-}
-.topBar{
-    display: inline-flex;
-    align-content: space-around;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    background-color:rgb(26, 26, 26);
-    color:white;
-    margin: 0px 0px 0px 0px;
-    height:10%;
-    width:100%;
 
- }
-#dropdownDiv{
-    width:40%;
-    display: flex;
-    align-content: space-around;
-    justify-content: space-around;
-    flex-wrap: wrap;
+body {
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden
 }
-#dropdown{
-    width:70%;
-    height:70%;
-    border: none;
-    border-radius: 99em;
-    color:#ffffff;
-    text-align: center;
-    font-weight: inherit;
-    font-size: 100%;
-    background-color: #444444;
-  }
-  option{
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border:none;
-  }
-  #logo{
-    font-family: 'Anta';
-    color:rgb(35, 35, 35);
-    font-size:500%;
-    height:100%;
-  }
-  #bottom{
-    height:100%;
-    width:100%;
-  }
+
+.topBar {
+  display: inline-flex;
+  align-content: space-around;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: rgb(26, 26, 26);
+  color: white;
+  margin: 0px 0px 0px 0px;
+  height: 10%;
+  width: 100%;
+  margin: 0px 0px 0px 0px;
+
+}
+
+#dropdownDiv {
+  width: 30%;
+  display: flex;
+  align-content: space-around;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+#dropdown {
+  width: 100%;
+  height: 70%;
+  border: none;
+  border-radius: 99em;
+  color: #ffffff;
+  text-align: center;
+  font-weight: inherit;
+  font-size: 100%;
+  background-color: #444444;
+}
+
+option {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  border: none;
+}
+
+#logo {
+  font-family: 'Anta';
+  color: rgb(35, 35, 35);
+  font-size: 500%;
+  height: 100%;
+}
+
+#bottom {
+  height: 100%;
+  width: 100%;
+
+}
+
+#startButton {
+  margin: 0px 0px 0px 0px;
+  background-color: rgb(15, 167, 53);
+  outline-color: black;
+  outline-width: 20%;
+  outline-style: solid;
+  width: 10%;
+  display: inline-flex;
+  align-content: space-around;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  border-radius: 1em;
+}
+
+#start {
+  margin: 0px 0px 0px 0px;
+  font-size: 200%;
+}
+
+#number {
+  appearance: none;
+  border-style: none;
+  outline-color: black;
+  outline-width: 10%;
+  padding: 0px;
+  font-size: 150%;
+  outline-style: solid;
+  width: 33%;
+  margin: 0px;
+  color: white;
+  height:100%;
+  text-align: center;
+  background-color: #444444;
+}
+
+#numberDiv {
+  width: 9%;
+  
+  margin: 0px 0px 0px 0px ;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}  
+
+#speedDiv {
+
+  width: 10%;
+  margin: 0px 0px 0px 0px ;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+}  
+
+#items{
+  
+  font-size:150%;
+  text-align: center;
+}
+#moveCount{
+  color:orange;
+  position: absolute;
+  top:8%;
+  font-size:200%;
+  left:0.5%;
+}
+#range{
+  margin: 0px;
+}
+#speed{
+  width:60%;
+  color:white;
+  background-color: rgba(9, 9, 9, 0);
+  appearance: none;
+  border: none;
+  text-align: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font: 900;
+  font-size: 150%;
+}
+#speedTop{
+  display: inline-flex;
+  width: 100%;
+}
+#flLayer{
+  position: absolute;
+  text-align: center;
+  border-radius: 1em;
+  left: 25%;
+  top:30%;
+  height: 40%;
+  width:50%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+#prompt{
+  padding-top: 5%;
+  font-size: 400%;
+  padding-bottom:5%;
+}
+#break{
+  position: relative;
+  height: 1%;
+  width:95%;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin-left: 2.5%;
+
+}
+#buttonDiv{
+
+  height: 30%;
+  font-size: 300%;
+  display: flex;
+  color:white;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+}
+#cancel{
+  padding: 1%;
+  border-color: black;
+  border-width: 3%;
+  border-style: solid;
+  border-radius: 0.3em;
+}
+#confirm{
+  border-radius: 0.3em;
+  border-color: black;
+  border-style: solid;
+
+  border-width: 3%;
+  padding: 1%;
+  background-color: rgb(117, 20, 161);
+}
