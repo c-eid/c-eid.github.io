@@ -30,7 +30,7 @@ async function runProgram() {
 
   // one-time setup
 
-  gamePieces.push(makeGamePiece(20, 6, 5))
+  gamePieces.push(makeGamePiece(20, Math.random()*5 +3, Math.random()*3))
   // gamePieces.push(makeGamePiece(20, 30, 0, BOARD.width / 2, BOARD.height / 2))
   // gamePieces.push(makeGamePiece(20, 0, 25, 20, 70))
 
@@ -276,18 +276,22 @@ async function runProgram() {
     }
   }
   function addPoint(paddle, i){
-    paddle.points += 1
-    currentPoint = paddle.points
+    paddle.points ++
+    //let currentPoint = JSON.parse(JSON.stringify(paddle.points))
+    console.log(paddle.points)
     $("#score"+i).text(paddle.points)
     clearInterval(interval);
-    paddles = []
+    //paddles = []
     gamePieces = []
-    paddles = JSON.parse(JSON.stringify(paddlesStart))
-    gamePieces = JSON.parse(JSON.stringify(gamePieceStart))
-    paddles[i].points = currentPoint 
+    //paddles = JSON.parse(JSON.stringify(paddlesStart))
+    //gamePieces = JSON.parse(JSON.stringify(gamePieceStart))
+    $(".gamePiece").remove()
+
+    gamePieces.push(makeGamePiece(20, Math.random()*5 +3, Math.random()*3))
+    //paddle['points'] = currentPoint 
     console.log(paddles)
     console.log(gamePieces)
-    setTimeout(()=>{interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL)}, 2000)
+    setTimeout(()=>{interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL)}, 1000)
   }
 
 
@@ -336,7 +340,7 @@ async function runProgram() {
   ////////////////////////// FACTORY FUNCTIONS ///////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
-  function makeGamePiece(radius = 10, speedX = 1, speedY = 1, cx = 100, cy = 100, pow="", color = `rgb(255,255,255)`) {
+  function makeGamePiece(radius = 10, speedX = 1, speedY = 1, cx = BOARD.width/2, cy = Math.ceil(Math.random()*BOARD.height), pow="", color = `rgb(255,255,255)`) {
     let gamePiece = {}
     $(document.createElementNS('http://www.w3.org/2000/svg', 'circle'))
       .appendTo("svg")

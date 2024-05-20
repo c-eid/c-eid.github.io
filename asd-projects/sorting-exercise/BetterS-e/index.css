@@ -95,7 +95,7 @@ option {
   outline-color: black;
   outline-width: 10%;
   padding: 0px;
-  font-size: 150%;
+  font-size: 2vw;
   outline-style: solid;
   width: 33%;
   margin: 0px;
@@ -129,8 +129,7 @@ option {
 }  
 
 #items{
-  
-  font-size:150%;
+  font-size:1.4vw;
   text-align: center;
 }
 #moveCount{
@@ -142,6 +141,8 @@ option {
 }
 #range{
   margin: 0px;
+  width: 95%;
+  height: 24%;
 }
 #speed{
   width:60%;
@@ -152,7 +153,7 @@ option {
   text-align: center;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font: 900;
-  font-size: 150%;
+  font-size: 1.5vw;
 }
 #speedTop{
   display: inline-flex;
@@ -208,4 +209,9 @@ option {
   border-width: 3%;
   padding: 1%;
   background-color: rgb(117, 20, 161);
+}
+:root{
+  margin:0px 0px 0px 0px;
+
+  
 }
