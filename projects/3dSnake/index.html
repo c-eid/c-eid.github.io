@@ -9,7 +9,7 @@
     <script src="jquery.cookie.js"></script>
 </head>
 
-<body>
+<body id="body">
     
     <style>
         :root {
@@ -40,14 +40,14 @@
             display: flex;
             justify-content: center;
             overflow: hidden;
-                        background: #7F00FF;
+             /* background: #7F00FF; */
             /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);
+            /* background: -webkit-linear-gradient(to right, #E100FF, #7F00FF); */
             /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #E100FF, #7F00FF);
+            /* background: linear-gradient(to right, #E100FF, #7F00FF); */
         }
 
-        svg {
+        #svg {
             
             height: 100%;
             left:0px;
@@ -113,11 +113,12 @@
             position: absolute;
             left:20px;
             z-index: 9;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             font-size: 5vw
         }
     </style>
     <audio id="audio" controls loop></audio>
-    <svg viewBox="0 0 2560 1440">
+    <svg id="svg" viewBox="0 0 2560 1440">
 
 
     </svg>
@@ -138,7 +139,8 @@
     
     <script src="PointMath.js"></script> -->
     <!-- <script src="cubeIndex.js"></script> -->
-    <script src="autocubeIndex.js"></script>
+    <script src="autoReverseCubeIndex.js"></script>
+    <script src="3dNgyn.js"></script>
     <script src="snake.js"></script>
 
 </body>

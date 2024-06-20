@@ -17,7 +17,7 @@ var plateau = [
         x: 1280,
         y: 1400,
         offset: 100,
-        radius: 990,
+        radius: 1035,
         visible: true
     }
 ]
@@ -50,7 +50,7 @@ onmessage = (s) => {
 
         // alongPathCore2("#circle4" + i, angle4, cubeC1.x, cubeC1.y, cubeC1.radius);
         // alongPathCore2("#circle8" + i, angle4, cubeC1.x, cubeC1.y + cubeC1.offset, cubeC1.radius);
-
+        
         var a1 = alongPathCore2("#circle" + i, angle1, (cubeC1.x), cubeC1.y, cubeC1.radius);
         var a2 = alongPathCore2("", angle2, (cubeC1.x), cubeC1.y, cubeC1.radius);
         var a3 = alongPathCore2("", angle3, (cubeC1.x), cubeC1.y, cubeC1.radius);
