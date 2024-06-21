@@ -3,6 +3,7 @@ var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
 var angle4 = 0;
+var hasEpilepsy = false
 var useSvg = true
 var fpsCounter = 0;
 var is = 0;
@@ -39,7 +40,7 @@ if (!useSvg) {
 // $("#circle6").empty()
 // $("#circle7").empty()
 // $("#circle8").empty()
-
+var percent = 0
 var offset = 100;
 var ang = 1;
 var down = 1.5;
@@ -51,13 +52,20 @@ function main() {
     // I used to have everything in here, but it preformed worse
     // I think it would take a while to finish a task and it would have to finish that before moving on
     // also I can change the fps independantly for each task
-    if (ang > 0.1) {
-        ang -= 0.001;
-    }
+    // if (ang > 0.1) {
+    //     ang -= 0.001;
+    // }
 
 
     angle1 += ang;
-
+    if (percent <= 270) {
+        percent += ang
+        $("#percentLoaded").text(Math.floor((percent / 270) * 100) + "%")
+    } else {
+        $("#percentDiv").remove()
+        $("#startButton").css("display", "flex")
+        $("#epilepsyStartButton").css("display", "flex")
+    }
 
 
 
@@ -71,14 +79,15 @@ function main() {
 
     if (angle1 >= 270) {
         angle4 += ang;
-        if(initalPreloadVisible === true){
-            for(var i = 1; i < cubes.length; i++){
-                cubes[i].calculated = false
-            }
+        ang = 0.1
+        // if(initalPreloadVisible === true){
+        //     for(var i = 1; i < cubes.length; i++){
+        //         cubes[i].calculated = false
+        //     }
 
-        }
-        clearInterval(id)
-       
+        // }
+        // clearInterval(id)
+
 
         //     if (offset <= 100) {
         //     offset += 0.01
@@ -126,14 +135,14 @@ function invisify(id) {
     document.getElementById(id).style.display = "none";
 
 }
-function visify(id, i="not") {
+function visify(id, i = "not") {
     //Shows used polygons if visible
-    if(i==="not"){
+    if (i === "not") {
         document.getElementById(id).style.display = "block";
-    }else if(cubes[i].visible){
+    } else if (cubes[i].visible) {
         document.getElementById(id).style.display = "block";
     }
-    
+
 }
 
 
@@ -206,7 +215,7 @@ bitCruncher.onmessage = (aDONT) => {
 
         }
         if (cubes[a[9]].visible || cubes[a[9]].calculated) {
-            if(!cubes[a[9]].visible){
+            if (!cubes[a[9]].visible) {
                 //catch for calculated but invisible
                 invisify("top" + a[9]);
                 invisify("right" + a[9]);
@@ -223,28 +232,28 @@ bitCruncher.onmessage = (aDONT) => {
             } else {
                 const idFront = document.getElementById(`front${a[9]}`);
                 idFront.setAttribute("points", a[1].point + a[5].point + a[6].point + a[2].point + "");
-                visify(`front${a[9]}`,a[9])
+                visify(`front${a[9]}`, a[9])
             }
             if (a[4].x < a[3].x) {
                 invisify("back" + a[9]);
             } else {
                 const idBack = document.getElementById(`back${a[9]}`);
                 idBack.setAttribute("points", a[4].point + a[8].point + a[7].point + a[3].point + "");
-                visify(`back${a[9]}`,a[9])
+                visify(`back${a[9]}`, a[9])
             }
             if (a[2].x > a[3].x) {
                 invisify("left" + a[9]);
             } else {
                 const idLeft = document.getElementById(`left${a[9]}`);
                 idLeft.setAttribute("points", a[2].point + a[6].point + a[7].point + a[3].point + "");
-                visify(`left${a[9]}`,a[9])
+                visify(`left${a[9]}`, a[9])
             }
             if (a[1].x < a[4].x) {
                 invisify("right" + a[9]);
             } else {
                 const idRight = document.getElementById(`right${a[9]}`);
                 idRight.setAttribute("points", a[1].point + a[5].point + a[8].point + a[4].point + "");
-                visify(`right${a[9]}`,a[9])
+                visify(`right${a[9]}`, a[9])
             }
 
         } else {
@@ -325,28 +334,8 @@ bitCruncher.onmessage = (aDONT) => {
 // }
 //visulizor for backround
 
-$(window).on("click", chromeSucks);
-audio = document.getElementById("audio");
-function chromeSucks() {
-    if (!clicked) {
-        //have to put this in a stupid function on click because google 
-        audio.src = "./944397.mp3";
-        audio.play();
-        context = new AudioContext();
-        audioSrc = context.createMediaElementSource(audio);
-        analyser = context.createAnalyser();
-        audioSrc.connect(analyser);
-        analyser.connect(context.destination);
+//$(window).on("click", chromeSucks);
 
-        //start of data
-        analyser.fftSize = 256;
-        bufferLength = analyser.frequencyBinCount;
-        clicked = true;
-        setInterval(animateBackground, (1000 / 60));
-    } else {
-   
-    }
-}
 function draw() {
     //draw is for backgoround
     drawVisual = requestAnimationFrame(draw);
@@ -362,45 +351,65 @@ function animateBackground() {
     if (clicked) {
         const dataArray = new Uint8Array(bufferLength);
         analyser.getByteFrequencyData(dataArray);
-        ctx.clearRect(-10000, -10000, 20000, 20000);
+
         backgroundRotation += 0.01 + dataArray[14] / 5000;
         document.getElementById("canvas").style.transform = "rotate(" + backgroundRotation + "deg" + ")";
+        if (!hasEpilepsy) {
+            ctx.clearRect(-10000, -10000, 20000, 20000);
+            let lWidth = dataArray[23] / 2.5;
 
-        let lWidth = dataArray[23] / 2.5;
+            for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
+                ctx.beginPath();
+                ctx.lineWidth = 100 + (previous / 10) - lWidth;
+                ctx.strokeStyle = "white";
+                ctx.moveTo(0, i);
+                ctx.lineTo(documentWidth * 2, i);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.lineWidth = 100 + (previous / 10) - lWidth;
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, documentWidth * 2);
+                ctx.closePath();
+                ctx.stroke();
+            }
 
-        for (var i = 0; i < documentWidth * 2; i += 100 + (previous / 10)) {
-            ctx.beginPath();
-            ctx.lineWidth = 100 + (previous / 10) - lWidth;
-            ctx.strokeStyle = "white";
-            ctx.moveTo(0, i);
-            ctx.lineTo(documentWidth * 2, i);
-            ctx.closePath();
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.lineWidth = 100 + (previous / 10) - lWidth;
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i, documentWidth * 2);
-            ctx.closePath();
-            ctx.stroke();
+            if (dataArray[3] >= 245) {
+                previous += 5;
+            }
+            if (previous > 0) {
+                previous -= down;
+            }
+            averageAud = 0
+
+            for (var i = 0; i < bufferLength; i++) {
+                averageAud += dataArray[i]
+            }
+            averageAud = averageAud / bufferLength
+            //console.log(averageAud)
+            dataArray.sort()
+
+            document.getElementById("body").style.backgroundImage = `linear-gradient(to right, ${hsvToRgb((2.8125 * averageAud), 1, 1)}, ${hsvToRgb((1.41176470588 * dataArray[64]), 1, 1)}`
+        } else {
+            ctx.clearRect(-10000, -10000, 20000, 20000);
+
+            for (var i = 0; i < documentWidth * 2; i += 100) {
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = "white";
+                ctx.moveTo(0, i);
+                ctx.lineTo(documentWidth * 2, i);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.lineWidth = 10;
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, documentWidth * 2);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            document.getElementById("body").style.backgroundImage = 'linear-gradient(to right, #E100FF, #7F00FF)'
         }
-
-        if (dataArray[3] >= 245) {
-            previous += 5;
-        }
-        if (previous > 0) {
-            previous -= down;
-        }
-        averageAud = 0
-
-        for (var i = 0; i < bufferLength; i++) {
-            averageAud += dataArray[i]
-        }
-        averageAud = averageAud / bufferLength
-        //console.log(averageAud)
-        dataArray.sort()
-
-        document.getElementById("body").style.backgroundImage = `linear-gradient(to right, ${hsvToRgb((2.8125 * averageAud), 1, 1)}, ${hsvToRgb((1.41176470588 * dataArray[64]), 1, 1)}`
-
     }
 }
 
@@ -427,6 +436,19 @@ function hsvToRgb(h, s, v) {
 }
 
 function visifyRC(row, col) {
+    for (var i = 1; i < cubes.length; i++) {
+        if (cubes[i].row === row && cubes[i].col === col) {
+            cubes[i].visible = true
+            // visify("top" + i);
+            // visify("right" + i);
+            // visify("front" + i);
+            // visify("back" + i);
+            // visify("left" + i);
+            return
+        }
+    }
+}
+function visifyCR(col, row) {
     for (var i = 1; i < cubes.length; i++) {
         if (cubes[i].row === row && cubes[i].col === col) {
             cubes[i].visible = true

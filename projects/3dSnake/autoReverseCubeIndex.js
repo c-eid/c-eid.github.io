@@ -5,7 +5,8 @@ var cubes = [
         y: 1400,
         offset: 100,
         radius: 1035,
-        visible: true
+            visible: false,
+        calculated:true
     },
 ]
 var plate = cubes[0]

@@ -7,116 +7,13 @@
     <title>Document</title>
     <script src="jquery.min.js"></script>
     <script src="jquery.cookie.js"></script>
+
+    <link href="style.css" rel="stylesheet" />
 </head>
 
 <body id="body">
-    
-    <style>
-        :root {
-            height: 100%;
-            width: 100%;
-            margin: 0px;
-            padding: 0px;
-            min-width: 0px;
-            min-height: 0px;
-        }
-
-        html {
-            margin: 0px;
-            padding: 0px;
-            height: 100%;
-            margin: 0px;
-            padding: 0px;
-            width: auto;
-            aspect-ratio: 16/9;
-        }
-
-        body {
-            height: 100%;
-            margin: 0px;
-            padding: 0px;
-            width: 100%;
-
-            display: flex;
-            justify-content: center;
-            overflow: hidden;
-             /* background: #7F00FF; */
-            /* fallback for old browsers */
-            /* background: -webkit-linear-gradient(to right, #E100FF, #7F00FF); */
-            /* Chrome 10-25, Safari 5.1-6 */
-            /* background: linear-gradient(to right, #E100FF, #7F00FF); */
-        }
-
-        #svg {
-            
-            height: 100%;
-            left:0px;
-            top:0px;
-            margin: 0px;
-            padding: 0px;
-            width: auto;
-            aspect-ratio: 16/9;
-            outline-width: 3px;
-            outline-color: rgb(0, 13, 255);
-            outline-style: dashed;
-            min-width: 0px;
-            z-index: 1;
-            min-height: 0px;
-        }
 
 
-        .canvas {
-            width: 100%;
-            height: 100%;
-            padding: 0px;
-            margin: 0px;
-            position: absolute;
-            z-index: 0;
-
-        }
-
-        /* .circlesDiv {
-            position:absolute;
-            left:0px;
-            right:0px;
-            height: 100%; 
-            margin: 0px;
-            z-index: 1;
-            background-color: rgba(255, 255, 255, 0);
-            width: 100%;
-            
-            min-width: 0px;
-            min-height: 0px;
-        } */
-        polygon {
-            position: absolute;
-        }
-
-        .circle {
-            display: block;
-            width: 10px;
-            height: 10px;
-            font-weight: 400;
-            font-size: 20px;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background-color: rgba(0, 0, 0, 0);
-            margin: 0px;
-            padding: 0px
-        }
-        #audio{
-            display:none;
-            z-index:4
-        }
-        #fps{
-            position: absolute;
-            left:20px;
-            z-index: 9;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-size: 5vw
-        }
-    </style>
     <audio id="audio" controls loop></audio>
     <svg id="svg" viewBox="0 0 2560 1440">
 
@@ -135,10 +32,130 @@
     <div class="circle" id="circle7">7</div>
     <div class="circle" id="circle8">8</div> -->
 
-<!--    
+    <!--    
     
     <script src="PointMath.js"></script> -->
     <!-- <script src="cubeIndex.js"></script> -->
+     <img src="media/tutorial.png" id="tut">
+    <div id="central">
+        <div id="epDiv">
+            <img id="epilepsyEyeInvert" src="media/epilepsyEyeInvert.png">
+            <h1 id="epWarning">This game has flashing lights which could <br>
+                trigger a seizure for those with epilepsy.</h1>
+
+            <div id="epilepsyStartButton">
+                <h1 id="epWarning">Begin With Reduced flashes</h1>
+            </div>
+        </div>
+        <div id="percentDiv">
+            <h1 id="loading">Loading</h1>
+            <p id="percentLoaded">0%</p>
+        </div>
+        <div id="startButton">
+            <h1 class='startText'>Begin</h1>
+        </div>
+
+        <div id="menu">
+            <h1 id="Title">3D Snake</h1>
+            <div id="settingsButton" class="startText buttons" onclick="openSettings()"> Settings </div>
+            <div id="playButton" class="startText buttons"> Play </div>
+            <div id="creditsButton" class="startText buttons" onclick="openCredits()"> Credits </div>
+        </div>
+
+        <div id="settingsMenu">
+            <h1 class="back">&#60</h1>
+            <h1 class="settingsTitle">Settings</h1>
+            <div id="settingsList">
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">Camera Follows Cursor</h1>
+                        <p class="settingEffect">With this setting enabled, when clicking and dragging the camera around
+                            the
+                            playing field, the camera will follow. With it disabled, the camera will update once the
+                            movement is
+                            finished.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked="true" onclick="reverse('dragHasPreview')">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">Reduce Flashing</h1>
+                        <p class="settingEffect">With this setting enabled, the reactive background effects will be
+                            disabled. With it disabled, the reactive background will act as usual. Note - the background
+                            is less flashy during gameplay than it is in the menus</p>
+                    </div>
+                    <label class="switch">
+                        <input id="epilepsyToggle" type="checkbox" onclick="reverse('hasEpilepsy')">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">Direction Boost</h1>
+                        <p class="settingEffect">With this setting enabled, when you go in a new direction or press the same direction twice, the snake will move ahead one square without waiting for the next frame. Can cause issues with predicted movement.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onclick="reverse('boostSlide')">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="creditsMenu">
+            <h1 class="back">&#60</h1>
+            <h1 class="settingsTitle">Credits</h1>
+            <div class="creditDiv">
+                <div class="creditText">
+                    <h1 class="creditTitle">Creator</h1>
+                    <h1 class="credditor">Chase Eid</h1>
+                </div>
+                <div class="whereToFind">
+                    <a href="https://www.youtube.com/channel/UCb9jSz9UnpHTyUHhpzvX90A">
+                        <img class="img" src="./media/yt_logo_rgb_light.png">
+                    </a>
+                    <a href="https://github.com/c-eid">
+                        <img class="img" src="./media/GitHub-Mark-ea2971cee799.png">
+                    </a>
+                </div>
+            </div>
+            <div class="creditDiv">
+                <div class="creditText">
+                    <h1 class="creditTitle">In-Game Music</h1>
+                    <h1 class="credditor">Windglass by lchavasse</h1>
+                </div>
+                <div class="whereToFind">
+                    <a href="https://lchavasse.newgrounds.com/">
+                        <img class="img" src="media/ng_logo.png">
+                    </a>
+
+                </div>
+            </div>
+            <div class="creditDiv">
+                <div class="creditText">
+                    <h1 class="creditTitle">Dependencys</h1>
+                    <h1 class="credditor">jQuery</h1>
+                </div>
+                <div class="whereToFind">
+                    <a href="https://jquery.com/">
+                        <img class="img" src="media/JQuery-Logo.png">
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div id="deathMenu">
+            <h1 id="Title">Game Over</h1>
+            <h1 class="creditTitle" id="score">score - </h1>
+
+            <div id="menuButton" class="startText buttons"> Menu </div>
+        </div>
+
+    </div>
     <script src="autoReverseCubeIndex.js"></script>
     <script src="3dNgyn.js"></script>
     <script src="snake.js"></script>
