@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1000">
     <title>3D-Snake</title>
     <script src="jquery.min.js"></script>
     <script src="jquery.cookie.js"></script>
@@ -109,10 +109,10 @@
                     <div class="settingText">
                         <h1 class="settingName">Single-Thread Operation</h1>
                         <p class="settingEffect">With this setting enabled, all math operations will be on the main
-                            core. Causes more studders than multi core. Your performance will vary.</p>
+                            core. <b>Causes much more studders than multi core.</b> Your performance will vary.</p>
                     </div>
                     <label class="switch">
-                        <input type="checkbox" checked="true"  onclick="reverse('isSingleCore')">
+                        <input type="checkbox" onclick="reverse('isSingleCore')">
                         <span class="slider round"></span>
                     </label>
                 </div>

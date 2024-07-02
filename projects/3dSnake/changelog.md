@@ -1,4 +1,7 @@
 # Changelog
+## v1.11
+- Set default width to 1000
+- Changed Single core default to false
 ## v1.1  
 ### Added Features
 - Added single core option in settings, has better performance on my pc when on single core, but not on my chromebook. 
