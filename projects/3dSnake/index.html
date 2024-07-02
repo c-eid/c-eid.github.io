@@ -3,18 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D-Snake</title>
     <script src="jquery.min.js"></script>
     <script src="jquery.cookie.js"></script>
-
+    <link rel="icon" type="image/x-icon" href="./media/favicon.ico">
     <link href="style.css" rel="stylesheet" />
 </head>
 
 <body id="body">
 
 
-    <audio id="audio" controls loop></audio>
+    <audio id="audio" preload="true" controls loop></audio>
     <svg id="svg" viewBox="0 0 2560 1440">
 
 
@@ -36,7 +36,7 @@
     
     <script src="PointMath.js"></script> -->
     <!-- <script src="cubeIndex.js"></script> -->
-     <img src="media/tutorial.png" id="tut">
+    <img src="media/tutorial.png" id="tut">
     <div id="central">
         <div id="epDiv">
             <img id="epilepsyEyeInvert" src="media/epilepsyEyeInvert.png">
@@ -96,12 +96,34 @@
                 <div class="setting">
                     <div class="settingText">
                         <h1 class="settingName">Direction Boost</h1>
-                        <p class="settingEffect">With this setting enabled, when you go in a new direction or press the same direction twice, the snake will move ahead one square without waiting for the next frame. Can cause issues with predicted movement.</p>
+                        <p class="settingEffect">With this setting enabled, when you go in a new direction or press the
+                            same direction twice, the snake will move ahead one square without waiting for the next
+                            frame. Can cause issues with predicted movement.</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" onclick="reverse('boostSlide')">
                         <span class="slider round"></span>
                     </label>
+                </div>
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">Single-Thread Operation</h1>
+                        <p class="settingEffect">With this setting enabled, all math operations will be on the main
+                            core. Causes more studders than multi core. Your performance will vary.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked="true"  onclick="reverse('isSingleCore')">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">FrameCap</h1>
+                        <p class="settingEffect">Set a framerate limit. Will not impact snake speed</p>
+                    </div>
+                    <div class="settingInputDiv">
+                        <input type="number" min="10" id="frameCap" value="240" class="number">
+                    </div>
                 </div>
             </div>
         </div>

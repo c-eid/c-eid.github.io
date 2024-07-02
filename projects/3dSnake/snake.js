@@ -1,16 +1,18 @@
 var dragHasPreview = true
 var boostSlide = false
 $("#playButton").on("mousedown", () => {
+    clearInterval(id)
     $("#tut").css("display", "block")
     for (var i = 1; i < cubes.length; i++) {
         cubes[i].visible = false
     }
-    clearInterval(id)
+
     angle1 = 335 + 360
     angle2 = 335 - 90 + 360
     angle3 = 335 - 180 + 360
     angle4 = 335 - 270 + 360
     $("#central").css("display", "none")
+
     audio.src = "./media/944397.mp3";
     audio.play();
     var queueDirection = "left"
@@ -48,8 +50,15 @@ $("#playButton").on("mousedown", () => {
     function snakeCollision() {
         for (var i = 1; i < snake.body.length; i++) {
             if (snake.head.row === snake.body[i].row && snake.head.col === snake.body[i].col) {
+
+                audio.pause()
+                audio.src = "media/menuloop.mp3"
+                audio.load()
+
                 clearInterval(snakeFrames)
+                clearInterval(id)
                 $("body").off()
+                $("svg").off()
                 audio.pause()
                 $("#score").text(`Score - ${snake.body.length}`)
                 $('#menu').css("display", "none")
@@ -143,8 +152,9 @@ $("#playButton").on("mousedown", () => {
         snake.body = [{ row: 11, col: 11, direction: "left" }, { row: 11, col: 12, direction: "none" }, { row: 11, col: 13, direction: "none" }, { row: 11, col: 14, direction: "none" }]
         apple.row = 0
         apple.col = 0
-        audio.src = "media/menuloop.mp3"
+
         audio.play()
+
         for (var i = 1; i < cubes.length; i++) {
             cubes[i].visible = false
         }
@@ -154,7 +164,9 @@ $("#playButton").on("mousedown", () => {
         logo()
         $("#deathMenu").css("display", "none")
         $("#menu").css("display", 'grid')
+        clearInterval(id)
         id = setInterval(main, (1000 / 240));
+
 
     })
 
@@ -441,4 +453,14 @@ $(".back").on("mousedown", () => {
     $("#settingsMenu").css("display", "none")
     $("#creditsMenu").css("display", "none")
     $("#menu").css("display", "grid")
+})
+$("#frameCap").on("keyup", () => {
+    if (document.getElementById("frameCap").valueAsNumber >= 10) {
+        clearInterval(id)
+        clearInterval(renderShapeInt)
+        console.log(document.getElementById("frameCap").valueAsNumber)
+        frameCap = document.getElementById("frameCap").valueAsNumber
+        renderShapeInt = setInterval(renderShape, (1000 / frameCap));
+        id = setInterval(main, (1000 / frameCap));
+    }
 })

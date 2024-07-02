@@ -2,7 +2,9 @@ const bitCruncher = new Worker("PointMath.js"); //Starts a worker thread to do t
 var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
+var isSingleCore = true
 var angle4 = 0;
+var frameCap = 240
 var hasEpilepsy = false
 var useSvg = true
 var fpsCounter = 0;
@@ -99,9 +101,9 @@ function main() {
     }
 }
 
-var renderShape = setInterval(renderShape, (1000 / 240));
+var renderShapeInt = setInterval(renderShape, (1000 / frameCap));
 
-var id = setInterval(main, (1000 / 240));
+var id = setInterval(main, (1000 / frameCap));
 var fpsID = setInterval(fps, (1000));
 
 function fps() {
@@ -150,7 +152,16 @@ function visify(id, i = "not") {
 function renderShape() {
 
     fpsCounter++;
+    cubes = cubes.sort(function (a, b) {
+        if (a.radius === cubes[0].radius) {
+            return 0
+        } else if (b.radius === cubes[0].radius) {
+            return 0
+        }
 
+
+        return a.liveY - b.liveY
+    })
 
     for (let i = 0; i < cubes.length; i++) {
         //creates polygons in svg
@@ -174,19 +185,151 @@ function renderShape() {
         }
 
 
-        cubes = cubes.sort(function (a, b) {
-            if (a.radius === cubes[0].radius) {
-                return 0
-            } else if (b.radius === cubes[0].radius) {
-                return 0
-            }
-
-
-            return a.liveY - b.liveY
-        })
         //sends the cube two core to in order to do the math that takes awhile.
         if (cubes[i].visible || cubes[i].calculated) {
-            bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
+            if (!isSingleCore) {
+                cubes = cubes.sort(function (a, b) {
+                    if (a.radius === cubes[0].radius) {
+                        return 0
+                    } else if (b.radius === cubes[0].radius) {
+                        return 0
+                    }
+        
+        
+                    return a.liveY - b.liveY
+                })
+                bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
+            } else {
+
+
+                let a1 = alongPath("#circle" + i, angle1, (cubes[i].x), cubes[i].y, cubes[i].radius);
+                let a2 = alongPath("", angle2, (cubes[i].x), cubes[i].y, cubes[i].radius);
+                let a3 = alongPath("", angle3, (cubes[i].x), cubes[i].y, cubes[i].radius);
+                let a4 = alongPath("", angle4, (cubes[i].x), cubes[i].y, cubes[i].radius);
+                let a5 = alongPath("", angle1, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+                let a6 = alongPath("", angle2, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+                let a7 = alongPath("", angle3, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+                let a8 = alongPath("", angle4, (cubes[i].x), cubes[i].y + cubes[i].offset, cubes[i].radius);
+
+
+
+                cubes[i]["liveY"] = a1.y;
+
+                var bottomMidX = (a6.x + a7.x) / 2
+
+                var bottomMidY = (a6.y + a7.y) / 2
+                if (useSvg) {
+                    if (i !== 0) {
+                        cubes[i].x = alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, cubes[i].radiusOffset).x;
+                        cubes[i].y = (alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, (cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
+
+                    }
+                    if (cubes[i].visible || cubes[i].calculated) {
+                        if (!cubes[i].visible) {
+                            //catch for calculated but invisible
+                            invisify("top" + i);
+                            invisify("right" + i);
+                            invisify("front" + i);
+                            invisify("back" + i);
+                            invisify("left" + i);
+                        }
+                        const idTop = document.getElementById(`top${i}`);
+                        idTop.setAttribute("points", a1.point + a2.point + a3.point + a4.point + "");
+                        visify(`top${i}`, i);
+                        //these check the position of two points to determine wether or not they should be rendered.
+                        if (a1.x > a2.x) {
+                            invisify("front" + i);
+                        } else {
+                            const idFront = document.getElementById(`front${i}`);
+                            idFront.setAttribute("points", a1.point + a5.point + a6.point + a2.point + "");
+                            visify(`front${i}`, i)
+                        }
+                        if (a4.x < a3.x) {
+                            invisify("back" + i);
+                        } else {
+                            const idBack = document.getElementById(`back${i}`);
+                            idBack.setAttribute("points", a4.point + a8.point + a7.point + a3.point + "");
+                            visify(`back${i}`, i)
+                        }
+                        if (a2.x > a3.x) {
+                            invisify("left" + i);
+                        } else {
+                            const idLeft = document.getElementById(`left${i}`);
+                            idLeft.setAttribute("points", a2.point + a6.point + a7.point + a3.point + "");
+                            visify(`left${i}`, i)
+                        }
+                        if (a1.x < a4.x) {
+                            invisify("right" + i);
+                        } else {
+                            const idRight = document.getElementById(`right${i}`);
+                            idRight.setAttribute("points", a1.point + a5.point + a8.point + a4.point + "");
+                            visify(`right${i}`, i)
+                        }
+
+                    } else {
+                        //catch for when invisible and still renders somehow
+                        invisify("top" + i);
+                        invisify("right" + i);
+                        invisify("front" + i);
+                        invisify("back" + i);
+                        invisify("left" + i);
+                    }
+
+                } else {
+                    //html canvas support. idk how but runs slower then svg and is abandoned for now
+                    rtx.fillStyle = '#ffffff';
+
+                    rtx.beginPath();
+                    rtx.moveTo(a1.x, a1.y);
+                    rtx.lineTo(a2.x, a2.y);
+                    rtx.lineTo(a3.x, a3.y);
+                    rtx.lineTo(a4.x, a4.y);
+                    rtx.closePath();
+                    rtx.fill();
+                    if (!(a1.x > a2.x)) {
+                        rtx.beginPath();
+                        rtx.moveTo(a1.x, a1.y);
+                        rtx.lineTo(a5.x, a5.y);
+                        rtx.lineTo(a6.x, a6.y);
+                        rtx.lineTo(a2.x, a2.y);
+                        rtx.closePath();
+                        rtx.fill();
+                    }
+                    if (!(a4.x < a3.x)) {
+                        rtx.beginPath();
+                        rtx.moveTo(a4.x, a4.y);
+                        rtx.lineTo(a8.x, a8.y);
+                        rtx.lineTo(a7.x, a7.y);
+                        rtx.lineTo(a3.x, a3.y);
+                        rtx.closePath();
+                        rtx.fill();
+                    }
+                    if (!(a2.x > a3.x)) {
+                        rtx.beginPath();
+                        rtx.moveTo(a2.x, a2.y);
+                        rtx.lineTo(a6.x, a6.y);
+                        rtx.lineTo(a7.x, a7.y);
+                        rtx.lineTo(a3.x, a3.y);
+                        rtx.closePath();
+                        rtx.fill();
+
+                    }
+                    if (!(a1.x < a4.x)) {
+                        rtx.beginPath();
+                        rtx.moveTo(a1.x, a1.y);
+                        rtx.lineTo(a5.x, a5.y);
+                        rtx.lineTo(a8.x, a8.y);
+                        rtx.lineTo(a4.x, a4.y);
+                        rtx.closePath();
+                        rtx.fill();
+                    }
+                    if (i !== 0) {
+                        cubes[i].x = alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, cubes[i].radiusOffset).x;
+                        cubes[i].y = (alongPath("#circle" + i, ((window["angle" + cubes[i].angleRefrence]) - cubes[i].angleOffset), cubes[0].x, cubes[0].y, (cubes[i].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[i].offset - 1);
+
+                    }
+                }
+            }
         } else {
             cubes[i].liveY = alongPath("#circle" + i, angle1, (cubes[i].x), cubes[i].y, cubes[i].radius).y;
             invisify("top" + i);
@@ -201,10 +344,12 @@ function renderShape() {
 
 bitCruncher.onmessage = (aDONT) => {
     //This has to be done on main core unfortunatly, only main core can edit html  
+
+
     var a = aDONT.data;
 
     cubes[a[9]]["liveY"] = a[1].y;
-
+ 
     var bottomMidX = (a[6].x + a[7].x) / 2
 
     var bottomMidY = (a[6].y + a[7].y) / 2

@@ -112,7 +112,8 @@ polygon {
     left: 1vw;
     z-index: 9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 1vw
+    font-size: 1vw;
+    user-select: none;
 }
 
 #central {
@@ -223,7 +224,7 @@ polygon {
 
 #Title {
     font-size: 10vw;
-
+    user-select: none;
     grid-area: T;
     color: white;
 }
@@ -308,8 +309,9 @@ color: white;
     height: 95%;
 }
 #settingsList{
- 
-    height: max-content;
+    
+    height: 89%;
+    overflow-y: scroll;
 }
 .switch {
     position: relative;
@@ -382,7 +384,7 @@ input:checked+.slider:before {
     text-align: center;
     padding: 0px;
     font-size: 7vw;
-    
+    user-select: none;
 }
 #creditsMenu {
     background-color: rgba(0, 0, 0, 0.568);
@@ -461,3 +463,46 @@ input:checked+.slider:before {
     justify-items: center;
     height: 95%;
 }
+.number{
+    margin: 0px;
+    width: 40%;
+    height: 40%;
+    outline: none;
+    color:white;
+    background-color: rgba(0, 0, 0, 0.568);
+    border: black 2px solid;
+    text-align: center;    
+}
+.settingInputDiv{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-around;
+    width: 9%;
+    
+  
+}
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(29, 29, 29); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #252525; 
+  }
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
