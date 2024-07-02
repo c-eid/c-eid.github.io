@@ -441,6 +441,11 @@ function openSettings() {
     $("#settingsMenu").css("display", "block")
 }
 
+function openPerformance(){
+    $("#menu").css("display", "none")
+    $("#performanceMenu").css("display", "block")
+}
+
 function openCredits() {
     $("#menu").css("display", "none")
     $("#creditsMenu").css("display", "block")
@@ -452,6 +457,7 @@ function reverse(variable) {
 $(".back").on("mousedown", () => {
     $("#settingsMenu").css("display", "none")
     $("#creditsMenu").css("display", "none")
+    $("#performanceMenu").css("display", "none")
     $("#menu").css("display", "grid")
 })
 $("#frameCap").on("keyup", () => {

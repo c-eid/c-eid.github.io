@@ -1,4 +1,7 @@
 # Changelog
+## v1.13
+- Added recommended chrome settings tab when users fps is low.
+- Changed Single core default to true
 ## v1.12
 - Fixed Responsive layout isses
 - Removed default width 

@@ -56,6 +56,8 @@
         </div>
 
         <div id="menu">
+            <div class="startText buttons" id="performance" onclick="openPerformance()"> Bad Performance?</div>
+
             <h1 id="Title">3D Snake</h1>
             <div id="settingsButton" class="startText buttons" onclick="openSettings()"> Settings </div>
             <div id="playButton" class="startText buttons"> Play </div>
@@ -109,10 +111,10 @@
                     <div class="settingText">
                         <h1 class="settingName">Single-Thread Operation</h1>
                         <p class="settingEffect">With this setting enabled, all math operations will be on the main
-                            core. <b>Causes much more studders than multi core.</b> Your performance will vary.</p>
+                            core. <b>Causes more studders than multi core.</b> Your performance will vary.</p>
                     </div>
                     <label class="switch">
-                        <input type="checkbox" onclick="reverse('isSingleCore')">
+                        <input type="checkbox" checked="true"  onclick="reverse('isSingleCore')">
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -127,7 +129,26 @@
                 </div>
             </div>
         </div>
+        <div id="performanceMenu">
+            <h1 class="back">&#60</h1>
+            <h1 class="settingsTitle">Recommended Chrome Settings</h1>
+            <div id="settingsList">
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">Graphics Accelloration</h1>
+                        <p class="settingEffect">This setting is the most important, giving up to 10x performance depending on hardware. For chrome, go to chrome://settings/system and enable Use graphics acceleration when available.</p>
+                    </div>
+                </div>
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">GPU rasterization</h1>
+                        <p class="settingEffect">This setting can improve preformance by a good margin, For chrome, go to chrome://flags/#enable-gpu-rasterization and enable gpu-rasterization</p>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+        
         <div id="creditsMenu">
             <h1 class="back">&#60</h1>
             <h1 class="settingsTitle">Credits</h1>

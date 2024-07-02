@@ -489,6 +489,16 @@ input:checked+.slider:before {
     
   
 }
+#performance{
+    color:white;
+    position:absolute;
+    left: 1vw;
+    top:2vh;
+    display: none;
+    background-color: #7700ff;
+    font-size: 2vw;
+
+}
 ::-webkit-scrollbar {
     width: 10px;
   }
@@ -512,3 +522,13 @@ input:checked+.slider:before {
   input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
+
+  #performanceMenu {
+    background-color: rgba(0, 0, 0, 0.568);
+    border-radius: .5vw;
+    padding: .5vw;
+    display: none;
+    width: 97.5%;
+
+    height: 95%;
+}

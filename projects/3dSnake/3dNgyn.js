@@ -2,7 +2,7 @@ const bitCruncher = new Worker("PointMath.js"); //Starts a worker thread to do t
 var angle1 = 0;
 var angle2 = 0;
 var angle3 = 0;
-var isSingleCore = false
+var isSingleCore = true
 var angle4 = 0;
 var frameCap = 240
 var hasEpilepsy = false
@@ -99,6 +99,7 @@ function main() {
     if (angle1 >= 360) {
 
     }
+    
 }
 
 var renderShapeInt = setInterval(renderShape, (1000 / frameCap));
@@ -109,6 +110,13 @@ var fpsID = setInterval(fps, (1000));
 function fps() {
     //fps counter. counts the fps for the render shape function, not the page
     $('#fps').text(fpsCounter + "");
+    if(fpsCounter <= 29){
+        $("#performance").css("display", "flex")
+
+    }else{
+        $("#performance").css("display", "none")
+
+    }
     fpsCounter = 0;
 }
 
