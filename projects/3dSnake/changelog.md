@@ -1,4 +1,7 @@
 # Changelog
+## v1.12
+- Fixed Responsive layout isses
+- Removed default width 
 ## v1.11
 - Set default width to 1000
 - Changed Single core default to false
