@@ -1,4 +1,7 @@
 # Changelog
+## v1.2
+### Added Features
+- Mobile Support for camera and snake movement added.
 ## v1.13
 ### Added Features
 - Added recommended chrome settings tab when users fps is low.

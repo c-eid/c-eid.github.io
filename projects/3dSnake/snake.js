@@ -1,6 +1,46 @@
 var dragHasPreview = true
 var boostSlide = false
 $("#playButton").on("mousedown", () => {
+    if (isTouchDevice()) {
+        $("#touchArrow").css("display", "block")
+        $("#touchArrow").on("touchstart touchmove", (e)=>{
+            
+            let centerX = $("#touchArrow").position().left + ($("#touchArrow").width()/2)
+            let centerY = $("#touchArrow").position().top + ($("#touchArrow").height()/2)
+            dx = (e.originalEvent.touches[0].pageX) - centerX
+            dy = (e.originalEvent.touches[0].pageY) - centerY
+            let angleOfTouch = Math.atan2(dy, dx)
+            if(angleOfTouch < 0 ){
+
+            
+            angleOfTouch +=  Math.PI * 2;
+            }
+            angleOfTouch *= ( 180 / Math.PI )
+            console.log(angleOfTouch)
+            if(angleOfTouch > 45 && angleOfTouch <= 135){
+                //down
+                if(snake.head.direction != "up") {
+                    queueDirection = "down"
+                }
+            } else if(angleOfTouch > 135 && angleOfTouch <= 225){
+                //left
+                if(snake.head.direction != "right") {
+                    queueDirection = "left"
+                }
+            } else if(angleOfTouch > 225 && angleOfTouch <= 315){
+                //up
+                if(snake.head.direction != "down") {
+                    queueDirection = "up"
+                }
+            } else if(angleOfTouch > 315 || angleOfTouch <=45){
+                //right
+                if(snake.head.direction != "left") {
+                    queueDirection = "right"
+                }
+            }
+        })
+    
+    }
     clearInterval(id)
     $("#tut").css("display", "block")
     for (var i = 1; i < cubes.length; i++) {
@@ -58,12 +98,13 @@ $("#playButton").on("mousedown", () => {
                 clearInterval(snakeFrames)
                 clearInterval(id)
                 $("body").off()
+                $("#touchArrow").off()
                 $("svg").off()
                 audio.pause()
                 $("#score").text(`Score - ${snake.body.length}`)
                 $('#menu').css("display", "none")
                 $("#central").css("display", "flex")
-
+                $("#touchArrow").css("display", "none")
                 $("#deathMenu").css("display", 'flex')
             }
         }
@@ -171,17 +212,22 @@ $("#playButton").on("mousedown", () => {
     })
 
     if (dragHasPreview) {
-        $("svg").on("mousedown", (event) => {
+        $("svg").on("mousedown touchstart", (event) => {
             drag.started = true
 
             for (var i = 1; i < cubes.length; i++) {
                 cubes[i].calculated = true
             }
-            drag.startedMouse.x = event.pageX
-            drag.startedMouse.y = event.pageY
+            if(event.pageX == null){
+                drag.startedMouse.x =event.originalEvent.touches[0].pageX
+                drag.startedMouse.y =event.originalEvent.touches[0].pageX
+            }else{
+                drag.startedMouse.x = event.pageX
+                drag.startedMouse.y = event.pageY
+            }
 
         })
-        $("svg").on("mousemove", (event) => {
+        $("svg").on("mousemove touchmove", (event) => {
             if (drag.started === true) {
                 if (drag.second) {
                     angle1 += (drag.currentMouse.x - drag.startedMouse.x) / 10
@@ -189,8 +235,14 @@ $("#playButton").on("mousedown", () => {
                     angle3 += (drag.currentMouse.x - drag.startedMouse.x) / 10
                     angle4 += (drag.currentMouse.x - drag.startedMouse.x) / 10
                 }
-                drag.currentMouse.x = event.pageX
-                drag.currentMouse.y = event.pageY
+                
+                if(event.pageX == null){
+                    drag.currentMouse.x =event.originalEvent.touches[0].pageX
+                    drag.currentMouse.y =event.originalEvent.touches[0].pageX
+                }else{
+                    drag.currentMouse.x = event.pageX
+                    drag.currentMouse.y = event.pageY
+                }
                 if (angle1 <= 360 || angle2 <= 360 || angle3 <= 360 || angle4 <= 360) {
                     angle1 += 360
                     angle2 += 360
@@ -206,7 +258,7 @@ $("#playButton").on("mousedown", () => {
 
             }
         })
-        $("svg").on("mouseup", (event) => {
+        $("svg").on("mouseup touchend", (event) => {
             drag.started = false
             drag.second = false
             for (var i = 1; i < cubes.length; i++) {
@@ -216,18 +268,23 @@ $("#playButton").on("mousedown", () => {
     } else {
 
 
-        $("svg").on("mousedown", (event) => {
+        $("svg").on("mousedown touchstart", (event) => {
 
             drag.started = true
-            drag.startedMouse.x = event.pageX
-            drag.startedMouse.y = event.pageY
+            if(event.pageX == null){
+                drag.startedMouse.x =event.originalEvent.touches[0].pageX
+                drag.startedMouse.y =event.originalEvent.touches[0].pageX
+            }else{
+                drag.startedMouse.x = event.pageX
+                drag.startedMouse.y = event.pageY
+            }
             for (var i = 1; i < cubes.length; i++) {
                 cubes[i].calculated = true
             }
 
 
         })
-        $("svg").on("mousemove", (event) => {
+        $("svg").on("mousemove touchmove", (event) => {
             if (drag.started === true) {
                 if (angle1 <= 360 || angle2 <= 360 || angle3 <= 360 || angle4 <= 360) {
                     angle1 += 360
@@ -237,12 +294,17 @@ $("#playButton").on("mousedown", () => {
 
                 }
 
-                drag.currentMouse.x = event.pageX
-                drag.currentMouse.y = event.pageY
+                if(event.pageX == null){
+                    drag.currentMouse.x =event.originalEvent.touches[0].pageX
+                    drag.currentMouse.y =event.originalEvent.touches[0].pageX
+                }else{
+                    drag.currentMouse.x = event.pageX
+                    drag.currentMouse.y = event.pageY
+                }
 
             }
         })
-        $("svg").on("mouseup", (event) => {
+        $("svg").on("mouseup touchend", (event) => {
             drag.started = false
             drag.second = false
 
@@ -441,7 +503,7 @@ function openSettings() {
     $("#settingsMenu").css("display", "block")
 }
 
-function openPerformance(){
+function openPerformance() {
     $("#menu").css("display", "none")
     $("#performanceMenu").css("display", "block")
 }
@@ -470,3 +532,13 @@ $("#frameCap").on("keyup", () => {
         id = setInterval(main, (1000 / frameCap));
     }
 })
+
+function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0));
+}
+function vw(percent) {
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    return (percent * w) / 100;
+  }

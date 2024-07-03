@@ -532,3 +532,13 @@ input:checked+.slider:before {
 
     height: 95%;
 }
+#touchArrow{
+    height: 16vw;
+    z-index: 9;
+    display: none;
+    position: absolute;
+    width: 16vw;
+    rotate: 270deg;
+    left:5vw;
+    top:50svh;
+}
