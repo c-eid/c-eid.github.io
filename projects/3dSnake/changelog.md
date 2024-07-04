@@ -1,24 +1,24 @@
 # Changelog
 ## v1.2
-### Added Features
+#### Added Features
 - Mobile Support for camera and snake movement added.
 ## v1.13
-### Added Features
+#### Added Features
 - Added recommended chrome settings tab when users fps is low.
-### Changes
+#### Changes
 - Changed Single core default to true
 ## v1.12
-### BugFixes
+#### BugFixes
 - Fixed Responsive layout isses
 - Removed default width 
 ## v1.11
-### Changes
+#### Changes
 - Set default width to 1000
 - Changed Single core default to false
 ## v1.1  
-### Added Features
+#### Added Features
 - Added single core option in settings, has better performance on my pc when on single core, but not on my chromebook. 
 - Added frame cap option in settings, default on 240
-### Bugfixes
+#### Bugfixes
 - Fixed issue where going to menu twice caused music playback issues 
 - Fixed issue where camera would spin during game play.
