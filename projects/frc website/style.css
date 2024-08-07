@@ -2,6 +2,9 @@ body {
     color: rgb(0, 0, 0);
     font-family: monospace;
     margin:0px;
+
+    padding: 0px;
+    height: 100%;
     background-image:
     linear-gradient(180deg, #ffffff, #ffffff);
 }
@@ -31,12 +34,12 @@ nav {
     background: rgb(255, 255, 255);
     outline-style: solid;
     outline-color:#d48aed;
-    margin-bottom: 10px;
+
     display: flex;
-    padding: 10px;
+    padding: 1%;
     font-family: monospace;
     margin: 0px;
-    height: 7vh
+    height: 6%;
 }
 .card{
     height: 61vh;
@@ -108,21 +111,52 @@ nav {
 } 
 #all-contents{
     overflow-y: scroll;
-    height: 90.7svh;
-
+    height: 92%;
+    margin: 0px;
+    padding: 0px;
+    
+}
+#all-contents-flex{
+    overflow-y: scroll;
+    height: 93%;
+    margin: 0px;
+    width: 100%;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 div{
     background: none;
 }
+.mainImage{
+    width:80%;
+    margin: 0px;
+    padding: 0px;
+    height: auto;
+    object-fit: cover;
+}
+
+.firstTextBlock{
+    background-color: #4d3069;
+    color: white;
+    width: 20%;
+}
+.secondTextBlock{
+    background-color: rgb(200, 187, 137);
+    color: rgb(0, 0, 0);
+    width: 20%;
+}
 html {
-    background-image:
-        linear-gradient(180deg, #000000, rgb(50, 0, 88));
+    /* background-image:linear-gradient(180deg, #000000, rgb(50, 0, 88)); */
     background-repeat: no-repeat;
     background-size:auto;
     font-family: monospace;
-
-    height: 100svh;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    height: 100%;
 }
 .autoplayed{
     margin: auto;
@@ -255,7 +289,47 @@ p{
 h1{
     font-size: 4vh;
 }
+h2{
+    font-size: 3vh;
 
+}
+li{
+    font-size: 2.5vh;
+}
+.sidebarHead{
+    margin-inline: 3%;
+    font-family: "Patua One", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.sidebarText{
+    margin-inline: 3%;
+    font-family: "Patua One", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.centreText{
+    margin-inline: 15%;
+    font-family: "Patua One", serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+}
+#frcLogo{
+    width: 40%;
+    object-fit: contain;
+}
+.grayBox{
+    width: 100%;
+    padding: 3%;
+    background-color: #cecece;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#frcText{
+    width:50%;
+}
 .projectNotes{
     background-color: rgb(255, 255, 255);
     outline-style: solid;
@@ -287,12 +361,12 @@ h1{
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-  }
+    width: 0px;
+}
   
   /* Track */
   ::-webkit-scrollbar-track {
-
+    width: 0px;
     border-radius: 10px;
   }
    
@@ -306,9 +380,92 @@ h1{
   ::-webkit-scrollbar-thumb:hover {
     background: #252525; 
   }
+  
+#bannerImage{
+    padding-left: 25%;
+    padding-top: 3%;
+    padding-right: 25%;
+    padding-bottom: 3%;
+    margin: 0px;
+    width: 50%;
+}
 
+.imgsize3{
+    margin-top: 13vh;
+}
+
+
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    bottom: 19vh;
+    left: 50vw;    
+}
+
+      .chevron {
+        position: absolute;
+        width: 4.2vw;
+        height: 0.96vw;
+        opacity: 0;
+        transform: scale(0.3);
+        animation: move-chevron 3s ease-out infinite;
+      }
+      .chevron:first-child {
+        animation: move-chevron 3s ease-out 1s infinite;
+      }
+      .chevron:nth-child(2) {
+        animation: move-chevron 3s ease-out 2s infinite;
+      }
+      .chevron:before, .chevron:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background: white;
+      }
+      .chevron:before {
+        left: 0;
+        transform: skewY(30deg);
+      }
+      .chevron:after {
+        right: 0;
+        width: 50%;
+        transform: skewY(-30deg);
+      }
+      @keyframes move-chevron {
+        25% {
+          opacity: 1;
+        }
+        33.3% {
+          opacity: 1;
+          transform: translateY(4.56vw);
+        }
+        66.6% {
+          opacity: 1;
+          transform: translateY(6.24vw);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(9.6vw) scale(0.5);
+        }
+      }
+      
+      
   @media (orientation: portrait){
-
+    #bannerImage{
+        padding-left: 1%;
+        padding-top: 3%;
+        padding-right: 1%;
+        padding-bottom: 3%;
+        margin: 0px;
+        width: 98%;
+    }
     .autoplayed{
         margin: auto;
         width: 95vw;
@@ -371,7 +528,36 @@ h1{
     .projectNotes{
         margin-top: 7px;
     }
-  }
-.imgsize3{
-    margin-top: 13vh;
+    .mainImage{
+        width: 100%;
+    }
+    .firstTextBlock{
+        width: 100%;
+        height: min-content;
+        padding-bottom:5%;
+    }
+    .secondTextBlock{
+        width: 100%;
+        height: min-content;
+        padding-bottom:5%;
+    }
+    .centreText{
+        margin-inline: 1%;
+    }
+    .grayBox{
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    #frcLogo{
+        width: 100%;
+        object-fit: contain;
+    }
+    #frcText{
+        width:90%;
+    }
+    .container{
+        display: none;
+    }
 }
