@@ -13,6 +13,7 @@ $(function () {
       // halleImage = document.getElementById("player");
       halleR = document.getElementById("halleR");
       halleG = document.getElementById("halleG");
+      halle = document.getElementById("halle")
       halleB = document.getElementById("halleB");
       projectileImage = document.getElementById("projectile");
       cannonImage = document.getElementById("cannon");

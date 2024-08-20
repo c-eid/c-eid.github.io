@@ -408,7 +408,20 @@ function drawRobot(j) {
   }
 
   if (hallies[j].facingRight) {
-    ctx.globalCompositeOperation = "lighter"
+    ctx.drawImage(
+      halle,
+      spriteX,
+      spriteY,
+      spriteWidth,
+      spriteHeight,
+      hallies[j].x - hitDx,
+      hallies[j].y - hitDy,
+      hallies[j].width,
+      hallies[j].height
+    );
+    if((hallies[j].r || hallies[j].b || hallies[j].g)){
+    ctx.globalCompositeOperation = "difference"
+    
     ctx.globalAlpha = hallies[j].r
     ctx.drawImage(
       halleR,
@@ -445,13 +458,29 @@ function drawRobot(j) {
       hallies[j].width,
       hallies[j].height
     );
+  }
     ctx.globalAlpha = 1.0
     ctx.globalCompositeOperation = "source-over"
+  
   } else {
     //for running to the left you mirror the image
     ctx.save();
     ctx.scale(-1, 1); //mirror the entire canvas
-    ctx.globalCompositeOperation = "lighter"
+    ctx.drawImage(
+      halle,
+      spriteX,
+      spriteY,
+      spriteWidth,
+      spriteHeight,
+      -hallies[j].x - hallies[j].width + hitDx,
+      hallies[j].y - hitDy,
+      hallies[j].width,
+      hallies[j].height
+    );
+    if((hallies[j].r || hallies[j].b || hallies[j].g)){
+  
+    ctx.globalCompositeOperation = "difference"
+
 
     ctx.globalAlpha = hallies[j].r
     ctx.drawImage(
@@ -489,6 +518,7 @@ function drawRobot(j) {
       hallies[j].width,
       hallies[j].height
     );
+  }
     ctx.globalAlpha = 1.0
     ctx.globalCompositeOperation = "source-over"
     ctx.restore(); //put the canvas back to normal

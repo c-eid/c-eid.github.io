@@ -23,6 +23,11 @@
     <div class="canvasDiv">
     <canvas id="canvas" height="100" width="100" class="canvas" ></canvas>
     </div>
+    <script>
+    //        window.onerror = function (message, url, line) {
+    //   alert(message + ', ' + url + ', ' + line);
+    // };
+    </script>
     <!-- <div class="circle" id="circle">1</div>
     <div class="circle" id="circle2">2</div>
     <div class="circle" id="circle3">3</div>
@@ -128,6 +133,16 @@
                     <div class="settingInputDiv">
                         <input type="number" min="10" id="frameCap" value="240" class="number">
                     </div>
+                </div>
+                <div class="setting">
+                    <div class="settingText">
+                        <h1 class="settingName">Use SVG</h1>
+                        <p class="settingEffect">Use SVG as renderer. This will reduce fps during camera movement but will have higher fps during gameplay, multicore only works with svg for now.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked="true"  onclick="reverse('useSvg')">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
             </div>
         </div>

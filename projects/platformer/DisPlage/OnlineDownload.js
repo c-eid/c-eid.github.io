@@ -5,7 +5,6 @@ var currentCanvas = "canvas1"
 var currentTitle = "Title1"
 var currentId = "id1"
 var currentCard = "card1"
-const socket = io("wss://wss.certifiedhoodclassics.org",{ transports: ["websocket"] });
 next() 
 
 function nextPressed(){

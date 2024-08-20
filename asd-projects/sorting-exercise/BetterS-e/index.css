@@ -48,7 +48,7 @@ body {
   color: #ffffff;
   text-align: center;
   font-weight: inherit;
-  font-size: 100%;
+  font-size: 2vw;
   background-color: #444444;
 }
 
@@ -86,7 +86,7 @@ option {
 
 #start {
   margin: 0px 0px 0px 0px;
-  font-size: 200%;
+  font-size: 2vw;
 }
 
 #number {
@@ -136,7 +136,14 @@ option {
   color:orange;
   position: absolute;
   top:8%;
-  font-size:200%;
+  font-size:2vw;
+  left:0.5%;
+}
+#comparisonCount{
+  color:rgb(167, 115, 219);
+  position: absolute;
+  top:13%;
+  font-size:2vw;
   left:0.5%;
 }
 #range{
@@ -173,7 +180,7 @@ option {
 
 #prompt{
   padding-top: 5%;
-  font-size: 400%;
+  font-size: 2vw;
   padding-bottom:5%;
 }
 #break{
@@ -187,7 +194,7 @@ option {
 #buttonDiv{
 
   height: 30%;
-  font-size: 300%;
+  font-size: 2.3vw;
   display: flex;
   color:white;
   flex-wrap: wrap;

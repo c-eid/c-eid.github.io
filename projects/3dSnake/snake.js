@@ -512,9 +512,30 @@ function openCredits() {
     $("#menu").css("display", "none")
     $("#creditsMenu").css("display", "block")
 }
-
+function initCanvas(){
+    if (!useSvg) {
+        $('#svg').remove()
+        $("<canvas>").appendTo('body').attr("id", "svg").attr('width', '2560').attr('height', '1440')
+        rtx = document.getElementById('svg').getContext("2d")
+    }
+}
 function reverse(variable) {
+    
     window[variable] = !window[variable]
+    if(variable = 'useSvg'){
+        if(!rtx){
+            initCanvas()
+        }else{
+            $('#svg').remove()
+            /// /\ actually removes canvas bc i am a genius
+            $(document.createElementNS('http://www.w3.org/2000/svg', 'svg')).appendTo('body').attr("viewBox", "0 0 2560 1440").attr('id', "svg")
+            for(var i = 0; i < cubes.length; i++){
+                cubes[i].made = false
+            }
+            
+             rtx = 0
+        }
+    }
 }
 $(".back").on("mousedown", () => {
     $("#settingsMenu").css("display", "none")

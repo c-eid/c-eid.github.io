@@ -16,6 +16,7 @@ var SLEEP_AMOUNT = 100;
 var started = false
 var currentSort = bubbleSort
 var hasConfirmed2x = false
+var comparisonCount = document.getElementById("comparisonCount")
 var moveCounter = document.getElementById("moveCount")
 generateList()
 
@@ -71,6 +72,30 @@ function chooseIndex(startIndex, array) {
 
 
 
+
+
+async function selectionSort(array){
+    var minId = 0
+    for(var i = 0; i < array.length; i++){
+
+        minId=i
+
+        for (var j = i + 1; j < array.length; j++){
+            updateCounter(comparisonCount);
+            if (array[j].value < array[minId].value){
+                minId = j;
+            }
+        }
+        tone((((1212 - 120) / array.length) * array[i].value)) //This generates a tone based on the value of i
+        await sleep()
+        tone((((1212 - 120) / array.length) * array[minId].value)) //This generates a tone based on the value of minId
+        await sleep()
+        swap(array,minId,i)
+        updateCounter(moveCounter);
+
+    }
+}
+
 // TODO 2: Implement bubbleSort
 async function bubbleSort(array) {
     //uses the algorithm bubble sort to sort array
@@ -78,7 +103,7 @@ async function bubbleSort(array) {
     for (var i = 0; i < array.length - 1; i++) {
 
         for (var j = array.length - 1; j >= i + 1; j--) {
-
+            updateCounter(comparisonCount);
             if (array[j].value < array[j - 1].value) {
                 tone((((1212 - 120) / array.length) * array[j].value)) //This generates a tone based on the value of J
                 await sleep()  // We must sleep twice so each tone has enough time to play
@@ -96,11 +121,18 @@ async function bubbleSort(array) {
 }
 // TODO 3: Implement quickSort
 async function quickSort(array, left = 0, right = list.length - 1) {
+    updateCounter(comparisonCount);
+
     if (right - left > 0) {
         let index = await partition(array, left, right)
+        updateCounter(comparisonCount);
+
         if (left < index - 1) {
+
             await quickSort(array, left, index - 1)
         }
+        updateCounter(comparisonCount);
+
         if (index < right) {
             await quickSort(array, index, right)
         }
@@ -116,12 +148,18 @@ async function quickSort(array, left = 0, right = list.length - 1) {
 async function partition(array, left, right) {
 
     let pivot = array[Math.floor((right + left) / 2)].value;
+
+    updateCounter(comparisonCount);
+
     while (left < right) {
+        updateCounter(comparisonCount);
+
         while (array[left].value < pivot) left++
+        updateCounter(comparisonCount);
 
         while (array[right].value > pivot) right--
 
-
+        updateCounter(comparisonCount);
         if (left < right) {
             swap(array, left, right)
             tone((((1212 - 120) / array.length) * array[left].value))
@@ -184,7 +222,13 @@ function drawSwap(array, i, j) {
 }
 // This function updates the specified counter
 function updateCounter(counter) {
-    $(counter).text("Move Count: " + (parseFloat($(counter).text().replace(/^\D+/g, '')) + 1));
+
+    if(counter===moveCounter){
+        $(counter).text("Move Count: " + (parseFloat($(counter).text().replace(/^\D+/g, '')) + 1));
+    } else if(counter===comparisonCount){
+        $(counter).text("Comparison Count: " + (parseFloat($(counter).text().replace(/^\D+/g, '')) + 1));
+
+    }
 }
 function swapSort(value) {
  if(value === "bubbleSort"){
@@ -192,6 +236,13 @@ function swapSort(value) {
 }
  if(value === "quickSort"){ 
     currentSort = quickSort
+}
+if(value === "selectionSort"){ 
+    currentSort = selectionSort
+}
+if(value === "insertionSort"){
+    currentSort = insertionSort
+
 }
 }
 
@@ -212,6 +263,8 @@ $("#startButton").on('click', () => {
         sorted = false
         currentSort(list);
         $(moveCounter).text("Move Count: " + 0);
+        $(comparisonCount.text("Comparison Count: 0"));
+
     }
     else if(!started ){
         started = true

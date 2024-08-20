@@ -1,4 +1,7 @@
 # Changelog
+## v1.3
+#### Added Features
+- Support for canvas rendering instead of svg rendering
 ## v1.2
 #### Added Features
 - Mobile Support for camera and snake movement added.

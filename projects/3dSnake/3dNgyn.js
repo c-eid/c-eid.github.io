@@ -10,10 +10,12 @@ var useSvg = true
 var fpsCounter = 0;
 var is = 0;
 var ran;
+var rtx = 0
 var averageAud
 var clicked;
 var initalPreloadVisible = true
 var open;
+var enableWasm = false
 var mouse = {
     x: 0,
     y: 0
@@ -28,11 +30,6 @@ canvas.height = documentWidth * 2;
 $("#canvas").css("width", documentWidth * 2 + "px").css("height", documentWidth * 2 + "px").css("left", (-(documentWidth / 2)) + "px").css("top", (-(documentWidth / 1.35)) + "px");
 const ctx = canvas.getContext("2d");
 ctx.lineWidth = 10;
-if (!useSvg) {
-    $('#svg').remove()
-    $("<canvas>").appendTo('body').attr("id", "svg").attr('width', '2560').attr('height', '1440')
-    rtx = document.getElementById('svg').getContext("2d")
-}
 
 // $("#circle").empty()
 // $("#circle2").empty()
@@ -82,6 +79,7 @@ function main() {
     if (angle1 >= 270) {
         angle4 += ang;
         ang = 0.1
+        
         // if(initalPreloadVisible === true){
         //     for(var i = 1; i < cubes.length; i++){
         //         cubes[i].calculated = false
@@ -97,9 +95,9 @@ function main() {
     }
 
     if (angle1 >= 360) {
-
+       
     }
-    
+
 }
 
 var renderShapeInt = setInterval(renderShape, (1000 / frameCap));
@@ -110,10 +108,10 @@ var fpsID = setInterval(fps, (1000));
 function fps() {
     //fps counter. counts the fps for the render shape function, not the page
     $('#fps').text(fpsCounter + "");
-    if(fpsCounter <= 29){
+    if (fpsCounter <= 29) {
         $("#performance").css("display", "flex")
 
-    }else{
+    } else {
         $("#performance").css("display", "none")
 
     }
@@ -126,9 +124,9 @@ function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius, radius2 
     var X = xposLocal + (Math.cos(angle * Math.PI / 180) * radius);
     if (!id === "") {
 
-        var current = document.getElementById(id.splice(1));
-        current.style.top = Y + "px";
-        current.style.left = X + "px";
+        // var current = document.getElementById(id.splice(1));
+        // current.style.top = Y + "px";
+        // current.style.left = X + "px";
         // $(id).css("top", Y + "px")
         //     .css("left", X + "px");
     }
@@ -142,23 +140,27 @@ function alongPath(id, angle, xposLocal = 400, yposLocal = 400, radius, radius2 
 
 function invisify(id) {
     //Hides unused polygons, 
-    document.getElementById(id).style.display = "none";
-
+    if (useSvg) {
+        document.getElementById(id).style.display = "none";
+    }
 }
 function visify(id, i = "not") {
     //Shows used polygons if visible
-    if (i === "not") {
-        document.getElementById(id).style.display = "block";
-    } else if (cubes[i].visible) {
-        document.getElementById(id).style.display = "block";
+    if (useSvg) {
+        if (i === "not") {
+            document.getElementById(id).style.display = "block";
+        } else if (cubes[i].visible) {
+            document.getElementById(id).style.display = "block";
+        }
     }
-
 }
 
 
 
 function renderShape() {
-
+    if(!useSvg){
+        rtx.clearRect(0, 0, 9000, 9000)
+    }
     fpsCounter++;
     cubes = cubes.sort(function (a, b) {
         if (a.radius === cubes[0].radius) {
@@ -202,8 +204,8 @@ function renderShape() {
                     } else if (b.radius === cubes[0].radius) {
                         return 0
                     }
-        
-        
+
+
                     return a.liveY - b.liveY
                 })
                 bitCruncher.postMessage([i, angle1, angle2, angle3, angle4, cubes[i], ang]);
@@ -236,6 +238,7 @@ function renderShape() {
                         if (!cubes[i].visible) {
                             //catch for calculated but invisible
                             invisify("top" + i);
+                            
                             invisify("right" + i);
                             invisify("front" + i);
                             invisify("back" + i);
@@ -285,50 +288,77 @@ function renderShape() {
 
                 } else {
                     //html canvas support. idk how but runs slower then svg and is abandoned for now
-                    rtx.fillStyle = '#ffffff';
+                    if (cubes[i].visible) {
+                        rtx.fillStyle = '#ff00ff';
+                        if (i === 0) {
+                            rtx.fillStyle = '#ffffff';
+                        }
+                        rtx.strokeStyle = "#000000"
+                        rtx.lineWidth = 5
 
-                    rtx.beginPath();
-                    rtx.moveTo(a1.x, a1.y);
-                    rtx.lineTo(a2.x, a2.y);
-                    rtx.lineTo(a3.x, a3.y);
-                    rtx.lineTo(a4.x, a4.y);
-                    rtx.closePath();
-                    rtx.fill();
-                    if (!(a1.x > a2.x)) {
+                    
+                        if (!(a1.x > a2.x)) {
+                            rtx.beginPath();
+
+                            rtx.moveTo(a1.x, a1.y);
+                            rtx.lineTo(a5.x, a5.y);
+                            rtx.lineTo(a6.x, a6.y);
+                            rtx.lineTo(a2.x, a2.y);
+                            rtx.stroke()
+
+                            rtx.closePath();
+
+                            rtx.fill();
+                        }
+                        if (!(a4.x < a3.x)) {
+                            rtx.beginPath();
+
+                            rtx.moveTo(a4.x, a4.y);
+                            rtx.lineTo(a8.x, a8.y);
+                            rtx.lineTo(a7.x, a7.y);
+                            rtx.lineTo(a3.x, a3.y);
+                            rtx.stroke()
+
+                            rtx.closePath();
+
+                            rtx.fill();
+                        }
+                        if (!(a2.x > a3.x)) {
+                            rtx.beginPath();
+
+                            rtx.moveTo(a2.x, a2.y);
+                            rtx.lineTo(a6.x, a6.y);
+                            rtx.lineTo(a7.x, a7.y);
+                            rtx.lineTo(a3.x, a3.y);
+                            rtx.stroke()
+
+                            rtx.closePath();
+
+                            rtx.fill();
+
+                        }
+                        if (!(a1.x < a4.x)) {
+                            rtx.beginPath();
+
+                            rtx.moveTo(a1.x, a1.y);
+                            rtx.lineTo(a5.x, a5.y);
+                            rtx.lineTo(a8.x, a8.y);
+                            rtx.lineTo(a4.x, a4.y);
+                            rtx.stroke()
+
+                            rtx.closePath();
+
+                            rtx.fill();
+                        }
                         rtx.beginPath();
                         rtx.moveTo(a1.x, a1.y);
-                        rtx.lineTo(a5.x, a5.y);
-                        rtx.lineTo(a6.x, a6.y);
                         rtx.lineTo(a2.x, a2.y);
-                        rtx.closePath();
-                        rtx.fill();
-                    }
-                    if (!(a4.x < a3.x)) {
-                        rtx.beginPath();
-                        rtx.moveTo(a4.x, a4.y);
-                        rtx.lineTo(a8.x, a8.y);
-                        rtx.lineTo(a7.x, a7.y);
                         rtx.lineTo(a3.x, a3.y);
-                        rtx.closePath();
-                        rtx.fill();
-                    }
-                    if (!(a2.x > a3.x)) {
-                        rtx.beginPath();
-                        rtx.moveTo(a2.x, a2.y);
-                        rtx.lineTo(a6.x, a6.y);
-                        rtx.lineTo(a7.x, a7.y);
-                        rtx.lineTo(a3.x, a3.y);
-                        rtx.closePath();
-                        rtx.fill();
-
-                    }
-                    if (!(a1.x < a4.x)) {
-                        rtx.beginPath();
-                        rtx.moveTo(a1.x, a1.y);
-                        rtx.lineTo(a5.x, a5.y);
-                        rtx.lineTo(a8.x, a8.y);
                         rtx.lineTo(a4.x, a4.y);
+                        rtx.lineTo(a1.x, a1.y);
                         rtx.closePath();
+                        rtx.stroke()
+
                         rtx.fill();
                     }
                     if (i !== 0) {
@@ -357,7 +387,7 @@ bitCruncher.onmessage = (aDONT) => {
     var a = aDONT.data;
 
     cubes[a[9]]["liveY"] = a[1].y;
- 
+
     var bottomMidX = (a[6].x + a[7].x) / 2
 
     var bottomMidY = (a[6].y + a[7].y) / 2
@@ -418,60 +448,89 @@ bitCruncher.onmessage = (aDONT) => {
             invisify("left" + a[9]);
         }
 
-    } else {
+    } 
+    //else {
         //html canvas support. idk how but runs slower then svg and is abandoned for now
-        rtx.fillStyle = '#ffffff';
+    //     if (cubes[a[9]].visible) {
+    //         rtx.fillStyle = '#ff00ff';
+    //         if (a[9] === 0) {
+    //             rtx.fillStyle = '#ffffff';
+    //         }
+    //         rtx.strokeStyle = "#000000"
+    //         rtx.lineWidth = 5
 
-        rtx.beginPath();
-        rtx.moveTo(a[1].x, a[1].y);
-        rtx.lineTo(a[2].x, a[2].y);
-        rtx.lineTo(a[3].x, a[3].y);
-        rtx.lineTo(a[4].x, a[4].y);
-        rtx.closePath();
-        rtx.fill();
-        if (!(a[1].x > a[2].x)) {
-            rtx.beginPath();
-            rtx.moveTo(a[1].x, a[1].y);
-            rtx.lineTo(a[5].x, a[5].y);
-            rtx.lineTo(a[6].x, a[6].y);
-            rtx.lineTo(a[2].x, a[2].y);
-            rtx.closePath();
-            rtx.fill();
-        }
-        if (!(a[4].x < a[3].x)) {
-            rtx.beginPath();
-            rtx.moveTo(a[4].x, a[4].y);
-            rtx.lineTo(a[8].x, a[8].y);
-            rtx.lineTo(a[7].x, a[7].y);
-            rtx.lineTo(a[3].x, a[3].y);
-            rtx.closePath();
-            rtx.fill();
-        }
-        if (!(a[2].x > a[3].x)) {
-            rtx.beginPath();
-            rtx.moveTo(a[2].x, a[2].y);
-            rtx.lineTo(a[6].x, a[6].y);
-            rtx.lineTo(a[7].x, a[7].y);
-            rtx.lineTo(a[3].x, a[3].y);
-            rtx.closePath();
-            rtx.fill();
+        
+    //         if (!(a[1].x > a[2].x)) {
+    //             rtx.beginPath();
 
-        }
-        if (!(a[1].x < a[4].x)) {
-            rtx.beginPath();
-            rtx.moveTo(a[1].x, a[1].y);
-            rtx.lineTo(a[5].x, a[5].y);
-            rtx.lineTo(a[8].x, a[8].y);
-            rtx.lineTo(a[4].x, a[4].y);
-            rtx.closePath();
-            rtx.fill();
-        }
-        if (a[9] !== 0) {
-            cubes[a[9]].x = alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, cubes[a[9]].radiusOffset).x;
-            cubes[a[9]].y = (alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, (cubes[a[9]].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[a[9]].offset - 1);
+    //             rtx.moveTo(a[1].x, a[1].y);
+    //             rtx.lineTo(a[5].x, a[5].y);
+    //             rtx.lineTo(a[6].x, a[6].y);
+    //             rtx.lineTo(a[2].x, a[2].y);
+    //             rtx.stroke()
 
-        }
-    }
+    //             rtx.closePath();
+
+    //             rtx.fill();
+    //         }
+    //         if (!(a[4].x < a[3].x)) {
+    //             rtx.beginPath();
+
+    //             rtx.moveTo(a[4].x, a[4].y);
+    //             rtx.lineTo(a[8].x, a[8].y);
+    //             rtx.lineTo(a[7].x, a[7].y);
+    //             rtx.lineTo(a[3].x, a[3].y);
+    //             rtx.stroke()
+
+    //             rtx.closePath();
+
+    //             rtx.fill();
+    //         }
+    //         if (!(a[2].x > a[3].x)) {
+    //             rtx.beginPath();
+
+    //             rtx.moveTo(a[2].x, a[2].y);
+    //             rtx.lineTo(a[6].x, a[6].y);
+    //             rtx.lineTo(a[7].x, a[7].y);
+    //             rtx.lineTo(a[3].x, a[3].y);
+    //             rtx.stroke()
+
+    //             rtx.closePath();
+
+    //             rtx.fill();
+
+    //         }
+    //         if (!(a[1].x < a[4].x)) {
+    //             rtx.beginPath();
+
+    //             rtx.moveTo(a[1].x, a[1].y);
+    //             rtx.lineTo(a[5].x, a[5].y);
+    //             rtx.lineTo(a[8].x, a[8].y);
+    //             rtx.lineTo(a[4].x, a[4].y);
+    //             rtx.stroke()
+
+    //             rtx.closePath();
+
+    //             rtx.fill();
+    //         }
+    //         rtx.beginPath();
+    //         rtx.moveTo(a[1].x, a[1].y);
+    //         rtx.lineTo(a[2].x, a[2].y);
+    //         rtx.lineTo(a[3].x, a[3].y);
+    //         rtx.lineTo(a[4].x, a[4].y);
+    //         rtx.lineTo(a[1].x, a[1].y);
+    //         rtx.closePath();
+    //         rtx.stroke()
+
+    //         rtx.fill();
+    //     }
+
+    //     if (a[9] !== 0) {
+    //         cubes[a[9]].x = alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, cubes[a[9]].radiusOffset).x;
+    //         cubes[a[9]].y = (alongPath("#circle" + a[9], ((window["angle" + cubes[a[9]].angleRefrence]) - cubes[a[9]].angleOffset), cubes[0].x, cubes[0].y, (cubes[a[9]].radiusOffset) * 2).y) + ((cubes[0].y / 2) - cubes[a[9]].offset - 1);
+
+    //     }
+    // }
 
 }
 

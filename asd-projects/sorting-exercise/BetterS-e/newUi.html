@@ -11,7 +11,11 @@
 </head>
 <body>
 
-
+<script>
+       window.onerror = function (message, url, line) {
+  alert(message + ', ' + url + ', ' + line);
+};
+</script>
   <div id="flLayer">
     <h1 id="prompt">Over 4000 items can cause crashes, slowdowns, or freezes on underpowered hardware. Continue?</h1>
     <div id="break"></div>
@@ -23,6 +27,8 @@
 
 
     <h2 id="moveCount">Move Count: 0</h2>
+    <h2 id="comparisonCount">Comparison Count: 0</h2>
+
     <div class="topBar">
         <h1>Sorting-Exercise</h1>
         <div id="speedDiv">
@@ -40,7 +46,8 @@
         <select id="dropdown" placeholder="Algorithm">
             <option value="bubbleSort" id="bubbleSort">Bubble Sort</option>
             <option value="quickSort" id="quickSort">Quick Sort</option>
-          
+            <option value="selectionSort" id="selectionSort">Selection Sort</option>
+            <!-- <option value="insertionSort" id="insertionSort">Insertion Sort</option>  -->
           </select>
         </div>
         <div id="startButton">

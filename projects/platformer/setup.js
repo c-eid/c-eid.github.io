@@ -41,7 +41,7 @@ var hallies = [{
   onGround: false,
   facingRight: true,
   deadAndDeathAnimationDone: false,
-  currentAnimationType: animationTypes.run,
+  currentAnimationType: animationTypes.jump,
   frameIndex: 0,
   jumpTimer: 0,
   duckTimer: 0,
@@ -62,9 +62,9 @@ var hallies = [{
     down: "s",
     right: "d",
   },
-  r:1,
-  g:1,
-  b:1
+  r:0,
+  g:0,
+  b:0
 },{
   x: 50,
   y: 100,
@@ -75,7 +75,7 @@ var hallies = [{
   onGround: false,
   facingRight: true,
   deadAndDeathAnimationDone: false,
-  currentAnimationType: animationTypes.run,
+  currentAnimationType: animationTypes.jump,
   frameIndex: 0,
   jumpTimer: 0,
   duckTimer: 0,
@@ -96,9 +96,9 @@ var hallies = [{
     down: "ArrowDown",
     right: "ArrowRight",
   },
-  r:1,
-  g:.50,
-  b:.50
+  r:0.2,
+  g:1,
+  b:0
 },
 ]
 
