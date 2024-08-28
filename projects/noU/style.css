@@ -1,0 +1,136 @@
+html{
+    width: 100%;
+    height:100%;
+    background-color: orangered;
+
+}
+body{
+    width: 100%;
+    height: 100%;
+}
+*{
+    margin:0px;
+    padding:0px
+}
+.card{
+    font-family: "Ubuntu";
+    font-weight: 500;
+    font-style: normal;
+    top:3vw;
+    left:3vw;
+    position: absolute;
+    display: grid;
+    width:25vw;
+    outline: white 1vw solid;
+    height:40vw;
+    color:white;
+    background-color: rgb(255, 0, 0);
+    border-radius: 1vw;
+    grid-template-areas: 
+    "S S C"
+    "N N N"
+    "K Z Z";
+}
+.noU{
+    rotate: -40deg;
+    color:#E4DE2B;
+    font-size: 10.5vw;
+    font-weight: 900;
+}
+.oval{
+    background-color: rgb(255, 67, 67);
+    border-radius: 90%;
+    width:80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+    rotate: 20deg;
+}
+.backCard{
+    font-optical-sizing: auto;
+    font-weight: 800;
+    top:9vw;
+    left:50vw;
+    position: absolute;
+    width:25vw;
+    outline: rgb(255, 255, 255) 1vw solid;
+    height:40vw;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    background-color: black;
+    border-radius: 1vw;
+}
+h1{
+    width:100%;
+    
+}
+.smallNum1{
+    grid-area: S;
+    font-size: 6vw;
+    height:70%;
+    margin-left:10%;
+
+}
+.colour1{
+    font-size: 6vw;
+    grid-area: C;
+    text-align: end;
+    height:70%;
+    width: 90%;
+    margin-right:10%;
+
+
+}
+.bigNumber{
+    grid-area:N;
+    width:100%;
+    overflow: hidden;
+    text-justify: center;
+    height: 80%;
+    font-size: 13vw;
+    align-self: center;
+
+    text-align:center;
+}
+.colour2{
+    grid-area:K;
+    height:70%;
+    font-size: 6vw;
+    align-self: flex-end;
+    width: 90%;
+    margin-left:10%;
+}
+.smallNum2{
+    grid-area:Z;
+    align-self: flex-end;
+    font-size: 6vw;
+    margin-right:10%;
+    height:70%;
+    justify-self: end;
+    text-align: end;
+}
+
+.bigImg{
+    grid-area:N;
+    overflow: hidden;
+    text-justify: center;
+    height: 10vw;
+    width:auto;
+    font-size: 13vw;
+    align-self: center;
+    justify-self: center;
+}
+.smallImg{
+    height:5vw;
+    width:auto;
+    margin:0px;
+}
+
+
+@keyframes flip{
+    from {scale: 1 1;}
+  to {scale: 0 1}
+}

@@ -170,6 +170,12 @@ div{
     color: rgb(0, 0, 0);
     width: 20%;
 }
+#sponserSidebar{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    width: 20%;
+    margin:0px;
+}
 html {
     /* background-image:linear-gradient(180deg, #000000, rgb(50, 0, 88)); */
     background-repeat: no-repeat;
@@ -424,6 +430,22 @@ li{
     margin-top: 13vh;
 }
 
+.tierlist{
+    width:80%;
+    margin:0px;
+    height: 90%;
+    padding:0px;
+    display: block;
+}      
+.tier{
+    width:100%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+    text-align: center;
+    justify-items: center;
+}
+
 
 
 
@@ -436,6 +458,72 @@ li{
     bottom: 19vh;
     left: 50vw;    
 }
+
+/* effect-shine */
+#silver{
+    color:black;
+    background-color: #C0C0C0;
+    
+    width:100%;
+    height:20%;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(255, 255, 255, 0.6) 20%, #ffffff 50%, rgba(255, 255, 255, 0.594) 80%);
+    -webkit-mask-size: 200%;
+    animation: shine 1.6s infinite;
+}
+#diamond{
+    color:black;
+    background-color: #8beaff;
+    
+    width:100%;
+    height:20%;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(255, 255, 255, 0.6) 20%, #ffffff 50%, rgba(255, 255, 255, 0.594) 80%);
+    -webkit-mask-size: 200%;
+    animation: shine 3s infinite;
+  }
+  
+  #bronze{
+    color:black;
+    background-color: #CD7F32;
+    width:100%;
+    height:20%;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(255, 255, 255, 0.6) 30%, #ffffff 50%, rgba(255, 255, 255, 0.594) 70%);
+    -webkit-mask-size: 200%;
+    animation: shine 2.4s infinite;
+  }
+
+
+#Ruby{
+    color:black;
+    background-color: #e0115f;
+    width:100%;
+    height:20%;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(255, 255, 255, 0.6) 30%, #ffffff 50%, rgba(255, 255, 255, 0.594) 70%);
+    -webkit-mask-size: 200%;
+    animation: shine 2s infinite;
+  }
+
+  #gold{
+    color:black;
+    background-color: #efd362;
+    width:100%;
+    height:20%;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(255, 255, 255, 0.6) 30%, #ffffff 50%, rgba(255, 255, 255, 0.594) 70%);
+    -webkit-mask-size: 200%;
+    animation: shine 3s infinite;
+  }
+  
+  @-webkit-keyframes shine {
+    from {
+      -webkit-mask-position: 150%;
+    }
+    
+    to {
+      -webkit-mask-position: -50%;
+    }
+  }
+
+
+
 
       .chevron {
         position: absolute;
@@ -486,7 +574,7 @@ li{
         }
       }
       
-      
+
   @media (orientation: portrait){
     #bannerImage{
         padding-left: 1%;
