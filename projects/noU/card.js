@@ -6,26 +6,48 @@ var cardsAvalible = [
     [t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t],
     [t, t, t, t, t, t, t, t],
 ]
+var myDeck = []
 cardConstructor()
 
 function cardConstructor() {
-
-    displayCard(selCardFromDeck())
+    //combines both functions to make a new card
+    myDeck.push(displayCard(selCardFromDeck()))
     // displayCard({type:"choose", number:"🟥🟦🟩🟨",id :"Kblack" + 1, color:"Kblack"})
 
 }
 function cardDestructor() {
     $(".card").remove()
-}
-function selCardFromDeck(cardId) {
+    $(".backCard").remove()
+    myDeck = []
 
+}
+function selCardFromDeck(cardId = false) {
+    //finds a card and constucts an object with its info. If cardId is passed, it does not make a new one but flips the old card
     let generatedCard = {}
     let cardY
+    generatedCard.className = "card"
     let cardX
     let cardColor
+    if (cardId) {
+        generatedCard.color = cardId.replace(/[0-9]/g, '')
+        cardColor = cardId.replace(/[0-9]/g, '')
+        if (cardColor === "Red") {
+            cardY = 0
+        } else if (cardColor === "Green") {
+            cardY = 1
+        } else if (cardColor === "Blue") {
+            cardY = 2
+        } else if (cardColor === "Yellow") {
+            cardY = 3
+        } else if (cardColor === "Kblack") {
+            cardY = 4
+        }
 
-
-    if (!cardId) {
+        generatedCard.flipping = true
+        cardX = cardId.replace(/\D/g, "")
+        cardsAvalible[cardY][cardX] = t
+    } else {
+        generatedCard.flipping = false
         let calcColor = Math.ceil(Math.random() * 108)
         if (calcColor <= 25) {
             cardY = 0
@@ -46,22 +68,6 @@ function selCardFromDeck(cardId) {
         cardX = Math.floor(Math.random() * cardsAvalible[cardY].length)
         generatedCard.color = cardColor
 
-    } else {
-        generatedCard.color = cardId.replace(/[0-9]/g, '')
-        cardColor = cardId.replace(/[0-9]/g, '')
-        if (cardColor === "Red") {
-            cardY = 0
-        } else if (cardColor === "Green") {
-            cardY = 1
-        } else if (cardColor === "Blue") {
-            cardY = 2
-        } else if (cardColor === "Yellow") {
-            cardY = 3
-        } else if (cardColor === "Kblack") {
-            cardY = 4
-        }
-        cardX = cardId.replace(/\D/g, "")
-        
     }
     if (cardsAvalible[cardY][cardX]) {
 
@@ -79,7 +85,6 @@ function selCardFromDeck(cardId) {
 
             }
             cardsAvalible[cardY][cardX] = false
-            console.log(cardsAvalible)
             return generatedCard
         } else {
             if (cardX <= 9) {
@@ -108,6 +113,7 @@ function selCardFromDeck(cardId) {
             }
             cardsAvalible[cardY][cardX] = false
             console.log(cardsAvalible)
+
             return generatedCard
         }
     } else {
@@ -115,8 +121,20 @@ function selCardFromDeck(cardId) {
     }
 }
 function displayCard(cardInfo) {
+    //makes an element of a card from card info. 
+    if (cardInfo.flipping) {
+            $("#" + cardInfo.id).addClass("na")
+            $(".na").removeAttr("id").css("animation-name", "").css("animation-duration", "").css("animation-direction", "")
+            $(".na").get(0).offsetWidth
+            $(".na").css("animation-name", "flip").css("animation-duration", ".2s").css("animation-direction", "forward").css("animation-fill-mode", "forward")
 
-    $("<div>").appendTo("body").attr("class", "card").attr("id", "" + cardInfo.id).attr("onClick", "clickCard(this)")
+            $("<div>").appendTo("#myCardDeck").attr("class", "card").attr("id", "" + cardInfo.id).css("animation-name", "flipPause").css("animation-duration", ".4s").css("animation-direction", "forward").css("animation-fill-mode", "forward")
+
+    } else {
+        $("<div>").appendTo("#myCardDeck").attr("class", "card").attr("id", "" + cardInfo.id)
+
+    }
+
     if (cardInfo.color === "Kblack") {
         $("#" + cardInfo.id).css("background-color", "black")
     } else if (cardInfo.color === "green") {
@@ -140,39 +158,62 @@ function displayCard(cardInfo) {
 
     }
     $("<h1>").addClass("colour1").appendTo("#" + cardInfo.id).text(cardInfo.color[0]).attr("id", "C1" + cardInfo.id)
+    setTimeout(()=>{
+       $(".na").remove()
 
+    },200)
+    setTimeout(()=>{
+       $("#"+cardInfo.id).css("animation-name", "").css("animation-duration", "").css("animation-direction", "").css("scale", "0.5 0.5")
 
-
-
+    },400)
+    return cardInfo
 }
-// $(window).on("click", () => {
-//     cardDestructor()
-//     cardConstructor()
-// })
-
-$(".card").on("click", (event) => {
-
+$(window).on("click", () => {
+    cardDestructor()
+    cardConstructor()
 })
-function clickCard($card) {
+
+function flipCard($card) {
     //alert($card.id)
+    //alert(JSON.stringify($card))
     var cardHolder = {
         x: $("#" + $card.id).css('left'),
         y: $("#" + $card.id).css('top'),
         width: $("#" + $card.id).css('width'),
         height: $("#" + $card.id).css('height'),
         id: $card.id
-    }0
-    $($card.id).css("animation-name", "flip").css("animation-duration", ".2s")
-    setTimeout(() => {
+    }
+
+
         if ($card.className === "card") {
-            $("#" + $card.id).remove()
-            $("<div>").appendTo("body").addClass("backCard").attr("id", $card.id).css("top", cardHolder.y).css("left", cardHolder.x).css("scale", "0 1").css("animation-name", "flip").css("animation-duration", ".2s").css("animation-direction", "reverse").css("animation-fill-mode", "forwards").attr("onClick", "clickCard(this)")
-            $("<div>").appendTo("#" + $card.id).addClass("oval").attr("id", $card.id + "oval")
-            $("<h1>").appendTo(`#${$card.id}oval`).text("Uno").addClass("noU")
+          
+            $("#" + $card.id).css("animation-name", "flip").css("animation-duration", ".21s").css("animation-direction", "forward").css("animation-fill-mode", "reverse")
+            setTimeout(()=>{
+                $("#" + $card.id).css("display", "none").remove()
+                $card.className = "noU"
+                $("<div>").appendTo("#myCardDeck").addClass("backCard").attr("id", $card.id).css("top", cardHolder.y).css("left", cardHolder.x).css("scale", "0 1").css("animation-name", "flip").css("animation-duration", ".2s").css("animation-direction", "reverse").css("animation-fill-mode", "forwards")
+                $("<div>").appendTo("#" + $card.id).addClass("oval").attr("id", $card.id + "oval")
+                $("<h1>").appendTo(`#${$card.id}oval`).text("noU").addClass("noU")
+            },200)
+            return $card
+           
         } else {
-            $("#" + $card.id).remove()
-            displayCard(selCardFromDeck($card.id))
+           // $("#" + $card.id).remove()
+
+            return displayCard(selCardFromDeck($card.id))
         }
-    }, 200)
 
 }
+
+function flipDeck(deck){
+    for(var i = 0; i < deck.length; i++){
+        deck[i]=flipCard(deck[i])
+    }
+}
+
+$('body').on("keydown", (event)=>{
+    if(event.key == "h"){
+        flipDeck(myDeck)
+    }
+})
+
