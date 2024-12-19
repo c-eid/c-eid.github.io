@@ -94,7 +94,7 @@ $(function () {
     //////////ONLY CHANGE ABOVE THIS POINT///////////
     /////////////////////////////////////////////////
   }
+registerSetup(setup);
  
-  registerSetup(setup);
 });
 
