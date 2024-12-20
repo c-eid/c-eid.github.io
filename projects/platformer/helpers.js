@@ -98,24 +98,24 @@ function main() {
   rotationPoint = 80 - gridSize / 2;
 
   //MOoooving platformssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-  if (savedLevels === 4 || savedLevels === 3) {
-    if (platforms[0].x <= min) {
-      lor = true;
-    }
-    else if (platforms[0].x >= max) {
-      lor = false;
-    }
+  // if (savedLevels ===  || savedLevels === 3) {
+  //   if (platforms[0].x <= min) {
+  //     lor = true;
+  //   }
+  //   else if (platforms[0].x >= max) {
+  //     lor = false;
+  //   }
 
 
 
-    if (lor === true) {
-      platforms[0].x += 1;
+  //   if (lor === true) {
+  //     platforms[0].x += 1;
       
-    }
-    else if (lor === false) {
-      platforms[0].x -= 1;
-    }
-  }
+  //   }
+  //   else if (lor === false) {
+  //     platforms[0].x -= 1;
+  //   }
+  // }
   //enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 
 
@@ -666,6 +666,10 @@ function snapChange2() {
   }
   else if (editMode === true) {
     editMode = false;
+    for(let i = 0; i < hallies.length; i++){
+      hallies[i].x = 50
+      hallies[i].y = 100
+    }
   }
 }
 function snapChange3() {
@@ -1248,7 +1252,7 @@ function createCannon(
 
     if (wallLocation === "top") {
       cannons.push({
-        x: position + cannonWidth / 2,
+        x: position ,
         y: positionY,
         rotation: 180,
         wallLocation,
@@ -1261,7 +1265,7 @@ function createCannon(
       });
     } else if (wallLocation === "bottom") {
       cannons.push({
-        x: position - cannonWidth / 2,
+        x: position,
         y: positionY,
         rotation: 0,
         projectileCountdown: 0,
@@ -1275,7 +1279,7 @@ function createCannon(
     } else if (wallLocation === "left") {
       cannons.push({
         x: position,
-        y: positionY - cannonWidth / 2,
+        y: positionY,
         rotation: 90,
         projectileCountdown: 0,
         delay: timeBetweenShots,
@@ -1292,7 +1296,7 @@ function createCannon(
         x: position,
         delay: timeBetweenShots,
         wallLocation,
-        y: positionY + cannonWidth / 2,
+        y: positionY,
         rotation: 270,
         projectileCountdown: 0,
         location: wallLocation,
