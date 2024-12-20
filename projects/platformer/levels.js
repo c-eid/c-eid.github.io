@@ -1547,8 +1547,8 @@ function levelmake() {
     createCollectable('database', 1031.5, 525, 0, 0);
     createCollectable('database', 531.5, 625, 0, 0);
     createCollectable('database', 1231.5, 125, 0, 0);
-    createCannon('left', 480, 191, 1000, true);
-    createCannon('right', 520, 509, 1000, true);
+    createCannon('left', 480, 191, 1000);
+    createCannon('right', 520, 509, 1000);
       
   } else {
 
