@@ -73,12 +73,13 @@ nav {
     height: 7vh;
     margin-top: auto;
     margin-bottom: auto;
-    margin-right: 20px;
+    margin-right: 2%;
+    margin-left: 0px;
 }
 #toptitle{
     margin-top:auto;
     margin-bottom:auto;
-    font-size:25px;
+    font-size:2vh;
 }
 .sidebar-img2{
     width: 40vh;
@@ -97,13 +98,16 @@ nav {
 }
 #nav-ul {
     list-style-image: none;
+    text-align: end;
+
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: auto
+    margin-left: auto;
+
 }
 .nav-a{
     color: rgb(0, 0, 0);
-    font-size: x-large;
+    font-size: 2vh;
 }
 .nav-li {
     display: inline-block;
@@ -576,6 +580,12 @@ li{
       
 
   @media (orientation: portrait){
+    #toptitle{
+        margin-top:auto;
+        margin-bottom:auto;
+        font-size:2vh;
+        width: 10vh;
+    }
     #bannerImage{
         padding-left: 1%;
         padding-top: 3%;
@@ -676,4 +686,17 @@ li{
     .container{
         display: none;
     }
+    #sponserSidebar{
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        width: 100%;
+        margin:0px;
+    }
+    .tierlist{
+        width:100%;
+        margin:0px;
+        padding:0px;
+        height: max-content;
+        display: block;
+    } 
 }
