@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
     <meta charset="UTF-8">
@@ -13,9 +13,11 @@
 </head>
 
 <body>
+    <div id="navSpacer">
 
+    </div>
     <nav>
-        <img class="sidebar-img" src="media/IMG_0399-removebg.png">
+        <img class="sidebar-img" src="media/download.png">
         <h1 id="toptitle">TigerBots FRC-2183</h1>
       
         <ul id="nav-ul">
@@ -31,8 +33,35 @@
 
             </li>
         </ul>
+        
+        <img draggable="false" class="hamburger" src="./media/hambuger.png" onclick=" setTimeout(() => {
+            document.querySelector('.sidebar').classList.toggle('sideOpen')
+        }, 50);  ">
+
     </nav>
-    <div id="all-contents-flex">
+
+    <div class="sidebar">
+
+        <div class="listOption" id="dashSidebarButton">
+            <h1 class="sidebarH1"><i>Home</i></h1>
+        </div>
+
+        <div class="listOption" id="dataSidebarButton">
+            <a class="sidebarH1"  href="./bots/" style="color: black;"><i>Robots</i></a>
+        </div>
+
+        <div class="listOption" id="eventSidebarButton">
+            <a class="sidebarH1"><i>Sponsors</i></a>
+        </div>
+
+      
+
+
+
+    </div>
+
+
+    <div id="all-contents-flex" onclick=" document.querySelector('.sidebar').classList.remove('sideOpen') ">
         <img class="mainImage" src="media/ETF_2977.jpg">
         <div class="firstTextBlock">
             <h1 class="sidebarHead">Who are the TigerBots?</h1>
@@ -129,6 +158,19 @@
         <div class="chevron"></div>
         <div class="chevron"></div>
     </div>
+    <script>
+        let portrait = (window.innerWidth / window.innerHeight) < 1;
+        if(portrait){
+            document.querySelector("#nav-ul").remove()
+            document.querySelector(".hamburger").style.display = "block"
+        }else{
+            document.querySelector(".hamburger").remove()
+            document.querySelector("#nav-ul").style.display = "flex"
+
+        }
+
+        
+    </script>
 </body>
 
 </html>

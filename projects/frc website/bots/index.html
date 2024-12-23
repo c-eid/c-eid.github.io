@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    <div id="navSpacer">
+
+    </div>
     <nav>
         <img class="sidebar-img" src="/projects/frc website/media/IMG_0399-removebg.png">
         <h1 id="toptitle">TigerBots FRC-2183</h1>
@@ -27,8 +30,30 @@
 
             </li>
         </ul>
+        <img draggable="false" class="hamburger" src="/projects/frc website/media/hambuger.png" onclick=" setTimeout(() => {
+            document.querySelector('.sidebar').classList.toggle('sideOpen')
+        }, 50);  ">
     </nav>
-    <div id="all-contents">
+    <div class="sidebar">
+
+        <div class="listOption" id="dashSidebarButton">
+            <a class="sidebarH1"  href="/projects/frc website/" style="color: black;"><i>Home</i></a>
+        </div>
+
+        <div class="listOption" id="dataSidebarButton">
+            <h1 class="sidebarH1" style="color: black;"><i>Robots</i></h1>
+        </div>
+
+        <div class="listOption" id="eventSidebarButton">
+            <a class="sidebarH1"><i>Sponsors</i></a>
+        </div>
+
+      
+
+
+
+    </div>
+    <div id="all-contents" onclick=" document.querySelector('.sidebar').classList.remove('sideOpen') ">
         <!--<div class="tagCompleted"><p>Completed</p></div>
             <div class="tagCanceled"><p>Canceled</p></div>
             <div class="tagActDev"><p>In active Development</p></div>
