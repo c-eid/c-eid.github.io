@@ -35,7 +35,14 @@ body {
     align-items: center;
 
 }
-
+.thanksPicture{
+    width:100%;
+    margin: 0px;
+    padding: 0px;
+    height: min-content;
+    object-fit: contain;
+    
+}
 nav {
     background: rgb(255, 255, 255);
     outline-style: solid;
@@ -192,6 +199,17 @@ nav {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+#all-contents-flexcol {
+    overflow-y: scroll;
+    height: 93%;
+    margin: 0px;
+    width: 100%;
+    padding: 0px;
+    display: block;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-bottom: 100%;
 }
 
 div {
@@ -511,6 +529,15 @@ li {
     display: block;
 }
 
+.tierlistFull {
+    width: 100%;
+    margin: 0px;
+    /* height: 90%; */
+    padding: 0px;
+    display: block;
+
+}
+
 .tier {
     width: 100%;
     margin: 0px;
@@ -519,7 +546,27 @@ li {
     text-align: center;
     justify-items: center;
 }
-
+.tier2 {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.sponsorLogos{
+    flex:1;
+    width:50vh;
+    object-fit: contain;
+}
+.logoHolder{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
 
 
@@ -716,6 +763,9 @@ li {
 
 
 @media (orientation: portrait) {
+    .sponsorLogos{
+        width:30vh
+    }
     #toptitle {
         margin-top: auto;
         margin-bottom: auto;
